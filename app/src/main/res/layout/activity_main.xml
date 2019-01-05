@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <FrameLayout
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_gravity="bottom"
+        android:background="#e7e7e7"
+        android:paddingHorizontal="15dp">
+
+        <ImageView
+            android:id="@+id/home_tab"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_gravity="center_vertical|left"
+            android:src="@drawable/home_icon_stroke" />
+
+        <ImageView
+            android:id="@+id/add_tab"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/plus_icon_stroke" />
+
+        <ImageView
+            android:id="@+id/profile_tab"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_gravity="center_vertical|right"
+            android:src="@drawable/user_icon_stroke" />
+    </FrameLayout>
+
+</LinearLayout>

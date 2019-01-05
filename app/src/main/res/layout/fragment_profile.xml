@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ProfileFragment">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <com.example.mohammad.instagram.MyNestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/up"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/profile_tab"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/user_icon_fill"
+                            app:civ_border_color="@color/profileBorder"
+                            app:civ_border_width="2dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:orientation="horizontal"
+                                android:paddingVertical="10dp">
+
+                                <LinearLayout
+                                    style="@style/center"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/posts"
+                                        style="@style/title"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0" />
+
+                                    <TextView
+                                        style="@style/subTitle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="posts" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/followers_parent"
+                                    style="@style/center"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/followers"
+                                        style="@style/title"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0" />
+
+                                    <TextView
+                                        style="@style/subTitle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="followers" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/following_parent"
+                                    style="@style/center"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/following"
+                                        style="@style/title"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0" />
+
+                                    <TextView
+                                        style="@style/subTitle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="following" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <Button
+                                android:id="@+id/edit_profile"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginHorizontal="20dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edittext_stroke"
+                                android:text="Edit Profile"
+
+                                android:textAllCaps="false" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Name"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <!--At first the visibility is gone if the user has a biography then
+                    the visibility changes to visible and the bio will disappear.-->
+                    <TextView
+                        android:id="@+id/biography"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Biography"
+                        android:textColor="@color/gray"
+                        android:textSize="13sp"
+                        android:visibility="gone" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </com.example.mohammad.instagram.MyNestedScrollView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_profile_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/up" />
+
+</LinearLayout>

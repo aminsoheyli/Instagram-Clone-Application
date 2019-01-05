@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="black">#000</color>
+    <color name="gray">#3b3b3b</color>
+    <color name="subTitle">#919191</color>
+    <color name="profileBorder">#919191</color>
+    <color name="user_pass_textColor">#fff</color>
+    <color name="userpass_background_color">#004066</color>
+    <color name="user_pass_textColorHint">#c8e2e0e0</color>
+    <color name="splashColorPrimary">#1C1F34</color>
+    <color name="splashColorPrimaryDark">#272727</color>
+    <color name="splashColorAccent">#ED254E</color>
+    <color name="textGray">#515151</color>
+    <color name="terms">#616161</color>
+
+    <color name="my_family_name_color">#fff</color>
+    <color name="android_name_color">#4fb652</color>
+    <color name="facebook_blue_color">#3B5998</color>
+    <color name="bt_text_color">#114a58</color>
+
+
+
+
+
+    <!--        insta test      -->
+    <color name="purple_500">#9C27B0</color>
+    <color name="deep_purple_500">#673AB7</color>
+    <color name="indigo_500">#3F51B5</color>
+    <color name="blue_500">#2196F3</color>
+    <color name="cyan_500">#00BCD4</color>
+    <color name="light_blue_500">#03A9F4</color>
+
+</resources>

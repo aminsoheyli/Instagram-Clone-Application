@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Instagram</string>
+    <string name="posts">posts</string>
+    <string name="hint_user_name">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="email">Email</string>
+    <string name="full_name">Full Name</string>
+    <string name="policy">By signing up, you agree to our\n<b>Terms</b> &amp; <b>Privacy Policy</b>.</string>
+
+    <!--    FOR TEST    -->
+    <string name="test"></string>
+    <string name="styled_text">Plain, <b>bold</b>, <i>italic</i>, <b><i>bold-italic</i></b></string>
+    <string name="sign_up">Sign up</string>
+    <string name="login">Login</string>
+    <string name="sign_up_description">Sign up to see photos and videos\nfrom your friends.</string>
+    <string name="view_comments"><b>View comments</b></string>
+
+
+    <string-array name="follows_names">
+
+        <item>Mohammad</item>
+        <item>Fateme</item>
+        <item>Ali</item>
+        <item>Hasan</item>
+        <item>Hosein</item>
+        <item>Sajad</item>
+        <item>Mohammad Bagher</item>
+        <item>Jafar Sadegh</item>
+        <item>Moosa Kazem</item>
+        <item>Reza</item>
+        <item>Javad</item>
+        <item>Hadi</item>
+        <item>Hasan Askari</item>
+        <item>Mahdi Hojat al\'ghaem</item>
+    </string-array>
+</resources>
