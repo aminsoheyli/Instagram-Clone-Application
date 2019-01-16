@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,16 +12,9 @@
     tools:context=".SignUpActivity">
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/instagram_icon" />
-
-    <ImageView
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginVertical="8dp"
         android:gravity="center"
         android:scaleType="fitCenter"
         android:src="@drawable/instagram_text_black" />
@@ -30,6 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:maxLines="3"
+        android:paddingBottom="4dp"
         android:text="@string/sign_up_description"
         android:textColor="@color/terms"
         android:textSize="16sp" />
@@ -38,7 +33,7 @@
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginVertical="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/edittext_stroke"
         android:focusedByDefault="false"
         android:gravity="left|center_vertical"

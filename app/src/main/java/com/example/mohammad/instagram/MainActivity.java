@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.ImageView;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     //    private CustomPerson person;
 //    private ViewPager viewPager;
     private static final int HOME_ID = 0;

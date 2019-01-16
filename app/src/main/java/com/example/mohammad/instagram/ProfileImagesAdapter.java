@@ -1,6 +1,5 @@
 package com.example.mohammad.instagram;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Mohammad Amin Soheyli on 04/01/2019.
  */
 public class ProfileImagesAdapter extends RecyclerView.Adapter<ProfileImagesAdapter.ProfileViewHolder> {
-//    private DynamicHeight dynamicHeight;
+    //    private DynamicHeight dynamicHeight;
     private ArrayList<ProfileCardInformations> informations;
 
     public ProfileImagesAdapter(ArrayList<ProfileCardInformations> informations) {
@@ -38,16 +38,56 @@ public class ProfileImagesAdapter extends RecyclerView.Adapter<ProfileImagesAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ProfileViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ProfileViewHolder viewHolder, final int i) {
         viewHolder.profileImage.setImageResource(informations.get(i).getPofileImageId());
         String username = informations.get(i).getUsername();
         viewHolder.usernameProfile.setText(username);
         viewHolder.image.setImageResource(informations.get(i).getImageId());
+
         viewHolder.likes.setText(informations.get(i).getLikeNumber());
         viewHolder.usernameDescription.setText(username);
         viewHolder.description.setText(informations.get(i).getDescription());
         viewHolder.date.setText(informations.get(i).getDate());
 
+        viewHolder.save.setOnClickListener(new View.OnClickListener() {
+            boolean savedState = false;
+
+            @Override
+            public void onClick(View v) {
+                if (savedState == false) {
+                    viewHolder.save.setImageResource(R.drawable.saved_icon_fill);
+                    savedState = true;
+                } else {
+                    viewHolder.save.setImageResource(R.drawable.saved_icon_stroke);
+                    savedState = false;
+
+                }
+            }
+        });
+        viewHolder.like.setOnClickListener(new View.OnClickListener() {
+            boolean likedState = false;
+
+            @Override
+            public void onClick(View v) {
+                if (likedState == false) {
+                    viewHolder.like.setImageResource(R.drawable.like_icon_fill);
+                    likedState = true;
+                } else {
+                    viewHolder.like.setImageResource(R.drawable.like_icon_stroke);
+                    likedState = false;
+
+                }
+            }
+        });
+
+        final int x = i;
+        viewHolder.comment.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), informations.get(x).getDate(), Toast.LENGTH_SHORT).show();
+            }
+        });
 //        int position = i;
 //        viewHolder.itemView.post(new Runnable() {
 //            @Override
@@ -73,7 +113,7 @@ public class ProfileImagesAdapter extends RecyclerView.Adapter<ProfileImagesAdap
 
     public static class ProfileViewHolder extends RecyclerView.ViewHolder {
         private CircleImageView profileImage;
-        private ImageView image;
+        private ImageView image, save, comment, like;
         private TextView usernameProfile,
                 usernameDescription, description,
                 date, likes;
@@ -93,6 +133,10 @@ public class ProfileImagesAdapter extends RecyclerView.Adapter<ProfileImagesAdap
             description = rootView.findViewById(R.id.description);
             likes = rootView.findViewById(R.id.like_numbers_tv);
             date = rootView.findViewById(R.id.date);
+            save = rootView.findViewById(R.id.saved);
+            comment = rootView.findViewById(R.id.comment);
+            like = rootView.findViewById(R.id.like);
+
         }
     }
 }

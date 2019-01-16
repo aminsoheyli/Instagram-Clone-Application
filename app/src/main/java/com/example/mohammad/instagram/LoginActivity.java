@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText username, password;
     private Button login;
     private TextView signUp;
+    private View userRoundContainer, passwordRoundContainer;
+    private ImageView userIcon, passwordIcon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,9 +37,40 @@ public class LoginActivity extends AppCompatActivity {
     private void initials() {
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
+        userRoundContainer = findViewById(R.id.user_container_round);
+        passwordRoundContainer = findViewById(R.id.password_container_round);
         signUp = findViewById(R.id.sign_up);
+        userIcon = findViewById(R.id.user_icon);
+        passwordIcon = findViewById(R.id.password_icon);
         login = findViewById(R.id.login);
         login.setClickable(false);
+
+        username.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            int normalUser = R.drawable.ic_user, focusedUser = R.drawable.ic_user_focused;
+            int normalUserContainer = R.drawable.edittext_stroke,
+                    focusedUserContainer = R.drawable.edittext_stroke_focused;
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                int drawableId = hasFocus ? focusedUser : normalUser;
+                int containerId = hasFocus ? focusedUserContainer : normalUserContainer;
+                userIcon.setImageResource(drawableId);
+                userRoundContainer.setBackground(getResources().getDrawable(containerId));
+            }
+        });
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            int normalPass = R.drawable.ic_lock, focusedPass = R.drawable.ic_lock_focused;
+            int normalPassContainer = R.drawable.edittext_stroke,
+                    focusedPassContainer = R.drawable.edittext_stroke_focused;
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                int drawableId = hasFocus ? focusedPass : normalPass;
+                int containerId = hasFocus ? focusedPassContainer : normalPassContainer;
+                passwordIcon.setImageResource(drawableId);
+                passwordRoundContainer.setBackground(getResources().getDrawable(containerId));
+            }
+        });
     }
 
     private void clickListeners() {
@@ -76,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // Method for authentication.
     private boolean isCorrect() {
-        return false;
+        return true;
     }
 
 }

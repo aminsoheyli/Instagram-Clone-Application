@@ -1,6 +1,7 @@
 package com.example.mohammad.instagram;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,11 +17,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
     private static final int EDIT_PROFILE_REQ_CODE = 1;
+    private static final int CAMERA_IMAGES_REQUEST = 2;
     private CircleImageView profileImage;
     private TextView postsNumbers, followersNumbers, followingNumbers, name, biography;
     private View followersParent, followingParent;
@@ -75,18 +78,60 @@ public class ProfileFragment extends Fragment {
 
     private void prepareProfileImagesRecyclerView() {
         recyclerViewProfileImages.setNestedScrollingEnabled(false);
+        recyclerViewProfileImages.setHasFixedSize(true);
         ArrayList<ProfileCardInformations> informations = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            ProfileCardInformations info =
-                    new ProfileCardInformations(R.drawable.like_icon_fill
-                            , R.drawable.instagram_icon
-                            , "aminsoheyli77"
-                            , "120 likes dynamic"
-                            , "This is a test dynamic description"
-                            , "14/9/12");
-            informations.add(info);
-        }
+        ProfileCardInformations first =
+                new ProfileCardInformations(R.drawable.like_icon_fill
+                        , R.drawable.instagram_icon
+                        , "example"
+                        , "16 likes"
+                        , "This is a example's dynamic description"
+                        , "2 Days ago");
+        ProfileCardInformations second =
+                new ProfileCardInformations(R.drawable.like_icon_stroke
+                        , R.drawable.saved_icon_stroke
+                        , "alisafri98"
+                        , "120 likes"
+                        , "This is a Ali Safari's dynamic description "
+                        , "14 May 2018");
+        ProfileCardInformations third =
+                new ProfileCardInformations(R.drawable.instagram_icon
+                        , R.drawable.like_icon_fill
+                        , "amisoheyli77"
+                        , "200 likes"
+                        , "This is a Amin Soheyli's dynamic description"
+                        , "20 minutes ago");
+        ProfileCardInformations fourth =
+                new ProfileCardInformations(R.drawable.saved_icon_fill
+                        , R.drawable.comment_icon
+                        , "test19"
+                        , "17 likes"
+                        , "This is a test's dynamic description"
+                        , "Just now");
+        Random random = new Random();
 
+        ProfileCardInformations test;
+        for (int i = 0; i < 25; i++) {
+            int x = random.nextInt(3) + 1;
+            switch (x) {
+                case 1:
+                    test = first;
+                    break;
+                case 2:
+                    test = second;
+                    break;
+                case 3:
+                    test = third;
+                    break;
+                case 4:
+                    test = fourth;
+                    break;
+                default:
+                    test = first;
+                    break;
+            }
+            informations.add(test);
+        }
         LinearLayoutManager llm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewProfileImages.setLayoutManager(llm);
         ProfileImagesAdapter adapter = new ProfileImagesAdapter(informations);
@@ -122,6 +167,23 @@ public class ProfileFragment extends Fragment {
                 startActivityForResult(intent, EDIT_PROFILE_REQ_CODE);
             }
         });
+
+        postsNumbers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cam_ImagesIntent = new Intent(Intent.ACTION_PICK);
+                cam_ImagesIntent.setType("image/*");
+                startActivityForResult(cam_ImagesIntent, CAMERA_IMAGES_REQUEST);
+            }
+        });
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+        profileImage.setImageBitmap(bitmap);
     }
 
     private void showFollowers() {
