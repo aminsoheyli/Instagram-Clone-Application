@@ -2,6 +2,8 @@ package com.example.mohammad.instagram;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView signUp;
     private View userRoundContainer, passwordRoundContainer;
     private ImageView userIcon, passwordIcon;
+    private static SQLiteDatabase db;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initials() {
+        db = openOrCreateDatabase("project", MODE_PRIVATE, null);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         userRoundContainer = findViewById(R.id.user_container_round);
@@ -85,7 +89,9 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isCorrect()) {
+                String user = username.getText().toString();
+                String pass = password.getText().toString();
+                if (isCorrect(user,  pass)) {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -109,9 +115,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Method for authentication.
-    private boolean isCorrect() {
-
-        return true;
+    private boolean isCorrect(String user, String pass) {
+        Cursor c = db.rawQuery("select user_password from user where user_id = '" + user + "';", null);
+        c.moveToFirst();
+        return c.getString(0).equals(pass);
     }
 
 }
