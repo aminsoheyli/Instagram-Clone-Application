@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         initials();
         onClickListeners();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         homeButton = findViewById(R.id.home_tab);
         profileButton = findViewById(R.id.profile_tab);
 
+        onFirstRun();
 
         // ViewPager ...........
 
@@ -70,14 +72,18 @@ public class MainActivity extends AppCompatActivity {
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (changeBackOtherImageResources(PROFILE_ID)) {
-                    profileButton.setImageResource(R.drawable.user_icon_fill);
-                    ProfileFragment profileFragment = new ProfileFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment).commit();
-                }
+                onFirstRun();
             }
         });
 
+    }
+
+    private void onFirstRun() {
+        if (changeBackOtherImageResources(PROFILE_ID)) {
+            profileButton.setImageResource(R.drawable.user_icon_fill);
+            ProfileFragment profileFragment = new ProfileFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment).commit();
+        }
     }
 
     @Override
