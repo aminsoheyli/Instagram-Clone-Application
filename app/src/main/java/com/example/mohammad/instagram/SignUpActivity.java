@@ -2,6 +2,7 @@ package com.example.mohammad.instagram;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import org.w3c.dom.Text;
 public class SignUpActivity extends AppCompatActivity {
     private EditText email, fullName, username, password;
     private Button signUp;
+    private static SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,8 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void initials() {
+
+
         email = findViewById(R.id.email);
         fullName = findViewById(R.id.full_name);
         username = findViewById(R.id.username);
@@ -49,8 +53,8 @@ public class SignUpActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mail = email.getText().toString();
-                String name = fullName.getText().toString();
+//                String mail = email.getText().toString();
+//                String name = fullName.getText().toString();
                 String user = username.getText().toString();
                 String pass = password.getText().toString();
                 if (isInConflict()) {
@@ -60,6 +64,9 @@ public class SignUpActivity extends AppCompatActivity {
                     toast.show();
 
                 } else {
+
+
+
                     // If registration process was successful.
                     setResult(Activity.RESULT_OK);
                     Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
@@ -75,6 +82,6 @@ public class SignUpActivity extends AppCompatActivity {
     // Whether it is in conflict with information in database or not.
     private boolean isInConflict() {
         // ...
-        return true;
+        return false;
     }
 }

@@ -2,6 +2,8 @@ package com.example.mohammad.instagram;
 
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
 import android.os.CountDownTimer;
 import android.renderscript.Sampler;
@@ -23,6 +25,16 @@ public class SplashActivity extends AppCompatActivity {
         instagramLogo = findViewById(R.id.instagram_logo);
         slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
         instagramLogo.startAnimation(slideUp);
+
+
+        SQLiteDatabase db = openOrCreateDatabase("project", MODE_PRIVATE, null);
+        db.execSQL("create table if not exists comment (comment_id text, comment_text text, post_id text, user_id text, comment_parent text);");
+        db.execSQL("create table if not exists post (post_id text, user_id text, post_date text, image blob);");
+        db.execSQL("create table if not exists save(post_id text, user_id text);");
+        db.execSQL("create table if not exists likes(post_id text, user_id text);");
+        db.execSQL("create table if not exists user(user_id text, follower_id text);");
+
+
         CountDownTimer count = new CountDownTimer(4000, 4000) {
             @Override
             public void onTick(long millisUntilFinished) {

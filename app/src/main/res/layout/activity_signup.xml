@@ -30,6 +30,7 @@
         android:textSize="16sp" />
 
     <EditText
+        android:visibility="gone"
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -42,6 +43,7 @@
         android:textColorHint="@color/textGray" />
 
     <EditText
+        android:visibility="gone"
         android:id="@+id/full_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"

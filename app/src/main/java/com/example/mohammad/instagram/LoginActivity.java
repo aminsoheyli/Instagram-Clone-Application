@@ -110,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // Method for authentication.
     private boolean isCorrect() {
+
         return true;
     }
 
