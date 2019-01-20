@@ -40,7 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void initials() {
-
+        db = openOrCreateDatabase("project", MODE_PRIVATE, null);
 
         email = findViewById(R.id.email);
         fullName = findViewById(R.id.full_name);
@@ -66,7 +66,9 @@ public class SignUpActivity extends AppCompatActivity {
                 } else {
 
 
+                    db.execSQL("insert into user values (" +  +");");
 
+                    db.close();
                     // If registration process was successful.
                     setResult(Activity.RESULT_OK);
                     Intent intent = new Intent(SignUpActivity.this, MainActivity.class);

@@ -5,10 +5,12 @@ package com.example.mohammad.instagram.dbobj;
  */
 public class User {
     private String userId;
+    private String password;
     private String userFollower;
 
-    public User(String userId, String userFollower) {
+    public User(String userId, String password, String userFollower) {
         this.userId = userId;
+        this.password = password;
         this.userFollower = userFollower;
     }
 
@@ -18,6 +20,14 @@ public class User {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getUserFollower() {
