@@ -143,9 +143,8 @@ public class ProfileFragment extends Fragment {
         ArrayList<ProfileCardInformations> information = new ArrayList<>();
         //Query --> posts.add(Post)
 
-        Cursor c = MainActivity.db.rawQuery("select * from post order by date asc;", null);
+        Cursor c = MainActivity.db.rawQuery("select * from post order by post_date asc;", null);
         if (c.moveToFirst()) {
-        }
             Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
             if (cc.moveToFirst()) {
                 ProfileCardInformations temp =
@@ -156,11 +155,11 @@ public class ProfileFragment extends Fragment {
                                 c.getString(2),
                                 false,
                                 false
-                                );
+                        );
                 information.add(temp);
 
             }
-            while (c.moveToNext()){
+            while (c.moveToNext()) {
                 cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
                 if (cc.moveToFirst()) {
                     ProfileCardInformations temp =
@@ -173,6 +172,7 @@ public class ProfileFragment extends Fragment {
                                     false
                             );
                     information.add(temp);
+                }
             }
         }
 
