@@ -92,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                 String user = username.getText().toString();
                 String pass = password.getText().toString();
                 if (isCorrect(user,  pass)) {
+                    Toast.makeText(LoginActivity.this, "User Successfully Logged in", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -116,9 +117,16 @@ public class LoginActivity extends AppCompatActivity {
 
     // Method for authentication.
     private boolean isCorrect(String user, String pass) {
-        Cursor c = db.rawQuery("select user_password from user where user_id = '" + user + "';", null);
-        c.moveToFirst();
-        return c.getString(0).equals(pass);
+
+
+
+        Cursor c = db.rawQuery("select * from user where user_id = '" + user + "';", null);
+
+        if(c.moveToFirst()) {
+            return c.getString(1).equals(pass);
+        }
+        Toast.makeText(this, "No such username found!", Toast.LENGTH_SHORT).show();
+        return false;
     }
 
 }
