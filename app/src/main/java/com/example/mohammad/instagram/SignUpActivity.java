@@ -66,7 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
                 } else {
 
 
-                    db.execSQL("insert into user values (" +  +");");
+                    db.execSQL("insert into user values (" + user +");");
 
                     db.close();
                     // If registration process was successful.
