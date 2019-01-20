@@ -29,6 +29,7 @@ public class ProfileImagesAdapter extends RecyclerView.Adapter<ProfileImagesAdap
 //        this.dynamicHeight = dynamicHeight;
 //    }
 
+
     @NonNull
     @Override
     public ProfileViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -39,10 +40,10 @@ public class ProfileImagesAdapter extends RecyclerView.Adapter<ProfileImagesAdap
 
     @Override
     public void onBindViewHolder(@NonNull final ProfileViewHolder viewHolder, final int i) {
-        viewHolder.profileImage.setImageResource(informations.get(i).getPofileImageId());
+        viewHolder.profileImage.setImageResource(R.drawable.like_icon_fill);
         String username = informations.get(i).getUsername();
         viewHolder.usernameProfile.setText(username);
-        viewHolder.image.setImageResource(informations.get(i).getImageId());
+        viewHolder.image.setImageBitmap(informations.get(i).getImage());
 
         viewHolder.likes.setText(informations.get(i).getLikeNumber());
         viewHolder.usernameDescription.setText(username);

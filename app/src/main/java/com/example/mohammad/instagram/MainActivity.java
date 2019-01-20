@@ -1,5 +1,6 @@
 package com.example.mohammad.instagram;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,12 +17,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String CURRENT_SATET_TAG = "currentTabState";
     private static int currentTabState = -1;
     private ImageView addButton, homeButton, profileButton;
+    public static String currentUser;
+    public static SQLiteDatabase db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initials();
         onClickListeners();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initials() {
+        db = openOrCreateDatabase("project", MODE_PRIVATE, null);
         addButton = findViewById(R.id.add_tab);
         homeButton = findViewById(R.id.home_tab);
         profileButton = findViewById(R.id.profile_tab);
@@ -154,4 +158,10 @@ public class MainActivity extends AppCompatActivity {
 //
 //    }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
+    }
 }

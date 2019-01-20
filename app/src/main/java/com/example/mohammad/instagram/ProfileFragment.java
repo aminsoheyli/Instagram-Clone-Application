@@ -1,6 +1,8 @@
 package com.example.mohammad.instagram;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,7 +18,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -78,63 +79,104 @@ public class ProfileFragment extends Fragment {
         recyclerViewProfileImages.setNestedScrollingEnabled(false);
         recyclerViewProfileImages.setHasFixedSize(true);
         ArrayList<ProfileCardInformations> informations = new ArrayList<>();
-        ProfileCardInformations first =
-                new ProfileCardInformations(R.drawable.like_icon_fill
-                        , R.drawable.instagram_icon
-                        , "example"
-                        , "16 likes"
-                        , "This is a example's dynamic description"
-                        , "2 Days ago");
-        ProfileCardInformations second =
-                new ProfileCardInformations(R.drawable.like_icon_stroke
-                        , R.drawable.saved_icon_stroke
-                        , "alisafri98"
-                        , "120 likes"
-                        , "This is a Ali Safari's dynamic description "
-                        , "14 May 2018");
-        ProfileCardInformations third =
-                new ProfileCardInformations(R.drawable.instagram_icon
-                        , R.drawable.like_icon_fill
-                        , "amisoheyli77"
-                        , "200 likes"
-                        , "This is a Amin Soheyli's dynamic description"
-                        , "20 minutes ago");
-        ProfileCardInformations fourth =
-                new ProfileCardInformations(R.drawable.saved_icon_fill
-                        , R.drawable.comment_icon
-                        , "test19"
-                        , "17 likes"
-                        , "This is a test's dynamic description"
-                        , "Just now");
-        Random random = new Random();
-
-        ProfileCardInformations test;
-        for (int i = 0; i < 25; i++) {
-            int x = random.nextInt(3) + 1;
-            switch (x) {
-                case 1:
-                    test = first;
-                    break;
-                case 2:
-                    test = second;
-                    break;
-                case 3:
-                    test = third;
-                    break;
-                case 4:
-                    test = fourth;
-                    break;
-                default:
-                    test = first;
-                    break;
-            }
-            informations.add(test);
-        }
+        informations = prepareInformations();
+//        ProfileCardInformations first =
+//                new ProfileCardInformations(R.drawable.like_icon_fill
+//                        , R.drawable.instagram_icon
+//                        , "example"
+//                        , "16 likes"
+//                        , "This is a example's dynamic description"
+//                        , "2 Days ago");
+//        ProfileCardInformations second =
+//                new ProfileCardInformations(R.drawable.like_icon_stroke
+//                        , R.drawable.saved_icon_stroke
+//                        , "alisafri98"
+//                        , "120 likes"
+//                        , "This is a Ali Safari's dynamic description "
+//                        , "14 May 2018");
+//        ProfileCardInformations third =
+//                new ProfileCardInformations(R.drawable.instagram_icon
+//                        , R.drawable.like_icon_fill
+//                        , "amisoheyli77"
+//                        , "200 likes"
+//                        , "This is a Amin Soheyli's dynamic description"
+//                        , "20 minutes ago");
+//        ProfileCardInformations fourth =
+//                new ProfileCardInformations(R.drawable.saved_icon_fill
+//                        , R.drawable.comment_icon
+//                        , "test19"
+//                        , "17 likes"
+//                        , "This is a test's dynamic description"
+//                        , "Just now");
+//        Random random = new Random();
+//
+//        ProfileCardInformations test;
+//        for (int i = 0; i < 25; i++) {
+//            int x = random.nextInt(3) + 1;
+//            switch (x) {
+//                case 1:
+//                    test = first;
+//                    break;
+//                case 2:
+//                    test = second;
+//                    break;
+//                case 3:
+//                    test = third;
+//                    break;
+//                case 4:
+//                    test = fourth;
+//                    break;
+//                default:
+//                    test = first;
+//                    break;
+//            }
+//            informations.add(test);
+//        }
         LinearLayoutManager llm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewProfileImages.setLayoutManager(llm);
         ProfileImagesAdapter adapter = new ProfileImagesAdapter(informations);
         recyclerViewProfileImages.setAdapter(adapter);
 
+    }
+
+    private ArrayList<ProfileCardInformations> prepareInformations() {
+        ArrayList<ProfileCardInformations> information = new ArrayList<>();
+        //Query --> posts.add(Post)
+
+        Cursor c = MainActivity.db.rawQuery("select * from post order by date asc;", null);
+        if (c.moveToFirst()) {
+        }
+            Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
+            if (cc.moveToFirst()) {
+                ProfileCardInformations temp =
+                        new ProfileCardInformations(BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
+                                c.getString(1),
+                                cc.getString(0),
+                                c.getString(4),
+                                c.getString(2),
+                                false,
+                                false
+                                );
+                information.add(temp);
+
+            }
+            while (c.moveToNext()){
+                cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
+                if (cc.moveToFirst()) {
+                    ProfileCardInformations temp =
+                            new ProfileCardInformations(BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
+                                    c.getString(1),
+                                    cc.getString(0),
+                                    c.getString(4),
+                                    c.getString(2),
+                                    false,
+                                    false
+                            );
+                    information.add(temp);
+            }
+        }
+
+        return information;
     }
 
     private void onClickListeners() {

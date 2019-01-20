@@ -29,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
 
         SQLiteDatabase db = openOrCreateDatabase("project", MODE_PRIVATE, null);
         db.execSQL("create table if not exists comment (comment_id text, comment_text text, post_id text, user_id text, comment_parent text);");
-        db.execSQL("create table if not exists post (post_id text, user_id text, post_date text, image blob);");
+        db.execSQL("create table if not exists post (post_id text, user_id text, post_date text, image blob, description text);");
         db.execSQL("create table if not exists save(post_id text, user_id text);");
         db.execSQL("create table if not exists likes(post_id text, user_id text);");
         db.execSQL("create table if not exists follow(user_id text, follower text);");
