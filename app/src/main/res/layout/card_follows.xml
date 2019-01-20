@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_gravity="center_horizontal"
-    android:layout_marginHorizontal="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="6dp"
     android:background="#0000"
+    android:gravity="center"
     android:paddingVertical="10dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageId"
-        app:civ_border_color="@color/profileBorder"
-        app:civ_border_width="2dp"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/plus_icon_stroke" />
+        android:src="@drawable/plus_icon_stroke"
+        app:civ_border_color="@color/profileBorder"
+        app:civ_border_width="2dp" />
 
     <TextView
         android:id="@+id/name"
@@ -26,6 +26,16 @@
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@id/imageId"
         android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/following_state"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="6dp"
+        android:textAllCaps="false"
+        android:textSize="11sp" />
 
 
 </RelativeLayout>

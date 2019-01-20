@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (changeBackOtherImageResources(ADD_IMAGE_ID)) {
                     addButton.setImageResource(R.drawable.plus_icon_fill);
-
+                    AddImageFragment addImageFragment = new AddImageFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, addImageFragment).commit();
                 }
             }
         });
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 if (changeBackOtherImageResources(PROFILE_ID)) {
                     profileButton.setImageResource(R.drawable.user_icon_fill);
                     ProfileFragment profileFragment = new ProfileFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.view_pager, profileFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment).commit();
                 }
             }
         });

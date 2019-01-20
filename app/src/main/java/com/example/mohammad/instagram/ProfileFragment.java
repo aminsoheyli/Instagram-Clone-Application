@@ -1,7 +1,6 @@
 package com.example.mohammad.instagram;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,7 +22,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
     private static final int EDIT_PROFILE_REQ_CODE = 1;
-    private static final int CAMERA_IMAGES_REQUEST = 2;
     private CircleImageView profileImage;
     private TextView postsNumbers, followersNumbers, followingNumbers, name, biography;
     private View followersParent, followingParent;
@@ -167,23 +165,6 @@ public class ProfileFragment extends Fragment {
                 startActivityForResult(intent, EDIT_PROFILE_REQ_CODE);
             }
         });
-
-        postsNumbers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cam_ImagesIntent = new Intent(Intent.ACTION_PICK);
-                cam_ImagesIntent.setType("image/*");
-                startActivityForResult(cam_ImagesIntent, CAMERA_IMAGES_REQUEST);
-            }
-        });
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-        profileImage.setImageBitmap(bitmap);
     }
 
     private void showFollowers() {
@@ -198,7 +179,6 @@ public class ProfileFragment extends Fragment {
         }
         FollowersFolloingFragment fragment = FollowersFolloingFragment.newInstance(informations);
         fragment.show(getFragmentManager(), "Follows fragment");
-
     }
 
     private void showFollowing() {
