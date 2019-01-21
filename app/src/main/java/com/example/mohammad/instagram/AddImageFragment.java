@@ -3,6 +3,7 @@ package com.example.mohammad.instagram;
 import android.content.Intent;
 import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -18,15 +19,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Random;
 
 import static android.app.Activity.RESULT_OK;
 
 public class AddImageFragment extends Fragment {
+    private static final int CAMERA_REQUEST = 1;
+    private static final int GALLERY_REQUEST = 2;
     private static Bitmap gottenImage;
-    private static int CAMERA_REQUEST = 1;
-    private static int GALLERY_REQUEST = 2;
     private View rootView;
     private ImageView image;
     private Button gallery, camera, upload;
@@ -53,9 +55,9 @@ public class AddImageFragment extends Fragment {
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cam_ImagesIntent = new Intent(Intent.ACTION_PICK);
-                cam_ImagesIntent.setType("image/*");
-                startActivityForResult(cam_ImagesIntent, GALLERY_REQUEST);
+                Intent pickImage = new Intent(Intent.ACTION_GET_CONTENT);
+                pickImage.setType("image/*");
+                startActivityForResult(pickImage, GALLERY_REQUEST);
             }
         });
         camera.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +89,7 @@ public class AddImageFragment extends Fragment {
                 sqLiteStatement.bindBlob(4, bytes);
                 sqLiteStatement.bindString(5, description.getText().toString());
                 sqLiteStatement.execute();
-//                    goToHomeFragment();
+                gottenImage = null;
                 MainActivity.self.onProfileButtonClicked();
             }
         });
@@ -98,25 +100,41 @@ public class AddImageFragment extends Fragment {
     public void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(MainActivity.pm) != null) {
-            startActivityForResult(takePictureIntent, 1);
+            startActivityForResult(takePictureIntent, CAMERA_REQUEST);
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            final Bundle extras = data.getExtras();
-            try {
-                gottenImage = (Bitmap) extras.get("data");
-                image.setImageBitmap(gottenImage);
-                image.setVisibility(View.VISIBLE);
-            } catch (Exception e) {
-                Log.e("image load", "onActivityResult: loading image from capture", e);
-            }
-        }
+        switch (requestCode) {
+            case CAMERA_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    final Bundle extras = data.getExtras();
+                    try {
+                        gottenImage = (Bitmap) extras.get("data");
+                        image.setImageBitmap(gottenImage);
+                        image.setVisibility(View.VISIBLE);
+                    } catch (Exception e) {
+                        Log.e("image load", "onActivityResult: loading image from capture", e);
+                    }
+                }
+                break;
 
-        if (requestCode == GALLERY_REQUEST && requestCode == RESULT_OK) {
-
+            case GALLERY_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    Toast.makeText(getContext(), "RRRR", Toast.LENGTH_LONG)
+                            .show();
+                    Uri selectedImage = data.getData();
+                    try {
+                        gottenImage = MediaStore.Images.
+                                Media.getBitmap(MainActivity.cr, selectedImage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    image.setImageBitmap(gottenImage);
+                    image.setVisibility(View.VISIBLE);
+                }
+                break;
         }
     }
 }
