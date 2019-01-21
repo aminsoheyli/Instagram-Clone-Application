@@ -12,15 +12,32 @@
         android:layout_width="match_parent"
         android:layout_height="40dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:src="@drawable/instagram_icon"
-            app:civ_border_color="@color/profileBorder"
-            app:civ_border_width="2dp" />
+        <FrameLayout
+            android:id="@+id/frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:src="@drawable/black"
+                app:civ_border_color="@color/profileBorder"
+                app:civ_border_width="1dp" />
+
+            <TextView
+                android:id="@+id/profile_image_name"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="A"
+                android:textAllCaps="true"
+                android:textColor="#fff" />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/username_tv"
@@ -28,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/profile_image"
+            android:layout_toRightOf="@id/frame"
             android:text="Mohammad"
             android:textColor="@color/black"
             android:textSize="12sp" />
@@ -37,8 +54,10 @@
     <ImageView
         android:id="@+id/camera"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/instagram_icon" />
+        android:layout_height="350dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/instagram_icon"
+        android:visibility="visible" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -116,6 +135,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/view_comments" />
+
+        <LinearLayout
+            android:id="@+id/comment_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/comment_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:hint="Add new comment..." />
+
+            <Button
+                android:id="@+id/comment_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comment"
+                android:textAllCaps="false"
+                android:textSize="12sp" />
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/date"

@@ -1,18 +1,16 @@
 package com.example.mohammad.instagram;
 
-import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Canvas;
-import android.os.CountDownTimer;
-import android.renderscript.Sampler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.v7.app.AppCompatActivity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SplashActivity extends AppCompatActivity {
     private Animation slideUp;
@@ -28,6 +26,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
         SQLiteDatabase db = openOrCreateDatabase("project", MODE_PRIVATE, null);
+        //comment parent is entered null because...
         db.execSQL("create table if not exists comment (comment_id text, comment_text text, post_id text, user_id text, comment_parent text);");
         db.execSQL("create table if not exists post (post_id text, user_id text, post_date text, image blob, description text);");
         db.execSQL("create table if not exists save(post_id text, user_id text);");
@@ -36,7 +35,7 @@ public class SplashActivity extends AppCompatActivity {
         db.execSQL("create table if not exists user(user_id text, user_password text);");
 
 
-        CountDownTimer count = new CountDownTimer(4000, 4000) {
+        CountDownTimer count = new CountDownTimer(1500, 1500) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -57,8 +56,6 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }
         }.start();
-
-
 
 
     }

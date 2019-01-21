@@ -22,10 +22,15 @@ public class ProfileCardInformations implements Parcelable {
     private boolean isLiked, isSaved;
     private String username, likeNumber, description, date;
     private Bitmap image;
+    private String postId;
+
+    public String getPostId() {
+        return postId;
+    }
 
     public ProfileCardInformations(Bitmap image, String username,
                                    String likeNumber, String description,
-                                   String date, boolean isLiked, boolean isSaved) {
+                                   String date, boolean isLiked, boolean isSaved, String postId) {
 
         this.image = image;
         this.username = username;
@@ -34,6 +39,7 @@ public class ProfileCardInformations implements Parcelable {
         this.date = date;
         this.isLiked = isLiked;
         this.isSaved = isSaved;
+        this.postId = postId;
     }
 
     protected ProfileCardInformations(Parcel in) {

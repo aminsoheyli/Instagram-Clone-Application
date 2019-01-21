@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
@@ -13,17 +14,19 @@ import android.widget.ImageView;
 public class MainActivity extends AppCompatActivity {
     //    private CustomPerson person;
 //    private ViewPager viewPager;
-    private static final int HOME_ID = 0;
-    private static final int ADD_IMAGE_ID = 1;
-    private static final int PROFILE_ID = 2;
+    public static final int HOME_ID = 0;
+    public static final int ADD_IMAGE_ID = 1;
+    public static final int PROFILE_ID = 2;
     private static final String CURRENT_SATET_TAG = "currentTabState";
-    private static int currentTabState = -1;
-    private ImageView addButton, homeButton, profileButton;
     public static String currentUserId;
     public static SQLiteDatabase db;
     public static ContentResolver cr;
     public static PackageManager pm;
-
+    public static int currentTabState = -1;
+    public static ImageView homeButton;
+    public static FragmentManager sfm;
+    public static MainActivity self;
+    private ImageView addButton, profileButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initials() {
+        self = this;
         pm = getPackageManager();
         cr = getContentResolver();
         db = openOrCreateDatabase("project", MODE_PRIVATE, null);
@@ -63,10 +67,8 @@ public class MainActivity extends AppCompatActivity {
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (changeBackOtherImageResources(HOME_ID)) {
-                    homeButton.setImageResource(R.drawable.home_icon_fill);
+                onHomeButtonClicked();
 
-                }
             }
         });
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
                 if (changeBackOtherImageResources(ADD_IMAGE_ID)) {
                     addButton.setImageResource(R.drawable.plus_icon_fill);
                     AddImageFragment addImageFragment = new AddImageFragment();
+                    getSupportFragmentManager().beginTransaction().addToBackStack(null);
+                    sfm = getSupportFragmentManager();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, addImageFragment).commit();
                 }
             }
@@ -86,6 +90,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void onHomeButtonClicked() {
+        if (changeBackOtherImageResources(HOME_ID)) {
+            homeButton.setImageResource(R.drawable.home_icon_fill);
+
+        }
     }
 
     private void onFirstRun() {
@@ -126,7 +137,10 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-
+//
+//    public static void changeOtherImage(int pressedIconState){
+//
+//    }
 
 //    private void setUpViewPager() {
 //        MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());

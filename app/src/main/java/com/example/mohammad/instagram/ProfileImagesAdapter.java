@@ -5,11 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -40,16 +43,33 @@ public class ProfileImagesAdapter extends RecyclerView.Adapter<ProfileImagesAdap
 
     @Override
     public void onBindViewHolder(@NonNull final ProfileViewHolder viewHolder, final int i) {
-        viewHolder.profileImage.setImageResource(R.drawable.like_icon_fill);
+
         String username = informations.get(i).getUsername();
         viewHolder.usernameProfile.setText(username);
+        String firstChar = String.valueOf(username.charAt(0));
+        viewHolder.profileImageName.setText(firstChar);
         viewHolder.image.setImageBitmap(informations.get(i).getImage());
-
         viewHolder.likes.setText(informations.get(i).getLikeNumber());
         viewHolder.usernameDescription.setText(username);
         viewHolder.description.setText(informations.get(i).getDescription());
         viewHolder.date.setText(informations.get(i).getDate());
 
+        onClickListeners(viewHolder, i);
+//        int position = i;
+//        viewHolder.itemView.post(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                int cellWidth = viewHolder.itemView.getWidth();// this will give you cell width dynamically
+//                int cellHeight = viewHolder.itemView.getHeight();// this will give you cell height dynamically
+//
+//                dynamicHeight.HeightChange(position, cellHeight); //call your iterface hear
+//            }
+//        });
+
+    }
+
+    private void onClickListeners(final ProfileViewHolder viewHolder, final int i) {
         viewHolder.save.setOnClickListener(new View.OnClickListener() {
             boolean savedState = false;
 
@@ -81,27 +101,30 @@ public class ProfileImagesAdapter extends RecyclerView.Adapter<ProfileImagesAdap
             }
         });
 
-        final int x = i;
         viewHolder.comment.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), informations.get(x).getDate(), Toast.LENGTH_SHORT).show();
+                viewHolder.commentLayout.setVisibility(View.VISIBLE);
             }
         });
-//        int position = i;
-//        viewHolder.itemView.post(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                int cellWidth = viewHolder.itemView.getWidth();// this will give you cell width dynamically
-//                int cellHeight = viewHolder.itemView.getHeight();// this will give you cell height dynamically
-//
-//                dynamicHeight.HeightChange(position, cellHeight); //call your iterface hear
-//            }
-//        });
 
+        viewHolder.commentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isEmpty = viewHolder.commentEditText.getText().toString().isEmpty() ? true : false;
+                if (!isEmpty) {
+                    // Query
+                    //THe comment parent is entered null
+                    MainActivity.db.execSQL("insert into comment values('" + new Random().nextLong() + "' , '" +
+                            viewHolder.commentEditText.getText().toString() + "' , '" + informations.get(i).getPostId() + "', '" +
+                            MainActivity.currentUserId+ "', '');");
+                    viewHolder.commentLayout.setVisibility(View.GONE);
+                }
+
+            }
+        });
     }
+
 
 //    public interface DynamicHeight {
 //        void HeightChange(int position, int height);
@@ -118,10 +141,14 @@ public class ProfileImagesAdapter extends RecyclerView.Adapter<ProfileImagesAdap
         private TextView usernameProfile,
                 usernameDescription, description,
                 date, likes;
+        private EditText commentEditText;
+        private Button commentButton;
+        private LinearLayout commentLayout;
+        private TextView profileImageName;
+
 
         public ProfileViewHolder(@NonNull View itemView) {
             super(itemView);
-
             initials(itemView);
         }
 
@@ -137,6 +164,10 @@ public class ProfileImagesAdapter extends RecyclerView.Adapter<ProfileImagesAdap
             save = rootView.findViewById(R.id.saved);
             comment = rootView.findViewById(R.id.comment);
             like = rootView.findViewById(R.id.like);
+            commentButton = rootView.findViewById(R.id.comment_button);
+            commentEditText = rootView.findViewById(R.id.comment_edit_text);
+            commentLayout = rootView.findViewById(R.id.comment_layout);
+            profileImageName = rootView.findViewById(R.id.profile_image_name);
 
         }
     }

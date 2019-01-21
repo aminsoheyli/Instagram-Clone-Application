@@ -85,15 +85,16 @@ public class ProfileFragment extends Fragment {
             postsNumbers.setText(c.getString(0));
         }
 
-//        c = MainActivity.db.rawQuery("select count(follower_id) from follow where user_id = '" + MainActivity.currentUserId + "';", null);
-//        if (c.moveToFirst()) {
-//            followersNumbers.setText(c.getString(0));
-//        }
-//
-//        c = MainActivity.db.rawQuery("select count(user_id) from follow where follower_id = '" + MainActivity.currentUserId + "';", null);
-//        if (c.moveToFirst()) {
-//            followingNumbers.setText(c.getString(0));
-//        }
+        c = MainActivity.db.rawQuery("select count(follower_id) from follow where user_id = '" + MainActivity.currentUserId + "';", null);
+        if (c.moveToFirst()) {
+            followersNumbers.setText(c.getString(0));
+        }
+
+        c = MainActivity.db.rawQuery("select count(user_id) from follow where follower_id = '" + MainActivity.currentUserId + "';", null);
+        if (c.moveToFirst()) {
+            followingNumbers.setText(c.getString(0));
+        }
+        c.close();
 
     }
 
@@ -195,9 +196,10 @@ public class ProfileFragment extends Fragment {
                             );
                     information.add(temp);
                 }
+                cc.close();
             }
         }
-
+        c.close();
         return information;
     }
 

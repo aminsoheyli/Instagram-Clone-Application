@@ -63,6 +63,7 @@ public class SignUpActivity extends AppCompatActivity {
                     try {
                         db.execSQL("insert into user values ('" + user + "', '" + pass + "');");
                         db.close();
+                        MainActivity.currentUserId = user;
                         Toast.makeText(SignUpActivity.this, "User Signed Up Successfully", Toast.LENGTH_SHORT).show();
                     }catch (Exception e){
                         Toast.makeText(SignUpActivity.this, "User Didn't Signed Up", Toast.LENGTH_SHORT).show();

@@ -17,7 +17,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
-import java.util.UUID;
+import java.util.Date;
+import java.util.Random;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -67,19 +68,26 @@ public class AddImageFragment extends Fragment {
             public void onClick(View v) {
                 if (!description.getText().toString().matches("")) {
 
-                    SQLiteStatement sqLiteStatement = MainActivity.db.compileStatement("insert into post values('" + new UUID(0,33).toString() + "', '" + MainActivity.currentUserId +
-                            "' , Date(), ? , '" + description.getText().toString() + "');");
 
+                    SQLiteStatement sqLiteStatement = MainActivity.db.compileStatement("insert into post values(?,?,?,?,?);");
+
+                    sqLiteStatement.bindString(1, new Random().nextLong() + "");
+                    sqLiteStatement.bindString(2, MainActivity.currentUserId);
+                    sqLiteStatement.bindString(3, new Date().toString());
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
                     gottenImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
                     byte[] bytes = bos.toByteArray();
-                    sqLiteStatement.bindBlob(0, bytes);
+                    sqLiteStatement.bindBlob(4, bytes);
+                    sqLiteStatement.bindString(5, description.getText().toString());
                     sqLiteStatement.execute();
+//                    goToHomeFragment();
+                    MainActivity.self.onHomeButtonClicked();
                 }
             }
         });
 
     }
+
 
     public void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -93,9 +101,9 @@ public class AddImageFragment extends Fragment {
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             final Bundle extras = data.getExtras();
             try {
-                gottenImage = (Bitmap)extras.get("data");
+                gottenImage = (Bitmap) extras.get("data");
                 image.setImageBitmap(gottenImage);
-            }catch (Exception e){
+            } catch (Exception e) {
                 Log.e("image load", "onActivityResult: loading image from capture", e);
             }
         }
