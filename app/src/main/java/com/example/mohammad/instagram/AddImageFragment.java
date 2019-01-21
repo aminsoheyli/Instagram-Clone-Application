@@ -109,6 +109,7 @@ public class AddImageFragment extends Fragment {
             try {
                 gottenImage = (Bitmap) extras.get("data");
                 image.setImageBitmap(gottenImage);
+                image.setVisibility(View.VISIBLE);
             } catch (Exception e) {
                 Log.e("image load", "onActivityResult: loading image from capture", e);
             }
