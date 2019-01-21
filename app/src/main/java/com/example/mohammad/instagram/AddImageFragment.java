@@ -1,6 +1,7 @@
 package com.example.mohammad.instagram;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,6 +15,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import java.io.ByteArrayOutputStream;
+import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -62,7 +66,15 @@ public class AddImageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!description.getText().toString().matches("")) {
-//                    MainActivity.db.execSQL("insert into ");
+
+                    SQLiteStatement sqLiteStatement = MainActivity.db.compileStatement("insert into post values('" + new UUID(0,33).toString() + "', '" + MainActivity.currentUserId +
+                            "' , Date(), ? , " + description.getText().toString() + ");");
+
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    gottenImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
+                    byte[] bytes = bos.toByteArray();
+                    sqLiteStatement.bindBlob(1, bytes);
+                    sqLiteStatement.execute();
                 }
             }
         });
