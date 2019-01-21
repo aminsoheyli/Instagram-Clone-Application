@@ -1,7 +1,6 @@
 package com.example.mohammad.instagram;
 
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -180,6 +179,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        currentTabState = -1;
         db.close();
+        self = null;
     }
 }

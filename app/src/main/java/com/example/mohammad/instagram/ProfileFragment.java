@@ -170,8 +170,9 @@ public class ProfileFragment extends Fragment {
     private ArrayList<ProfileCardInformations> prepareInformations() {
         ArrayList<ProfileCardInformations> information = new ArrayList<>();
         //Query --> posts.add(Post)
+//        Cursor c = MainActivity.db.rawQuery("select * from post order by post_date desc;", null);
 
-        Cursor c = MainActivity.db.rawQuery("select * from post order by post_date desc;", null);
+        Cursor c = MainActivity.db.rawQuery("select * from post where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
         if (c.moveToFirst()) {
             Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
             if (cc.moveToFirst()) {
@@ -242,8 +243,8 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 MainActivity.db.execSQL("delete from last_user where 1;");
-                startActivity(intent);
                 MainActivity.self.finish();
+                startActivity(intent);
             }
         });
     }

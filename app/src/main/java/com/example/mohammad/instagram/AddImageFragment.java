@@ -43,7 +43,7 @@ public class AddImageFragment extends Fragment {
         gallery = rootView.findViewById(R.id.gallery);
         camera = rootView.findViewById(R.id.camera);
         description = rootView.findViewById(R.id.description);
-        add = rootView.findViewById(R.id.add);
+        add = rootView.findViewById(R.id.upload);
         image = rootView.findViewById(R.id.gotten_image);
     }
 
