@@ -29,6 +29,7 @@ public class ProfileFragment extends Fragment {
     private Button editProfile;
     private RecyclerView recyclerViewProfileImages;
     private int sumHeight;
+    private View signout;
     private HashMap<Integer, Integer> itemHeight;
 
 
@@ -62,6 +63,7 @@ public class ProfileFragment extends Fragment {
         name = rootView.findViewById(R.id.name);
         biography = rootView.findViewById(R.id.biography);
         editProfile = rootView.findViewById(R.id.edit_profile);
+        signout = rootView.findViewById(R.id.sign_out);
         followingParent = rootView.findViewById(R.id.following_parent);
         followersParent = rootView.findViewById(R.id.followers_parent);
 
@@ -231,7 +233,19 @@ public class ProfileFragment extends Fragment {
                 startActivityForResult(intent, EDIT_PROFILE_REQ_CODE);
             }
         });
+
+        signout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                MainActivity.db.execSQL("delete from last_user where 1;");
+                startActivity(intent);
+                getActivity().finish();
+
+            }
+        });
     }
+
 
     private void showFollowers() {
         ArrayList<FollowsInformation> informations = new ArrayList<>();

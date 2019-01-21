@@ -14,7 +14,31 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></FrameLayout>
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/sign_out"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="8dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
+                    android:text="Sign out"
+                    android:textColor="#fff" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/sign_out_icon" />
+            </LinearLayout>
+
+        </FrameLayout>
     </android.support.v7.widget.Toolbar>
 
     <android.support.v4.widget.NestedScrollView

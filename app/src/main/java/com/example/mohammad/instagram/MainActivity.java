@@ -1,6 +1,7 @@
 package com.example.mohammad.instagram;
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         homeButton = findViewById(R.id.home_tab);
         profileButton = findViewById(R.id.profile_tab);
 
-        onFirstRun();
+        onProfileButtonClicked();
 
         // ViewPager ...........
 
@@ -67,7 +68,10 @@ public class MainActivity extends AppCompatActivity {
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onHomeButtonClicked();
+                if (changeBackOtherImageResources(HOME_ID)) {
+                    homeButton.setImageResource(R.drawable.home_icon_fill);
+
+                }
 
             }
         });
@@ -86,26 +90,20 @@ public class MainActivity extends AppCompatActivity {
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFirstRun();
+                onProfileButtonClicked();
             }
         });
 
     }
 
-    public void onHomeButtonClicked() {
-        if (changeBackOtherImageResources(HOME_ID)) {
-            homeButton.setImageResource(R.drawable.home_icon_fill);
-
-        }
-    }
-
-    private void onFirstRun() {
+    public void onProfileButtonClicked() {
         if (changeBackOtherImageResources(PROFILE_ID)) {
             profileButton.setImageResource(R.drawable.user_icon_fill);
             ProfileFragment profileFragment = new ProfileFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment).commit();
         }
     }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {

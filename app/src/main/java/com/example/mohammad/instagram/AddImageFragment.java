@@ -66,7 +66,8 @@ public class AddImageFragment extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!description.getText().toString().matches("")) {
+                if (!description.getText().toString().isEmpty() &&
+                        gottenImage != null) {
 
 
                     SQLiteStatement sqLiteStatement = MainActivity.db.compileStatement("insert into post values(?,?,?,?,?);");
@@ -81,7 +82,7 @@ public class AddImageFragment extends Fragment {
                     sqLiteStatement.bindString(5, description.getText().toString());
                     sqLiteStatement.execute();
 //                    goToHomeFragment();
-                    MainActivity.self.onHomeButtonClicked();
+                    MainActivity.self.onProfileButtonClicked();
                 }
             }
         });

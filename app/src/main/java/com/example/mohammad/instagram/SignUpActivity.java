@@ -62,10 +62,11 @@ public class SignUpActivity extends AppCompatActivity {
 
                     try {
                         db.execSQL("insert into user values ('" + user + "', '" + pass + "');");
+                        db.execSQL("insert into last_user values('" + user + "');");
                         db.close();
                         MainActivity.currentUserId = user;
                         Toast.makeText(SignUpActivity.this, "User Signed Up Successfully", Toast.LENGTH_SHORT).show();
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         Toast.makeText(SignUpActivity.this, "User Didn't Signed Up", Toast.LENGTH_SHORT).show();
                     }
                     // If registration process was successful.

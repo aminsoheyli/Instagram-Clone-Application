@@ -1,20 +1,21 @@
 package com.example.mohammad.instagram;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.strictmode.SqliteObjectLeakedViolation;
 import android.support.v7.app.AppCompatActivity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class SplashActivity extends AppCompatActivity {
+    public static final String USER_NAME = "username";
     private Animation slideUp;
     private ImageView instagramLogo;
+    private static SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +26,9 @@ public class SplashActivity extends AppCompatActivity {
         instagramLogo.startAnimation(slideUp);
 
 
-        SQLiteDatabase db = openOrCreateDatabase("project", MODE_PRIVATE, null);
+        db = openOrCreateDatabase("project", MODE_PRIVATE, null);
         //comment parent is entered null because...
+        db.execSQL("create table if not exists last_user(username text)");
         db.execSQL("create table if not exists comment (comment_id text, comment_text text, post_id text, user_id text, comment_parent text);");
         db.execSQL("create table if not exists post (post_id text, user_id text, post_date text, image blob, description text);");
         db.execSQL("create table if not exists save(post_id text, user_id text);");
@@ -47,6 +49,7 @@ public class SplashActivity extends AppCompatActivity {
                 if (isLoggedIn()) {
                     intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                     // Display the com.example.mohammad.instagram.HomeFragment for last logged in user
                     // else Display the LoginActivity
                 } else {
@@ -61,12 +64,11 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private boolean isLoggedIn() {
-        // If the user has been logged in, at last state of the app
-        // don't display the LoginActivity, instead display the com.example.mohammad.instagram.HomeFragment
-        // of the last logged in user.
-        if (false)
+        Cursor c = db.rawQuery("select * from last_user", null);
+        if (c.moveToFirst() && c.getColumnCount() != 0) {
+            MainActivity.currentUserId = c.getString(0);
             return true;
-        else
-            return false;
+        }
+        return false;
     }
 }

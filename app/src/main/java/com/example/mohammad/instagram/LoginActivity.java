@@ -37,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
+
     private void initials() {
         db = openOrCreateDatabase("project", MODE_PRIVATE, null);
         username = findViewById(R.id.username);
@@ -94,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (isCorrect(user,  pass)) {
                     Toast.makeText(LoginActivity.this, "User Successfully Logged in", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    db.execSQL("insert into last_user values('" + user + "');");
                     db.close();
                     MainActivity.currentUserId = user;
                     startActivity(intent);
