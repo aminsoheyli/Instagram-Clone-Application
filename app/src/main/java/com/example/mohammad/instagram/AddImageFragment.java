@@ -1,11 +1,7 @@
 package com.example.mohammad.instagram;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -19,12 +15,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import static android.app.Activity.RESULT_OK;
+
 public class AddImageFragment extends Fragment {
     private static Bitmap gottenImage;
     private View rootView;
     private ImageView image;
     private Button gallery, camera, add;
-    private int GALLERY_REQUEST = 1;
+    private int CAMERA_REQUEST = 1;
     private EditText description;
 
     @Nullable
@@ -50,13 +48,13 @@ public class AddImageFragment extends Fragment {
             public void onClick(View v) {
                 Intent cam_ImagesIntent = new Intent(Intent.ACTION_PICK);
                 cam_ImagesIntent.setType("image/*");
-                startActivityForResult(cam_ImagesIntent, GALLERY_REQUEST);
+                startActivityForResult(cam_ImagesIntent, CAMERA_REQUEST);
             }
         });
-        image.setOnClickListener(new View.OnClickListener() {
+        camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dispatchTakePictureIntent();
             }
         });
 
@@ -71,28 +69,23 @@ public class AddImageFragment extends Fragment {
 
     }
 
+    public void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(MainActivity.pm) != null) {
+            startActivityForResult(takePictureIntent, 1);
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GALLERY_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-            // Let's read picked image data - its URI
-            Uri pickedImage = data.getData();
-            // Let's read picked image path using content resolver
-            String[] filePath = {MediaStore.Images.Media.DATA};
-            Cursor cursor = MainActivity.cr.query(pickedImage, filePath, null, null, null);
-            cursor.moveToFirst();
-            String imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
-            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-
-            Log.i("sagsafsafsaf", "onActivityResult: " + bitmap);
-
-            // Do something with the bitmap
-            image.setImageBitmap(bitmap);
-            gottenImage = bitmap;
-
-
-            // At the end remember to close the cursor or you will end with the RuntimeException!
-            cursor.close();
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            final Bundle extras = data.getExtras();
+            try {
+                gottenImage = (Bitmap)extras.get("data");
+                image.setImageBitmap(gottenImage);
+            }catch (Exception e){
+                Log.e("image load", "onActivityResult: loading image from capture", e);
+            }
         }
     }
 }

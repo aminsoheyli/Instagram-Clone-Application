@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@id/gallery"
-        android:text="Image"
+        android:text="Camera"
         android:textAllCaps="false" />
 
     <Button

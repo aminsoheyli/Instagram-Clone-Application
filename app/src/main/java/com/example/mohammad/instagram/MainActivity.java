@@ -1,6 +1,7 @@
 package com.example.mohammad.instagram;
 
 import android.content.ContentResolver;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     public static String currentUserId;
     public static SQLiteDatabase db;
     public static ContentResolver cr;
+    public static PackageManager pm;
 
 
     @Override
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initials() {
+        pm = getPackageManager();
         cr = getContentResolver();
         db = openOrCreateDatabase("project", MODE_PRIVATE, null);
         addButton = findViewById(R.id.add_tab);
