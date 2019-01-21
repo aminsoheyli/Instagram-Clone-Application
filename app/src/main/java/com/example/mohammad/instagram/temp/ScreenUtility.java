@@ -1,4 +1,4 @@
-package com.example.mohammad.instagram;
+package com.example.mohammad.instagram.temp;
 
 import android.app.Activity;
 import android.util.DisplayMetrics;

@@ -1,4 +1,4 @@
-package com.example.mohammad.instagram;
+package com.example.mohammad.instagram.fragment;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,6 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.mohammad.instagram.activity.EditProfileActivity;
+import com.example.mohammad.instagram.activity.LoginActivity;
+import com.example.mohammad.instagram.activity.MainActivity;
+import com.example.mohammad.instagram.recycler_view.profile.ProfileAdapter;
+import com.example.mohammad.instagram.recycler_view.profile.ProfileCard;
+import com.example.mohammad.instagram.ProfileInformations;
+import com.example.mohammad.instagram.R;
+import com.example.mohammad.instagram.recycler_view.follow.FollowCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -106,31 +115,31 @@ public class ProfileFragment extends Fragment {
     private void prepareProfileImagesRecyclerView() {
         recyclerViewProfileImages.setNestedScrollingEnabled(false);
         recyclerViewProfileImages.setHasFixedSize(true);
-        ArrayList<ProfileCardInformations> informations = new ArrayList<>();
+        ArrayList<ProfileCard> informations = new ArrayList<>();
         informations = prepareInformations();
-//        ProfileCardInformations first =
-//                new ProfileCardInformations(R.drawable.like_icon_fill
+//        ProfileCard first =
+//                new ProfileCard(R.drawable.like_icon_fill
 //                        , R.drawable.instagram_icon
 //                        , "example"
 //                        , "16 likes"
 //                        , "This is a example's dynamic description"
 //                        , "2 Days ago");
-//        ProfileCardInformations second =
-//                new ProfileCardInformations(R.drawable.like_icon_stroke
+//        ProfileCard second =
+//                new ProfileCard(R.drawable.like_icon_stroke
 //                        , R.drawable.saved_icon_stroke
 //                        , "alisafri98"
 //                        , "120 likes"
 //                        , "This is a Ali Safari's dynamic description "
 //                        , "14 May 2018");
-//        ProfileCardInformations third =
-//                new ProfileCardInformations(R.drawable.instagram_icon
+//        ProfileCard third =
+//                new ProfileCard(R.drawable.instagram_icon
 //                        , R.drawable.like_icon_fill
 //                        , "amisoheyli77"
 //                        , "200 likes"
 //                        , "This is a Amin Soheyli's dynamic description"
 //                        , "20 minutes ago");
-//        ProfileCardInformations fourth =
-//                new ProfileCardInformations(R.drawable.saved_icon_fill
+//        ProfileCard fourth =
+//                new ProfileCard(R.drawable.saved_icon_fill
 //                        , R.drawable.comment_icon
 //                        , "test19"
 //                        , "17 likes"
@@ -138,7 +147,7 @@ public class ProfileFragment extends Fragment {
 //                        , "Just now");
 //        Random random = new Random();
 //
-//        ProfileCardInformations test;
+//        ProfileCard test;
 //        for (int i = 0; i < 25; i++) {
 //            int x = random.nextInt(3) + 1;
 //            switch (x) {
@@ -162,13 +171,13 @@ public class ProfileFragment extends Fragment {
 //        }
         LinearLayoutManager llm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewProfileImages.setLayoutManager(llm);
-        ProfileImagesAdapter adapter = new ProfileImagesAdapter(informations);
+        ProfileAdapter adapter = new ProfileAdapter(informations);
         recyclerViewProfileImages.setAdapter(adapter);
 
     }
 
-    private ArrayList<ProfileCardInformations> prepareInformations() {
-        ArrayList<ProfileCardInformations> information = new ArrayList<>();
+    private ArrayList<ProfileCard> prepareInformations() {
+        ArrayList<ProfileCard> information = new ArrayList<>();
         //Query --> posts.add(Post)
 //        Cursor c = MainActivity.db.rawQuery("select * from post order by post_date desc;", null);
 
@@ -176,8 +185,8 @@ public class ProfileFragment extends Fragment {
         if (c.moveToFirst()) {
             Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
             if (cc.moveToFirst()) {
-                ProfileCardInformations temp =
-                        new ProfileCardInformations(BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
+                ProfileCard temp =
+                        new ProfileCard(BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
                                 c.getString(1),
                                 cc.getString(0),
                                 c.getString(4),
@@ -191,8 +200,8 @@ public class ProfileFragment extends Fragment {
             while (c.moveToNext()) {
                 cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
                 if (cc.moveToFirst()) {
-                    ProfileCardInformations temp =
-                            new ProfileCardInformations(BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
+                    ProfileCard temp =
+                            new ProfileCard(BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
                                     c.getString(1),
                                     cc.getString(0),
                                     c.getString(4),
@@ -251,14 +260,14 @@ public class ProfileFragment extends Fragment {
 
 
     private void showFollowers() {
-        ArrayList<FollowsInformation> informations = new ArrayList<>();
+        ArrayList<FollowCard> informations = new ArrayList<>();
         String[] strings = getResources().getStringArray(R.array.follows_names);
         for (int i = 0; i < strings.length; i++) {
             if (i % 2 == 0) {
-                informations.add(new FollowsInformation(strings[i], R.drawable.user_icon_stroke));
+                informations.add(new FollowCard(strings[i], R.drawable.user_icon_stroke));
                 continue;
             }
-            informations.add(new FollowsInformation(strings[i], R.drawable.user_icon_fill));
+            informations.add(new FollowCard(strings[i], R.drawable.user_icon_fill));
         }
         FollowersFolloingFragment fragment = FollowersFolloingFragment.newInstance(informations);
         fragment.show(getFragmentManager(), "Follows fragment");

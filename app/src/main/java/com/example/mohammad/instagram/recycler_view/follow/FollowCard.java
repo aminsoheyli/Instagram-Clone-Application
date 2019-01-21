@@ -1,4 +1,4 @@
-package com.example.mohammad.instagram;
+package com.example.mohammad.instagram.recycler_view.follow;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,28 +6,28 @@ import android.os.Parcelable;
 /**
  * Created by Mohammad Amin Soheyli on 04/01/2019.
  */
-public class FollowsInformation implements Parcelable {
-    public static final Creator<FollowsInformation> CREATOR = new Creator<FollowsInformation>() {
+public class FollowCard implements Parcelable {
+    public static final Creator<FollowCard> CREATOR = new Creator<FollowCard>() {
         @Override
-        public FollowsInformation createFromParcel(Parcel in) {
-            return new FollowsInformation(in);
+        public FollowCard createFromParcel(Parcel in) {
+            return new FollowCard(in);
         }
 
         @Override
-        public FollowsInformation[] newArray(int size) {
-            return new FollowsInformation[size];
+        public FollowCard[] newArray(int size) {
+            return new FollowCard[size];
         }
     };
 
     private String name;
     private int imageId;
 
-    public FollowsInformation(String name, int imageId) {
+    public FollowCard(String name, int imageId) {
         this.name = name;
         this.imageId = imageId;
     }
 
-    protected FollowsInformation(Parcel in) {
+    protected FollowCard(Parcel in) {
         name = in.readString();
         imageId = in.readInt();
     }

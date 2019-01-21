@@ -1,4 +1,4 @@
-package com.example.mohammad.instagram;
+package com.example.mohammad.instagram.recycler_view.follow;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mohammad.instagram.R;
+
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -17,11 +19,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by Mohammad Amin Soheyli on 04/01/2019.
  */
-public class FollowsAdapter extends RecyclerView.Adapter<FollowsAdapter.FollowsViewHolder> {
-    private List<FollowsInformation> informations;
+public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowsViewHolder> {
+    private List<FollowCard> informations;
     private View rootView;
 
-    public FollowsAdapter(List<FollowsInformation> informations) {
+    public FollowAdapter(List<FollowCard> informations) {
         this.informations = informations;
     }
 

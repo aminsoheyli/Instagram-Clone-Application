@@ -1,4 +1,4 @@
-package com.example.mohammad.instagram;
+package com.example.mohammad.instagram.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.mohammad.instagram.R;
+import com.example.mohammad.instagram.recycler_view.follow.FollowAdapter;
+import com.example.mohammad.instagram.recycler_view.follow.FollowCard;
+
 import java.util.ArrayList;
 
 /**
@@ -18,10 +22,10 @@ import java.util.ArrayList;
 public class FollowersFolloingFragment extends DialogFragment {
     private static final String INFORMATIONS_KEY = "information's_key";
     private View rootView;
-    private ArrayList<FollowsInformation> followsInformations;
+    private ArrayList<FollowCard> followsInformations;
     private RecyclerView recyclerView;
 
-    public static FollowersFolloingFragment newInstance(ArrayList<FollowsInformation> informations) {
+    public static FollowersFolloingFragment newInstance(ArrayList<FollowCard> informations) {
         Bundle args = new Bundle();
         args.putParcelableArrayList(INFORMATIONS_KEY, informations);
         FollowersFolloingFragment fragment = new FollowersFolloingFragment();
@@ -47,8 +51,8 @@ public class FollowersFolloingFragment extends DialogFragment {
     private void prepareRecyclerView() {
         LinearLayoutManager lm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(lm);
-        FollowsAdapter followsAdapter = new FollowsAdapter(followsInformations);
-        recyclerView.setAdapter(followsAdapter);
+        FollowAdapter followAdapter = new FollowAdapter(followsInformations);
+        recyclerView.setAdapter(followAdapter);
     }
 
 

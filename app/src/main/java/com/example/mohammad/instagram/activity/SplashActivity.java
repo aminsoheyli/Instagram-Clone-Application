@@ -1,15 +1,16 @@
-package com.example.mohammad.instagram;
+package com.example.mohammad.instagram.activity;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.strictmode.SqliteObjectLeakedViolation;
 import android.support.v7.app.AppCompatActivity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+
+import com.example.mohammad.instagram.R;
 
 public class SplashActivity extends AppCompatActivity {
     public static final String USER_NAME = "username";
@@ -50,7 +51,7 @@ public class SplashActivity extends AppCompatActivity {
                     intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-                    // Display the com.example.mohammad.instagram.HomeFragment for last logged in user
+                    // Display the com.example.mohammad.instagram.fragment.HomeFragment for last logged in user
                     // else Display the LoginActivity
                 } else {
                     intent = new Intent(SplashActivity.this, LoginActivity.class);

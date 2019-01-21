@@ -1,4 +1,4 @@
-package com.example.mohammad.instagram;
+package com.example.mohammad.instagram.fragment;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteStatement;
@@ -17,6 +17,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.example.mohammad.instagram.activity.MainActivity;
+import com.example.mohammad.instagram.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -130,6 +133,8 @@ public class AddImageFragment extends Fragment {
                                 Media.getBitmap(MainActivity.cr, selectedImage);
                     } catch (IOException e) {
                         e.printStackTrace();
+                        gottenImage = null;
+                        return;
                     }
                     image.setImageBitmap(gottenImage);
                     image.setVisibility(View.VISIBLE);

@@ -1,4 +1,4 @@
-package com.example.mohammad.instagram;
+package com.example.mohammad.instagram.recycler_view.profile;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.mohammad.instagram.R;
+import com.example.mohammad.instagram.activity.MainActivity;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -19,15 +22,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by Mohammad Amin Soheyli on 04/01/2019.
  */
-public class ProfileImagesAdapter extends RecyclerView.Adapter<ProfileImagesAdapter.ProfileViewHolder> {
+public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileViewHolder> {
     //    private DynamicHeight dynamicHeight;
-    private ArrayList<ProfileCardInformations> informations;
+    private ArrayList<ProfileCard> informations;
 
-    public ProfileImagesAdapter(ArrayList<ProfileCardInformations> informations) {
+    public ProfileAdapter(ArrayList<ProfileCard> informations) {
         this.informations = informations;
     }
 
-//    public ProfileImagesAdapter(ArrayList<ProfileCardInformations> informations, DynamicHeight dynamicHeight, Context context) {
+//    public ProfileAdapter(ArrayList<ProfileCard> informations, DynamicHeight dynamicHeight, Context context) {
 //        this.informations = informations;
 //        this.dynamicHeight = dynamicHeight;
 //    }

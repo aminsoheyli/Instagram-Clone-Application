@@ -1,4 +1,4 @@
-package com.example.mohammad.instagram;
+package com.example.mohammad.instagram.recycler_view.profile;
 
 import android.graphics.Bitmap;
 import android.os.Parcel;
@@ -7,16 +7,16 @@ import android.os.Parcelable;
 /**
  * Created by Mohammad Amin Soheyli on 04/01/2019.
  */
-public class ProfileCardInformations implements Parcelable {
-    public static final Creator<ProfileCardInformations> CREATOR = new Creator<ProfileCardInformations>() {
+public class ProfileCard implements Parcelable {
+    public static final Creator<ProfileCard> CREATOR = new Creator<ProfileCard>() {
         @Override
-        public ProfileCardInformations createFromParcel(Parcel in) {
-            return new ProfileCardInformations(in);
+        public ProfileCard createFromParcel(Parcel in) {
+            return new ProfileCard(in);
         }
 
         @Override
-        public ProfileCardInformations[] newArray(int size) {
-            return new ProfileCardInformations[size];
+        public ProfileCard[] newArray(int size) {
+            return new ProfileCard[size];
         }
     };
     private boolean isLiked, isSaved;
@@ -24,13 +24,9 @@ public class ProfileCardInformations implements Parcelable {
     private Bitmap image;
     private String postId;
 
-    public String getPostId() {
-        return postId;
-    }
-
-    public ProfileCardInformations(Bitmap image, String username,
-                                   String likeNumber, String description,
-                                   String date, boolean isLiked, boolean isSaved) {
+    public ProfileCard(Bitmap image, String username,
+                       String likeNumber, String description,
+                       String date, boolean isLiked, boolean isSaved) {
 
         this.image = image;
         this.username = username;
@@ -42,7 +38,7 @@ public class ProfileCardInformations implements Parcelable {
         this.postId = username;
     }
 
-    protected ProfileCardInformations(Parcel in) {
+    protected ProfileCard(Parcel in) {
         image = in.readParcelable(null);
         username = in.readString();
         likeNumber = in.readString();
@@ -54,6 +50,9 @@ public class ProfileCardInformations implements Parcelable {
         isLiked = arr[1];
     }
 
+    public String getPostId() {
+        return postId;
+    }
 
     public Bitmap getImage() {
         return image;

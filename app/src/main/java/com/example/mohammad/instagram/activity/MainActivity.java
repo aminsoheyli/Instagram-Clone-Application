@@ -1,4 +1,4 @@
-package com.example.mohammad.instagram;
+package com.example.mohammad.instagram.activity;
 
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
@@ -10,6 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.example.mohammad.instagram.R;
+import com.example.mohammad.instagram.fragment.AddImageFragment;
+import com.example.mohammad.instagram.fragment.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
     //    private CustomPerson person;

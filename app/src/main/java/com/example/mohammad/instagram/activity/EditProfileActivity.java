@@ -1,4 +1,4 @@
-package com.example.mohammad.instagram;
+package com.example.mohammad.instagram.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,29 +18,29 @@ public class EditProfileActivity extends AppCompatActivity {
 
         recyclerViewProfileImages = findViewById(R.id.rv);
         ArrayList<ProfileCardInformations> informations = new ArrayList<>();
-//        ProfileCardInformations first =
-//                new ProfileCardInformations(R.drawable.like_icon_fill
+//        ProfileCard first =
+//                new ProfileCard(R.drawable.like_icon_fill
 //                        , R.drawable.instagram_icon
 //                        , "example"
 //                        , "16 likes"
 //                        , "This is a example's dynamic description"
 //                        , "2 Days ago");
-//        ProfileCardInformations second =
-//                new ProfileCardInformations(R.drawable.like_icon_stroke
+//        ProfileCard second =
+//                new ProfileCard(R.drawable.like_icon_stroke
 //                        , R.drawable.saved_icon_stroke
 //                        , "alisafri98"
 //                        , "120 likes"
 //                        , "This is a Ali Safari's dynamic description "
 //                        , "14 May 2018");
-//        ProfileCardInformations third =
-//                new ProfileCardInformations(R.drawable.instagram_icon
+//        ProfileCard third =
+//                new ProfileCard(R.drawable.instagram_icon
 //                        , R.drawable.like_icon_fill
 //                        , "amisoheyli77"
 //                        , "200 likes"
 //                        , "This is a Amin Soheyli's dynamic description"
 //                        , "20 minutes ago");
-//        ProfileCardInformations fourth =
-//                new ProfileCardInformations(R.drawable.saved_icon_fill
+//        ProfileCard fourth =
+//                new ProfileCard(R.drawable.saved_icon_fill
 //                        , R.drawable.comment_icon
 //                        , "test19"
 //                        , "17 likes"
@@ -48,7 +48,7 @@ public class EditProfileActivity extends AppCompatActivity {
 //                        , "Just now");
 //        Random random = new Random();
 //
-//        ProfileCardInformations test;
+//        ProfileCard test;
 //        for (int i = 0; i < 25; i++) {
 //            int x = random.nextInt(3) + 1;
 //
