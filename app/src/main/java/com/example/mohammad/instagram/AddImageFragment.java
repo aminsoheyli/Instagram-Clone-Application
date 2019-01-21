@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
@@ -24,10 +25,11 @@ import static android.app.Activity.RESULT_OK;
 
 public class AddImageFragment extends Fragment {
     private static Bitmap gottenImage;
+    private static int CAMERA_REQUEST = 1;
+    private static int GALLERY_REQUEST = 2;
     private View rootView;
     private ImageView image;
-    private Button gallery, camera, add;
-    private int CAMERA_REQUEST = 1;
+    private Button gallery, camera, upload;
     private EditText description;
 
     @Nullable
@@ -43,7 +45,7 @@ public class AddImageFragment extends Fragment {
         gallery = rootView.findViewById(R.id.gallery);
         camera = rootView.findViewById(R.id.camera);
         description = rootView.findViewById(R.id.description);
-        add = rootView.findViewById(R.id.upload);
+        upload = rootView.findViewById(R.id.upload);
         image = rootView.findViewById(R.id.gotten_image);
     }
 
@@ -53,7 +55,7 @@ public class AddImageFragment extends Fragment {
             public void onClick(View v) {
                 Intent cam_ImagesIntent = new Intent(Intent.ACTION_PICK);
                 cam_ImagesIntent.setType("image/*");
-                startActivityForResult(cam_ImagesIntent, CAMERA_REQUEST);
+                startActivityForResult(cam_ImagesIntent, GALLERY_REQUEST);
             }
         });
         camera.setOnClickListener(new View.OnClickListener() {
@@ -63,27 +65,30 @@ public class AddImageFragment extends Fragment {
             }
         });
 
-        add.setOnClickListener(new View.OnClickListener() {
+        upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!description.getText().toString().isEmpty() &&
-                        gottenImage != null) {
-
-
-                    SQLiteStatement sqLiteStatement = MainActivity.db.compileStatement("insert into post values(?,?,?,?,?);");
-
-                    sqLiteStatement.bindString(1, new Random().nextLong() + "");
-                    sqLiteStatement.bindString(2, MainActivity.currentUserId);
-                    sqLiteStatement.bindString(3, new Date().toString());
-                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    gottenImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
-                    byte[] bytes = bos.toByteArray();
-                    sqLiteStatement.bindBlob(4, bytes);
-                    sqLiteStatement.bindString(5, description.getText().toString());
-                    sqLiteStatement.execute();
-//                    goToHomeFragment();
-                    MainActivity.self.onProfileButtonClicked();
+                if (gottenImage == null) {
+                    Toast.makeText(getContext(), "Take or pick an image!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                if (description.getText().toString().isEmpty()) {
+                    Toast.makeText(getContext(), "Add a description!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                SQLiteStatement sqLiteStatement = MainActivity.db.compileStatement("insert into post values(?,?,?,?,?);");
+                sqLiteStatement.bindString(1, new Random().nextLong() + "");
+                sqLiteStatement.bindString(2, MainActivity.currentUserId);
+                sqLiteStatement.bindString(3, new Date().toString());
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                gottenImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
+                byte[] bytes = bos.toByteArray();
+                sqLiteStatement.bindBlob(4, bytes);
+                sqLiteStatement.bindString(5, description.getText().toString());
+                sqLiteStatement.execute();
+//                    goToHomeFragment();
+                MainActivity.self.onProfileButtonClicked();
             }
         });
 
@@ -107,6 +112,10 @@ public class AddImageFragment extends Fragment {
             } catch (Exception e) {
                 Log.e("image load", "onActivityResult: loading image from capture", e);
             }
+        }
+
+        if (requestCode == GALLERY_REQUEST && requestCode == RESULT_OK) {
+
         }
     }
 }

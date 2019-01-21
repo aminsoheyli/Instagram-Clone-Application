@@ -14,8 +14,10 @@
         android:layout_weight="4"
         android:autofillHints="autofillHints"
         android:contentDescription="contentDescription"
+        android:scaleType="centerCrop"
         android:textAlignment="textEnd"
-        android:tooltipText="Image to upload" />
+        android:tooltipText="Image to upload"
+        android:visibility="gone" />
 
 
     <RelativeLayout
@@ -26,45 +28,43 @@
 
 
         <Button
-            android:tooltipText="Pick a picture"
             android:id="@+id/gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/description"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="40dp"
             android:text="Gallery"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:tooltipText="Pick a picture" />
 
         <Button
-
-            android:tooltipText="Take a picture"
             android:id="@+id/camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/description"
             android:layout_alignParentRight="true"
             android:layout_marginRight="40dp"
             android:text="Camera"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:tooltipText="Take a picture" />
 
         <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:hint="Add a post description!"
+            android:layout_below="@id/gallery"
+            android:layout_marginVertical="6dp"
+            android:hint="Add a description..."
             android:maxLines="1" />
 
         <Button
-            android:tooltipText="Upload the picture"
             android:id="@+id/upload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/gallery"
+            android:layout_below="@id/description"
             android:layout_centerHorizontal="true"
             android:text="Upload"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:tooltipText="Upload the picture" />
     </RelativeLayout>
 
 
