@@ -68,12 +68,12 @@ public class AddImageFragment extends Fragment {
                 if (!description.getText().toString().matches("")) {
 
                     SQLiteStatement sqLiteStatement = MainActivity.db.compileStatement("insert into post values('" + new UUID(0,33).toString() + "', '" + MainActivity.currentUserId +
-                            "' , Date(), ? , " + description.getText().toString() + ");");
+                            "' , Date(), ? , '" + description.getText().toString() + "');");
 
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
                     gottenImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
                     byte[] bytes = bos.toByteArray();
-                    sqLiteStatement.bindBlob(1, bytes);
+                    sqLiteStatement.bindBlob(0, bytes);
                     sqLiteStatement.execute();
                 }
             }
