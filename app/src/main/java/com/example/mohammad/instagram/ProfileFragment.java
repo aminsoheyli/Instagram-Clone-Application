@@ -24,7 +24,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends Fragment {
     private static final int EDIT_PROFILE_REQ_CODE = 1;
     private CircleImageView profileImage;
-    private TextView postsNumbers, followersNumbers, followingNumbers, name, biography;
+    private TextView postsNumbers, followersNumbers,
+            followingNumbers, name, biography, profileImageName;
     private View followersParent, followingParent;
     private Button editProfile;
     private RecyclerView recyclerViewProfileImages;
@@ -61,12 +62,14 @@ public class ProfileFragment extends Fragment {
         followersNumbers = rootView.findViewById(R.id.followers);
         followingNumbers = rootView.findViewById(R.id.following);
         name = rootView.findViewById(R.id.name);
+        name.setText(MainActivity.currentUserId);
         biography = rootView.findViewById(R.id.biography);
         editProfile = rootView.findViewById(R.id.edit_profile);
         signout = rootView.findViewById(R.id.sign_out);
         followingParent = rootView.findViewById(R.id.following_parent);
         followersParent = rootView.findViewById(R.id.followers_parent);
-
+        profileImageName = rootView.findViewById(R.id.profile_image_name);
+        profileImageName.setText(MainActivity.currentUserId.charAt(0)+"");
         recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_profile_images);
         prepareProfileImagesRecyclerView();
 
@@ -168,7 +171,7 @@ public class ProfileFragment extends Fragment {
         ArrayList<ProfileCardInformations> information = new ArrayList<>();
         //Query --> posts.add(Post)
 
-        Cursor c = MainActivity.db.rawQuery("select * from post order by post_date asc;", null);
+        Cursor c = MainActivity.db.rawQuery("select * from post order by post_date desc;", null);
         if (c.moveToFirst()) {
             Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
             if (cc.moveToFirst()) {
@@ -240,8 +243,7 @@ public class ProfileFragment extends Fragment {
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 MainActivity.db.execSQL("delete from last_user where 1;");
                 startActivity(intent);
-                getActivity().finish();
-
+                MainActivity.self.finish();
             }
         });
     }
