@@ -1,5 +1,6 @@
 package com.example.mohammad.instagram;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +8,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.ImageView;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     //    private CustomPerson person;
 //    private ViewPager viewPager;
     private static final int HOME_ID = 0;
@@ -16,6 +17,9 @@ public class MainActivity extends AppCompatActivity{
     private static final String CURRENT_SATET_TAG = "currentTabState";
     private static int currentTabState = -1;
     private ImageView addButton, homeButton, profileButton;
+    public static String currentUser;
+    public static SQLiteDatabase db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +32,12 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void initials() {
+        db = openOrCreateDatabase("project", MODE_PRIVATE, null);
         addButton = findViewById(R.id.add_tab);
         homeButton = findViewById(R.id.home_tab);
         profileButton = findViewById(R.id.profile_tab);
 
+        onFirstRun();
 
         // ViewPager ...........
 
@@ -62,21 +68,26 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 if (changeBackOtherImageResources(ADD_IMAGE_ID)) {
                     addButton.setImageResource(R.drawable.plus_icon_fill);
-
+                    AddImageFragment addImageFragment = new AddImageFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, addImageFragment).commit();
                 }
             }
         });
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (changeBackOtherImageResources(PROFILE_ID)) {
-                    profileButton.setImageResource(R.drawable.user_icon_fill);
-                    ProfileFragment profileFragment = new ProfileFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.view_pager, profileFragment).commit();
-                }
+                onFirstRun();
             }
         });
 
+    }
+
+    private void onFirstRun() {
+        if (changeBackOtherImageResources(PROFILE_ID)) {
+            profileButton.setImageResource(R.drawable.user_icon_fill);
+            ProfileFragment profileFragment = new ProfileFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment).commit();
+        }
     }
 
     @Override
@@ -147,4 +158,10 @@ public class MainActivity extends AppCompatActivity{
 //
 //    }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
+    }
 }

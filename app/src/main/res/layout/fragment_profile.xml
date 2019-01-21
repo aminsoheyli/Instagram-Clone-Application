@@ -17,17 +17,17 @@
             android:layout_height="match_parent"></FrameLayout>
     </android.support.v7.widget.Toolbar>
 
-    <com.example.mohammad.instagram.MyNestedScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
-
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/up"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -57,18 +57,17 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical">
 
-                            <LinearLayout
+                            <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:orientation="horizontal"
+                                android:gravity="center"
                                 android:paddingVertical="10dp">
 
                                 <LinearLayout
+                                    android:id="@+id/posts_parent"
                                     style="@style/center"
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
                                     android:orientation="vertical">
 
                                     <TextView
@@ -88,9 +87,10 @@
                                 <LinearLayout
                                     android:id="@+id/followers_parent"
                                     style="@style/center"
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                                    android:layout_marginHorizontal="35dp"
+                                    android:layout_toRightOf="@id/posts_parent"
                                     android:orientation="vertical">
 
                                     <TextView
@@ -110,9 +110,9 @@
                                 <LinearLayout
                                     android:id="@+id/following_parent"
                                     style="@style/center"
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                                    android:layout_toRightOf="@id/followers_parent"
                                     android:orientation="vertical">
 
                                     <TextView
@@ -128,7 +128,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="following" />
                                 </LinearLayout>
-                            </LinearLayout>
+                            </RelativeLayout>
 
                             <Button
                                 android:id="@+id/edit_profile"
@@ -171,13 +171,14 @@
                 </LinearLayout>
             </LinearLayout>
 
-        </RelativeLayout>
-    </com.example.mohammad.instagram.MyNestedScrollView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_profile_images"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="4dp" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_profile_images"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/up" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
 
 </LinearLayout>

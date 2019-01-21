@@ -45,8 +45,6 @@ public class FollowersFolloingFragment extends DialogFragment {
     }
 
     private void prepareRecyclerView() {
-
-
         LinearLayoutManager lm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(lm);
         FollowsAdapter followsAdapter = new FollowsAdapter(followsInformations);

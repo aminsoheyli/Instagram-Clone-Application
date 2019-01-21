@@ -1,5 +1,6 @@
 package com.example.mohammad.instagram;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -18,42 +19,42 @@ public class ProfileCardInformations implements Parcelable {
             return new ProfileCardInformations[size];
         }
     };
+    private boolean isLiked, isSaved;
     private String username, likeNumber, description, date;
-    private int pofileImageId, imageId;
+    private Bitmap image;
 
-    public ProfileCardInformations(int pofileImageId, int image, String username,
-                                   String likeNumber, String description, String date) {
-        this.pofileImageId = pofileImageId;
-        this.imageId = image;
+    public ProfileCardInformations(Bitmap image, String username,
+                                   String likeNumber, String description,
+                                   String date, boolean isLiked, boolean isSaved) {
+
+        this.image = image;
         this.username = username;
         this.likeNumber = likeNumber;
         this.description = description;
         this.date = date;
+        this.isLiked = isLiked;
+        this.isSaved = isSaved;
     }
 
     protected ProfileCardInformations(Parcel in) {
-        pofileImageId = in.readInt();
-        imageId = in.readInt();
+        image = in.readParcelable(null);
         username = in.readString();
         likeNumber = in.readString();
         description = in.readString();
         date = in.readString();
+        boolean[] arr = new boolean[]{};
+        in.readBooleanArray(arr);
+        isSaved = arr[0];
+        isLiked = arr[1];
     }
 
-    public int getPofileImageId() {
-        return pofileImageId;
+
+    public Bitmap getImage() {
+        return image;
     }
 
-    public void setPofileImageId(int pofileImageId) {
-        this.pofileImageId = pofileImageId;
-    }
-
-    public int getImageId() {
-        return imageId;
-    }
-
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 
     public String getUsername() {
@@ -95,11 +96,12 @@ public class ProfileCardInformations implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(pofileImageId);
-        dest.writeInt(imageId);
+        dest.writeParcelable(image, Parcelable.PARCELABLE_WRITE_RETURN_VALUE);
         dest.writeString(username);
         dest.writeString(likeNumber);
         dest.writeString(description);
         dest.writeString(date);
+        boolean[] arr = new boolean[]{isSaved, isLiked};
+        dest.writeBooleanArray(arr);
     }
 }
