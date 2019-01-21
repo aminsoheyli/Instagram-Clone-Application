@@ -32,7 +32,7 @@ public class SplashActivity extends AppCompatActivity {
         db.execSQL("create table if not exists post (post_id text, user_id text, post_date text, image blob, description text);");
         db.execSQL("create table if not exists save(post_id text, user_id text);");
         db.execSQL("create table if not exists likes(post_id text, user_id text);");
-        db.execSQL("create table if not exists follow(user_id text, follower text);");
+        db.execSQL("create table if not exists follow(user_id text, follower_id text);");
         db.execSQL("create table if not exists user(user_id text, user_password text);");
 
 

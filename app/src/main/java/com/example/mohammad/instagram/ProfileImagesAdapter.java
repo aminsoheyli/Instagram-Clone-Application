@@ -129,7 +129,7 @@ public class ProfileImagesAdapter extends RecyclerView.Adapter<ProfileImagesAdap
         private void initials(View rootView) {
             profileImage = rootView.findViewById(R.id.profile_image);
             usernameProfile = rootView.findViewById(R.id.username_tv);
-            image = rootView.findViewById(R.id.image);
+            image = rootView.findViewById(R.id.camera);
             usernameDescription = rootView.findViewById(R.id.description_username);
             description = rootView.findViewById(R.id.description);
             likes = rootView.findViewById(R.id.like_numbers_tv);

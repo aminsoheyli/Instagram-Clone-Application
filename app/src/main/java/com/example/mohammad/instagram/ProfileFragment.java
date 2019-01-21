@@ -73,6 +73,28 @@ public class ProfileFragment extends Fragment {
             biography.setVisibility(View.VISIBLE);
             biography.setText(bioText);
         }
+
+        prepareNumbers();
+
+
+    }
+
+    private void prepareNumbers() {
+        Cursor c = MainActivity.db.rawQuery("select count(post_id) from post where user_id = '" + MainActivity.currentUserId + "';", null);
+        if (c.moveToFirst()) {
+            postsNumbers.setText(c.getString(0));
+        }
+
+//        c = MainActivity.db.rawQuery("select count(follower_id) from follow where user_id = '" + MainActivity.currentUserId + "';", null);
+//        if (c.moveToFirst()) {
+//            followersNumbers.setText(c.getString(0));
+//        }
+//
+//        c = MainActivity.db.rawQuery("select count(user_id) from follow where follower_id = '" + MainActivity.currentUserId + "';", null);
+//        if (c.moveToFirst()) {
+//            followingNumbers.setText(c.getString(0));
+//        }
+
     }
 
     private void prepareProfileImagesRecyclerView() {

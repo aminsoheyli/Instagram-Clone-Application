@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "User Successfully Logged in", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     db.close();
-                    MainActivity.currentUser = user;
+                    MainActivity.currentUserId = user;
                     startActivity(intent);
                     finish();
                 } else {
