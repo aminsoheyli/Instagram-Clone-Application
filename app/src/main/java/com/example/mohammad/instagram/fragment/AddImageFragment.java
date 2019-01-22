@@ -125,8 +125,6 @@ public class AddImageFragment extends Fragment {
 
             case GALLERY_REQUEST:
                 if (resultCode == RESULT_OK) {
-                    Toast.makeText(getContext(), "RRRR", Toast.LENGTH_LONG)
-                            .show();
                     Uri selectedImage = data.getData();
                     try {
                         gottenImage = MediaStore.Images.

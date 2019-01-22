@@ -5,8 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.mohammad.instagram.R;
+import com.example.mohammad.instagram.recycler_view.profile.ProfileAdapter;
+import com.example.mohammad.instagram.recycler_view.profile.ProfileCard;
+
 import java.util.ArrayList;
-import java.util.Random;
 
 public class EditProfileActivity extends AppCompatActivity {
     private RecyclerView recyclerViewProfileImages;
@@ -17,7 +20,7 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
         recyclerViewProfileImages = findViewById(R.id.rv);
-        ArrayList<ProfileCardInformations> informations = new ArrayList<>();
+        ArrayList<ProfileCard> informations = new ArrayList<>();
 //        ProfileCard first =
 //                new ProfileCard(R.drawable.like_icon_fill
 //                        , R.drawable.instagram_icon
@@ -74,7 +77,7 @@ public class EditProfileActivity extends AppCompatActivity {
 //        }
         LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewProfileImages.setLayoutManager(llm);
-        ProfileImagesAdapter adapter = new ProfileImagesAdapter(informations);
+        ProfileAdapter adapter = new ProfileAdapter(informations);
         recyclerViewProfileImages.setAdapter(adapter);
     }
 }
