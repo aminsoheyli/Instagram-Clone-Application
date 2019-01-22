@@ -15,6 +15,7 @@ import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.fragment.AddImageFragment;
 import com.example.mohammad.instagram.fragment.GlobalFragment;
 import com.example.mohammad.instagram.fragment.ProfileFragment;
+import com.example.mohammad.instagram.recycler_view.comment.CommentCard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,16 +150,13 @@ public class MainActivity extends AppCompatActivity {
     //Returns a list of list
     //index 0 returns the comments text
     //index 1 returns commenter id
-    private List<List<String>> comments(String postId) {
+    private List<CommentCard> comments(String postId) {
         Cursor c = MainActivity.db.rawQuery("select * from comment where post_id ='" + postId + "');", null);
         if (c.getColumnCount() != 0) {
-            List commentsData = new ArrayList<ArrayList<String>>();
-            commentsData.add(new ArrayList<String>());
-            commentsData.add(new ArrayList<String>());
+            List commentsData = new ArrayList<CommentCard>();
             c.moveToFirst();
             do {
-                ((ArrayList) commentsData.get(0)).add(c.getString(0));
-                ((ArrayList) commentsData.get(1)).add(c.getString(3));
+                commentsData.add(new CommentCard(c.getString(3), c.getString(0)));
             } while (c.moveToNext());
             return commentsData;
         } else {

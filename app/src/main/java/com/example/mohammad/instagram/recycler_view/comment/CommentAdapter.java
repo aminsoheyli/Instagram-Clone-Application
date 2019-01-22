@@ -5,11 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 /**
  * Created by Mohammad Amin Soheyli on 22/01/2019.
  */
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
-
+    private List<>
     public CommentAdapter() {
     }
 

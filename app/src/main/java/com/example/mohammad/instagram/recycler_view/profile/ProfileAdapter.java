@@ -128,10 +128,10 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         viewHolder.commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isEmpty = viewHolder.commentEditText.getText().toString().isEmpty() ? true : false;
+                boolean isEmpty = viewHolder.commentEditText.getText().toString().isEmpty();
                 if (!isEmpty) {
                     // Query
-                    //THe comment parent is entered null
+                    //The comment parent is entered null
                     MainActivity.db.execSQL("insert into comment values('" + new Random().nextLong() + "' , '" +
                             viewHolder.commentEditText.getText().toString() + "' , '" + informations.get(i).getPostId() + "', '" +
                             MainActivity.currentUserId + "', '');");
