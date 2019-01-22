@@ -72,7 +72,6 @@ public class SignUpActivity extends AppCompatActivity {
                 } else {
 
 
-                    int consistency;
                     try {
                         db.execSQL("insert into user values ('" + user + "', '" + pass + "');");
                         db.execSQL("insert into last_user values('" + user + "');");

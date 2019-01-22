@@ -79,7 +79,7 @@ public class ProfileFragment extends Fragment {
         followingParent = rootView.findViewById(R.id.following_parent);
         followersParent = rootView.findViewById(R.id.followers_parent);
         profileImageName = rootView.findViewById(R.id.profile_image_name);
-        profileImageName.setText(MainActivity.currentUserId.charAt(0)+"");
+        profileImageName.setText(MainActivity.currentUserId.charAt(0) + "");
         recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_profile_images);
         prepareProfileImagesRecyclerView();
 

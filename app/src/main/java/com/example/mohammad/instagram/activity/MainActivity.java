@@ -156,46 +156,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-//
-//    public static void changeOtherImage(int pressedIconState){
-//
-//    }
-
-//    private void setUpViewPager() {
-//        MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-//        ProfileFragment profileFragment = new ProfileFragment();
-//        ProfileFragment profileFragment2 = new ProfileFragment();
-//        pagerAdapter.addFragment(profileFragment);
-//        pagerAdapter.addFragment(profileFragment2);
-//        viewPager.setAdapter(pagerAdapter);
-//    }
-
-
-//    private class MyPagerAdapter extends FragmentPagerAdapter {
-//        List<Fragment> fragments;
-//
-//        public MyPagerAdapter(FragmentManager fm) {
-//            super(fm);
-//            fragments = new ArrayList<>();
-//        }
-//
-//        public void addFragment(Fragment fragment) {
-//            fragments.add(fragment);
-//            notifyDataSetChanged();
-//        }
-//
-//
-//        @Override
-//        public Fragment getItem(int position) {
-//            return fragments.get(position);
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return fragments.size();
-//        }
-//
-//    }
 
     //Returns a list of list
     //index 0 returns the comments text
