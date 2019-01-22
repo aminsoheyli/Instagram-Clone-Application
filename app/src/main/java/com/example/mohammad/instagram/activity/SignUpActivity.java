@@ -1,12 +1,14 @@
 package com.example.mohammad.instagram.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -53,6 +55,14 @@ public class SignUpActivity extends AppCompatActivity {
 //                String name = fullName.getText().toString();
                 String user = username.getText().toString();
                 String pass = password.getText().toString();
+                if (user.isEmpty()) {
+                    setFocus(username, "username");
+                    return;
+                }
+                if (pass.isEmpty()) {
+                    setFocus(password, "password");
+                    return;
+                }
                 if (isInConflict()) {
                     Toast toast = Toast.makeText(getApplicationContext(),
                             "This user is already exist!", Toast.LENGTH_LONG);
@@ -62,6 +72,7 @@ public class SignUpActivity extends AppCompatActivity {
                 } else {
 
 
+                    int consistency;
                     try {
                         db.execSQL("insert into user values ('" + user + "', '" + pass + "');");
                         db.execSQL("insert into last_user values('" + user + "');");
@@ -81,6 +92,15 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setFocus(EditText field, String error) {
+        Toast toast = Toast.makeText(getApplicationContext(), "Enter your " + error + "!", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+        field.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(field, InputMethodManager.SHOW_IMPLICIT);
     }
 
     // Whether it is in conflict with information in database or not.

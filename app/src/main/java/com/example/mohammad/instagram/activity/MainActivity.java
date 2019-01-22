@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.MailTo;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
@@ -26,16 +25,16 @@ public class MainActivity extends AppCompatActivity {
     public static final int HOME_ID = 0;
     public static final int ADD_IMAGE_ID = 1;
     public static final int PROFILE_ID = 2;
+    public static final int GLOBAL_ID = 3;
     private static final String CURRENT_SATET_TAG = "currentTabState";
     public static String currentUserId;
     public static SQLiteDatabase db;
     public static ContentResolver cr;
     public static PackageManager pm;
     public static int currentTabState = -1;
-    public static ImageView homeButton;
     public static FragmentManager sfm;
     public static MainActivity self;
-    private ImageView addButton, profileButton;
+    private ImageView addButton, profileButton, homeButton, globalButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         addButton = findViewById(R.id.add_tab);
         homeButton = findViewById(R.id.home_tab);
         profileButton = findViewById(R.id.profile_tab);
+        globalButton = findViewById(R.id.global_tab);
 
         onProfileButtonClicked();
 
@@ -102,6 +102,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        globalButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (changeBackOtherImageResources(GLOBAL_ID)) {
+                    globalButton.setImageResource(R.drawable.global_icon_fill);
+
+                }
+            }
+        });
+
     }
 
     public void onProfileButtonClicked() {
@@ -137,6 +147,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case PROFILE_ID:
                 profileButton.setImageResource(R.drawable.user_icon_stroke);
+                break;
+            case GLOBAL_ID:
+                globalButton.setImageResource(R.drawable.global_icon_stroke);
                 break;
             default:
                 break;
@@ -195,28 +208,29 @@ public class MainActivity extends AppCompatActivity {
             commentsData.add(new ArrayList<String>());
             c.moveToFirst();
             do {
-                ((ArrayList)commentsData.get(0)).add(c.getString(0));
-                ((ArrayList)commentsData.get(1)).add(c.getString(3));
-            }while (c.moveToNext());
+                ((ArrayList) commentsData.get(0)).add(c.getString(0));
+                ((ArrayList) commentsData.get(1)).add(c.getString(3));
+            } while (c.moveToNext());
             return commentsData;
-        }
-        else{
+        } else {
             return null;
         }
     }
+
     private void liking(String postId, String currentUserId) {
-        MainActivity.db.execSQL("insert into likes values('"+ postId +"','"+ currentUserId +"');");
+        MainActivity.db.execSQL("insert into likes values('" + postId + "','" + currentUserId + "');");
     }
 
     private void save(String postId, String currentUserId) {
-        MainActivity.db.execSQL("insert into save values('"+ postId +"','"+ currentUserId +"');");
+        MainActivity.db.execSQL("insert into save values('" + postId + "','" + currentUserId + "');");
     }
+
     private void disLiking(String postId, String currentUserId) {
-        MainActivity.db.execSQL("delete from likes where post_id = '"+ postId +"' and user_id = '"+ currentUserId +"';");
+        MainActivity.db.execSQL("delete from likes where post_id = '" + postId + "' and user_id = '" + currentUserId + "';");
     }
 
     private void unsave(String postId, String currentUserId) {
-        MainActivity.db.execSQL("delete from save where post_id = '"+ postId +"' and user_id = '"+ currentUserId +"';");
+        MainActivity.db.execSQL("delete from save where post_id = '" + postId + "' and user_id = '" + currentUserId + "';");
     }
 
     private List followersName(String currentUserId) {
@@ -226,10 +240,9 @@ public class MainActivity extends AppCompatActivity {
             c.moveToFirst();
             do {
                 comments.add(c.getString(0));
-            }while (c.moveToNext());
+            } while (c.moveToNext());
             return comments;
-        }
-        else{
+        } else {
             return null;
         }
     }
@@ -241,22 +254,21 @@ public class MainActivity extends AppCompatActivity {
             c.moveToFirst();
             do {
                 comments.add(c.getString(0));
-            }while (c.moveToNext());
+            } while (c.moveToNext());
             return comments;
-        }
-        else{
+        } else {
             return null;
         }
     }
 
     private void follow(String toFollowUserId, String currentUserId) {
-        MainActivity.db.execSQL("insert into follow values('"+ toFollowUserId +"','"+currentUserId+"'); ");
+        MainActivity.db.execSQL("insert into follow values('" + toFollowUserId + "','" + currentUserId + "'); ");
     }
 
     private void unfollow(String currentUserId, String toUnfolloweUserId) {
-        MainActivity.db.execSQL("delete from follow where follower_id = '"+ currentUserId +"' and user_id = '"+toUnfolloweUserId+"'); ");
+        MainActivity.db.execSQL("delete from follow where follower_id = '" + currentUserId + "' and user_id = '" + toUnfolloweUserId + "'); ");
     }
-    
+
 
     @Override
     protected void onDestroy() {

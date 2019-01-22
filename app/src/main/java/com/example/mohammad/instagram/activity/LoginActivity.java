@@ -1,6 +1,7 @@
 package com.example.mohammad.instagram.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,12 +24,12 @@ import com.example.mohammad.instagram.R;
  */
 public class LoginActivity extends AppCompatActivity {
     private static final int SIGN_UP_REQUEST_CODE = 1;
+    private static SQLiteDatabase db;
     private EditText username, password;
     private Button login;
     private TextView signUp;
     private View userRoundContainer, passwordRoundContainer;
     private ImageView userIcon, passwordIcon;
-    private static SQLiteDatabase db;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
         clickListeners();
 
     }
-
 
 
     private void initials() {
@@ -95,7 +96,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String user = username.getText().toString();
                 String pass = password.getText().toString();
-                if (isCorrect(user,  pass)) {
+                if (user.isEmpty()) {
+                    setFocus(username, "username");
+                    return;
+                }
+                if (pass.isEmpty()) {
+                    setFocus(password, "password");
+                    return;
+                }
+                if (isCorrect(user, pass)) {
                     Toast.makeText(LoginActivity.this, "User Successfully Logged in", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     db.execSQL("insert into last_user values('" + user + "');");
@@ -113,6 +122,15 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void setFocus(EditText field, String error) {
+        Toast toast = Toast.makeText(getApplicationContext(), "Enter your " + error + "!", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+        field.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(field, InputMethodManager.SHOW_IMPLICIT);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -126,13 +144,11 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isCorrect(String user, String pass) {
 
 
-
         Cursor c = db.rawQuery("select * from user where user_id = '" + user + "';", null);
 
-        if(c.moveToFirst()) {
+        if (c.moveToFirst()) {
             return c.getString(1).equals(pass);
         }
-        Toast.makeText(this, "No such username found!", Toast.LENGTH_SHORT).show();
         return false;
     }
 
