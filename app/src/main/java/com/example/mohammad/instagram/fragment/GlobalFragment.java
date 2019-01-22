@@ -51,11 +51,11 @@ public class GlobalFragment extends Fragment {
 
     private void initials(View rootView) {
         recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_profile_images);
-        prepareProfileImagesRecyclerView();
+        prepareGlobalImagesRecyclerView();
     }
 
 
-    private void prepareProfileImagesRecyclerView() {
+    private void prepareGlobalImagesRecyclerView() {
         recyclerViewProfileImages.setNestedScrollingEnabled(false);
         recyclerViewProfileImages.setHasFixedSize(true);
         ArrayList<ProfileCard> informations;

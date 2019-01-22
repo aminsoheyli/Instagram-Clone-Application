@@ -24,13 +24,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     //    private CustomPerson person;
 //    private ViewPager viewPager;
-    public static final int HOME_ID = 0;
-    public static final int ADD_IMAGE_ID = 1;
-    public static final int PROFILE_ID = 2;
-    public static final int GLOBAL_ID = 3;
+    public static final int HOME_TAB_ID = 0;
+    public static final int ADD_IMAGE_TAB_ID = 1;
+    public static final int PROFILE_TAB_ID = 2;
+    public static final int GLOBAL_TAB_ID = 3;
+    public static final int DEFAULT_TAB_ID = -1;
     private static final String CURRENT_SATET_TAG = "currentTabState";
     public static String currentUserId;
-    public static int currentTabState = -1;
+    public static int currentTabState = DEFAULT_TAB_ID;
     public static SQLiteDatabase db;
     public static ContentResolver cr;
     public static PackageManager pm;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (changeBackOtherImageResources(HOME_ID)) {
+                if (changeBackOtherImageResources(HOME_TAB_ID)) {
                     homeButton.setImageResource(R.drawable.home_icon_fill);
 
                 }
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (changeBackOtherImageResources(ADD_IMAGE_ID)) {
+                if (changeBackOtherImageResources(ADD_IMAGE_TAB_ID)) {
                     addButton.setImageResource(R.drawable.plus_icon_fill);
                     AddImageFragment addImageFragment = new AddImageFragment();
                     getSupportFragmentManager().beginTransaction().addToBackStack(null);
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         globalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (changeBackOtherImageResources(GLOBAL_ID)) {
+                if (changeBackOtherImageResources(GLOBAL_TAB_ID)) {
                     globalButton.setImageResource(R.drawable.global_icon_fill);
                     GlobalFragment globalFragment = new GlobalFragment();
                     getSupportFragmentManager().beginTransaction().addToBackStack(null);
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onProfileButtonClicked() {
-        if (changeBackOtherImageResources(PROFILE_ID)) {
+        if (changeBackOtherImageResources(PROFILE_TAB_ID)) {
             profileButton.setImageResource(R.drawable.user_icon_fill);
             ProfileFragment profileFragment = new ProfileFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment).commit();
@@ -132,16 +133,16 @@ public class MainActivity extends AppCompatActivity {
         if (preTabState == currentTabState)
             return false;
         switch (preTabState) {
-            case HOME_ID:
+            case HOME_TAB_ID:
                 homeButton.setImageResource(R.drawable.home_icon_stroke);
                 break;
-            case ADD_IMAGE_ID:
+            case ADD_IMAGE_TAB_ID:
                 addButton.setImageResource(R.drawable.plus_icon_stroke);
                 break;
-            case PROFILE_ID:
+            case PROFILE_TAB_ID:
                 profileButton.setImageResource(R.drawable.user_icon_stroke);
                 break;
-            case GLOBAL_ID:
+            case GLOBAL_TAB_ID:
                 globalButton.setImageResource(R.drawable.global_icon_stroke);
                 break;
             default:

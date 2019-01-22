@@ -1,6 +1,7 @@
 package com.example.mohammad.instagram.recycler_view.profile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mohammad.instagram.R;
+import com.example.mohammad.instagram.activity.ClickedUserActivity;
 import com.example.mohammad.instagram.activity.MainActivity;
 import com.example.mohammad.instagram.fragment.CommentDialogFragment;
 import com.example.mohammad.instagram.recycler_view.comment.CommentCard;
@@ -91,6 +93,17 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     }
 
     private void onClickListeners(final ProfileViewHolder viewHolder, final int i) {
+        viewHolder.userContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!MainActivity.currentUserId.equals(informations.get(i).getUsername())
+                        && MainActivity.currentTabState != MainActivity.DEFAULT_TAB_ID) {
+                    Intent intent = new Intent(viewHolder.comment.getContext(), ClickedUserActivity.class);
+                    MainActivity.self.startActivity(intent);
+                }
+            }
+        });
+
         viewHolder.save.setOnClickListener(new View.OnClickListener() {
             boolean savedState = false;
 
@@ -148,6 +161,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
                                     comment + "' , '" +
                                     informations.get(i).getPostId() + "', '" +
                                     MainActivity.currentUserId + "', '');");
+                    viewHolder.commentEditText.getText().clear();
                     viewHolder.commentLayout.setVisibility(View.GONE);
                     imm.hideSoftInputFromWindow(viewHolder.commentEditText.getWindowToken(), 0);
                 } else {
@@ -226,6 +240,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         private Button commentButton;
         private LinearLayout commentLayout;
         private TextView profileImageName;
+        private View userContainer;
 
 
         public ProfileViewHolder(@NonNull View itemView) {
@@ -250,6 +265,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             commentLayout = rootView.findViewById(R.id.comment_layout);
             profileImageName = rootView.findViewById(R.id.profile_image_name);
             viewCommentsTV = rootView.findViewById(R.id.viewComments_tv);
+            userContainer = rootView.findViewById(R.id.user_container);
 
         }
     }
