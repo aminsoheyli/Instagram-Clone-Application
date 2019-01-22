@@ -120,7 +120,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
                     //THe comment parent is entered null
                     MainActivity.db.execSQL("insert into comment values('" + new Random().nextLong() + "' , '" +
                             viewHolder.commentEditText.getText().toString() + "' , '" + informations.get(i).getPostId() + "', '" +
-                            MainActivity.currentUserId+ "', '');");
+                            MainActivity.currentUserId + "', '');");
                     viewHolder.commentLayout.setVisibility(View.GONE);
                 }
 
@@ -136,6 +136,14 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     @Override
     public int getItemCount() {
         return informations.size();
+    }
+
+    private void unsave(String postId, String currentUserId) {
+        MainActivity.db.execSQL("delete from save where post_id = '" + postId + "' and user_id = '" + currentUserId + "';");
+    }
+
+    private void save(String postId, String currentUserId) {
+        MainActivity.db.execSQL("insert into save values('" + postId + "','" + currentUserId + "');");
     }
 
     public static class ProfileViewHolder extends RecyclerView.ViewHolder {
