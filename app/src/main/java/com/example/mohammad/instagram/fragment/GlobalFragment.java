@@ -9,20 +9,21 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.mohammad.instagram.ProfileInformations;
+import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.EditProfileActivity;
 import com.example.mohammad.instagram.activity.LoginActivity;
 import com.example.mohammad.instagram.activity.MainActivity;
+import com.example.mohammad.instagram.recycler_view.follow.FollowCard;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileAdapter;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileCard;
-import com.example.mohammad.instagram.ProfileInformations;
-import com.example.mohammad.instagram.R;
-import com.example.mohammad.instagram.recycler_view.follow.FollowCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +31,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileFragment extends Fragment {
+public class GlobalFragment extends Fragment {
     private static final int EDIT_PROFILE_REQ_CODE = 1;
     private CircleImageView profileImage;
     private TextView postsNumbers, followersNumbers,
@@ -79,7 +80,7 @@ public class ProfileFragment extends Fragment {
         followingParent = rootView.findViewById(R.id.following_parent);
         followersParent = rootView.findViewById(R.id.followers_parent);
         profileImageName = rootView.findViewById(R.id.profile_image_name);
-        profileImageName.setText(MainActivity.currentUserId.charAt(0)+"");
+        profileImageName.setText(MainActivity.currentUserId.charAt(0) + "");
         recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_profile_images);
         prepareProfileImagesRecyclerView();
 
@@ -179,43 +180,21 @@ public class ProfileFragment extends Fragment {
 
     private ArrayList<ProfileCard> prepareInformations() {
         ArrayList<ProfileCard> information = new ArrayList<>();
+        //Query --> posts.add(Post)
+//        Cursor c = MainActivity.db.rawQuery("select * from post order by post_date desc;", null);
 
-        Cursor c = MainActivity.db.rawQuery("select * from post where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
-        Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
-        Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
-        boolean liked = false;
-        boolean saved = false;
-        if (ccc.moveToFirst()){
-            liked = !ccc.getString(0).matches("0");
-        }
-        if (cccc.moveToFirst()){
-            saved = !cccc.getString(0).matches("0");
-        }
-        if (c.moveToFirst()) {
-            Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
-            if (cc.moveToFirst()) {
-                ProfileCard temp =
-                        new ProfileCard(BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
-                                c.getString(1),
-                                cc.getString(0),
-                                c.getString(4),
-                                c.getString(2),
-                                liked,
-                                saved
-                        );
-                information.add(temp);
-
-            }
-            while (c.moveToNext()) {
-                cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
-                ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
-                cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
-                liked = false;
-                saved = false;
-                if (ccc.moveToFirst()){
+        try {
+            Cursor c = MainActivity.db.rawQuery("select * from post order by post_date desc;", null);
+            if (c.moveToFirst()) {
+                Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes order by post_date desc;", null);
+                Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
+                Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
+                boolean liked = false;
+                boolean saved = false;
+                if (ccc.moveToFirst()) {
                     liked = !ccc.getString(0).matches("0");
                 }
-                if (cccc.moveToFirst()){
+                if (cccc.moveToFirst()) {
                     saved = !cccc.getString(0).matches("0");
                 }
                 if (cc.moveToFirst()) {
@@ -229,13 +208,44 @@ public class ProfileFragment extends Fragment {
                                     saved
                             );
                     information.add(temp);
+
                 }
-                cc.close();
+                while (c.moveToNext()) {
+                    cc = MainActivity.db.rawQuery("select count(user_id) from post order by post_date desc;", null);
+                    ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
+                    cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
+                    liked = false;
+                    saved = false;
+                    if (ccc.moveToFirst()) {
+                        liked = !ccc.getString(0).matches("0");
+                    }
+                    if (cccc.moveToFirst()) {
+                        saved = !cccc.getString(0).matches("0");
+                    }
+                    if (cc.moveToFirst()) {
+                        ProfileCard temp =
+                                new ProfileCard(BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
+                                        c.getString(1),
+                                        cc.getString(0),
+                                        c.getString(4),
+                                        c.getString(2),
+                                        liked,
+                                        saved
+                                );
+                        information.add(temp);
+                    }
+                    cc.close();
+                }
             }
+            c.close();
+
+        } catch (Exception e) {
+            Log.d("DataBase", "prepareInformations:           " + e.getMessage() + "");
+            throw new RuntimeException("You must prepare access to db, MainActivity class not found!");
         }
-        c.close();
         return information;
     }
+
 
     private void onClickListeners() {
         // Show followers

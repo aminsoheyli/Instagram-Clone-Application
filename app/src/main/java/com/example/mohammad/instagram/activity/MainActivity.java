@@ -2,7 +2,9 @@ package com.example.mohammad.instagram.activity;
 
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.MailTo;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +16,9 @@ import android.widget.ImageView;
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.fragment.AddImageFragment;
 import com.example.mohammad.instagram.fragment.ProfileFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     //    private CustomPerson person;
@@ -179,12 +184,84 @@ public class MainActivity extends AppCompatActivity {
 //
 //    }
 
+    //Returns a list of list
+    //index 0 returns the comments text
+    //index 1 returns commenter id
+    private List<List<String>> comments(String postId) {
+        Cursor c = MainActivity.db.rawQuery("select * from comment where post_id ='" + postId + "');", null);
+        if (c.getColumnCount() != 0) {
+            List commentsData = new ArrayList<ArrayList<String>>();
+            commentsData.add(new ArrayList<String>());
+            commentsData.add(new ArrayList<String>());
+            c.moveToFirst();
+            do {
+                ((ArrayList)commentsData.get(0)).add(c.getString(0));
+                ((ArrayList)commentsData.get(1)).add(c.getString(3));
+            }while (c.moveToNext());
+            return commentsData;
+        }
+        else{
+            return null;
+        }
+    }
+    private void liking(String postId, String currentUserId) {
+        MainActivity.db.execSQL("insert into likes values('"+ postId +"','"+ currentUserId +"');");
+    }
+
+    private void save(String postId, String currentUserId) {
+        MainActivity.db.execSQL("insert into save values('"+ postId +"','"+ currentUserId +"');");
+    }
+    private void disLiking(String postId, String currentUserId) {
+        MainActivity.db.execSQL("delete from likes where post_id = '"+ postId +"' and user_id = '"+ currentUserId +"';");
+    }
+
+    private void unsave(String postId, String currentUserId) {
+        MainActivity.db.execSQL("delete from save where post_id = '"+ postId +"' and user_id = '"+ currentUserId +"';");
+    }
+
+    private List followersName(String currentUserId) {
+        Cursor c = MainActivity.db.rawQuery("select distinct * from follow where user_id ='" + currentUserId + "');", null);
+        if (c.getColumnCount() != 0) {
+            List comments = new ArrayList<String>();
+            c.moveToFirst();
+            do {
+                comments.add(c.getString(0));
+            }while (c.moveToNext());
+            return comments;
+        }
+        else{
+            return null;
+        }
+    }
+
+    private List followingsName(String currentUserId) {
+        Cursor c = MainActivity.db.rawQuery("select distinct * from follow where follower_id ='" + currentUserId + "');", null);
+        if (c.getColumnCount() != 0) {
+            List comments = new ArrayList<String>();
+            c.moveToFirst();
+            do {
+                comments.add(c.getString(0));
+            }while (c.moveToNext());
+            return comments;
+        }
+        else{
+            return null;
+        }
+    }
+
+    private void follow(String toFollowUserId, String currentUserId) {
+        MainActivity.db.execSQL("insert into follow values('"+ toFollowUserId +"','"+currentUserId+"'); ");
+    }
+
+    private void unfollow(String currentUserId, String toUnfolloweUserId) {
+        MainActivity.db.execSQL("delete from follow where follower_id = '"+ currentUserId +"' and user_id = '"+toUnfolloweUserId+"'); ");
+    }
+    
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         currentTabState = -1;
         db.close();
-        self = null;
     }
 }
