@@ -15,14 +15,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.mohammad.instagram.ProfileInformations;
+import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.EditProfileActivity;
 import com.example.mohammad.instagram.activity.LoginActivity;
 import com.example.mohammad.instagram.activity.MainActivity;
+import com.example.mohammad.instagram.recycler_view.follow.FollowCard;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileAdapter;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileCard;
-import com.example.mohammad.instagram.ProfileInformations;
-import com.example.mohammad.instagram.R;
-import com.example.mohammad.instagram.recycler_view.follow.FollowCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -181,16 +181,16 @@ public class ProfileFragment extends Fragment {
         ArrayList<ProfileCard> information = new ArrayList<>();
 
         Cursor c = MainActivity.db.rawQuery("select * from post where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
-        Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
-        Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
+//        Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
+//        Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
         boolean liked = false;
         boolean saved = false;
-        if (ccc.moveToFirst()){
-            liked = !ccc.getString(0).matches("0");
-        }
-        if (cccc.moveToFirst()){
-            saved = !cccc.getString(0).matches("0");
-        }
+//        if (ccc.moveToFirst()){
+//            liked = !ccc.getString(0).matches("0");
+//        }
+//        if (cccc.moveToFirst()){
+//            saved = !cccc.getString(0).matches("0");
+//        }
         if (c.moveToFirst()) {
             Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
             if (cc.moveToFirst()) {
@@ -208,16 +208,16 @@ public class ProfileFragment extends Fragment {
             }
             while (c.moveToNext()) {
                 cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
-                ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
-                cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
+//                ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
+//                cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
                 liked = false;
                 saved = false;
-                if (ccc.moveToFirst()){
-                    liked = !ccc.getString(0).matches("0");
-                }
-                if (cccc.moveToFirst()){
-                    saved = !cccc.getString(0).matches("0");
-                }
+//                if (ccc.moveToFirst()){
+//                    liked = !ccc.getString(0).matches("0");
+//                }
+//                if (cccc.moveToFirst()){
+//                    saved = !cccc.getString(0).matches("0");
+//                }
                 if (cc.moveToFirst()) {
                     ProfileCard temp =
                             new ProfileCard(BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
