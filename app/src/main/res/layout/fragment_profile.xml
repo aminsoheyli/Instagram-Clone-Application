@@ -207,7 +207,7 @@
                         android:text="Biography"
                         android:textColor="@color/gray"
                         android:textSize="13sp"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
 
 
                 </LinearLayout>

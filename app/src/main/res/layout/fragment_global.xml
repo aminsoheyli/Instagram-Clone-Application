@@ -25,30 +25,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp">
-
-                    <TextView
-                        android:id="@+id/name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Name"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
+                    android:paddingLeft="10dp">
                     <!--At first the visibility is gone if the user has a biography then
                     the visibility changes to visible and the bio will disappear.-->
-                    <TextView
-                        android:id="@+id/biography"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Biography"
-                        android:textColor="@color/gray"
-                        android:textSize="13sp"
-                        android:visibility="gone" />
-
 
                 </LinearLayout>
             </LinearLayout>

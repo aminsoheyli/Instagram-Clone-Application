@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.widget.ImageView;
 
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.fragment.AddImageFragment;
+import com.example.mohammad.instagram.fragment.GlobalFragment;
 import com.example.mohammad.instagram.fragment.ProfileFragment;
 
 import java.util.ArrayList;
@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     public static ContentResolver cr;
     public static PackageManager pm;
     public static int currentTabState = -1;
-    public static FragmentManager sfm;
     public static MainActivity self;
     private ImageView addButton, profileButton, homeButton, globalButton;
 
@@ -58,17 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
         onProfileButtonClicked();
 
-        // ViewPager ...........
-
-//        viewPager = findViewById(R.id.view_pager);
-//        setUpViewPager();
-
-
-//        TabLayout tabLayout = new TabLayout(this);
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 50);
-//        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//        addContentView(tabLayout, params);
-//        tabLayout.setupWithViewPager(viewPager);
     }
 
     private void onClickListeners() {
@@ -90,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
                     addButton.setImageResource(R.drawable.plus_icon_fill);
                     AddImageFragment addImageFragment = new AddImageFragment();
                     getSupportFragmentManager().beginTransaction().addToBackStack(null);
-                    sfm = getSupportFragmentManager();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, addImageFragment).commit();
                 }
             }
@@ -107,7 +94,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (changeBackOtherImageResources(GLOBAL_ID)) {
                     globalButton.setImageResource(R.drawable.global_icon_fill);
-
+                    GlobalFragment globalFragment = new GlobalFragment();
+                    getSupportFragmentManager().beginTransaction().addToBackStack(null);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, globalFragment).commit();
                 }
             }
         });

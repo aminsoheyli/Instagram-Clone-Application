@@ -39,9 +39,7 @@ public class ProfileFragment extends Fragment {
     private Button editProfile;
 
     private RecyclerView recyclerViewProfileImages;
-    private int sumHeight;
     private View signout;
-    private HashMap<Integer, Integer> itemHeight;
 
 
     public static ProfileFragment newInstance(ProfileInformations profileInformations) {
@@ -116,7 +114,7 @@ public class ProfileFragment extends Fragment {
     private void prepareProfileImagesRecyclerView() {
         recyclerViewProfileImages.setNestedScrollingEnabled(false);
         recyclerViewProfileImages.setHasFixedSize(true);
-        ArrayList<ProfileCard> informations = new ArrayList<>();
+        ArrayList<ProfileCard> informations;
         informations = prepareInformations();
 //        ProfileCard first =
 //                new ProfileCard(R.drawable.like_icon_fill
