@@ -48,7 +48,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     @Override
     public ProfileViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View rootView = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.card_profile_image, viewGroup, false);
+                .inflate(R.layout.card_profile, viewGroup, false);
         return new ProfileViewHolder(rootView);
     }
 
