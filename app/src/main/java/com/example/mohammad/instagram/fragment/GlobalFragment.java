@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,20 +72,44 @@ public class GlobalFragment extends Fragment {
         //Query --> posts.add(Post)
 //        Cursor c = MainActivity.db.rawQuery("select * from post order by post_date desc;", null);
 
-        try {
-            Cursor c = MainActivity.db.rawQuery("select * from post order by post_date desc;", null);
-            if (c.moveToFirst()) {
-                Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes;", null);
+        Cursor c = MainActivity.db.rawQuery("select * from post where user_id !='" + MainActivity.currentUserId + "' order by post_date desc;", null);
+        if (c.moveToFirst()) {
+            Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes;", null);
 //                Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
 //                Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
-                boolean liked = false;
-                boolean saved = false;
+            boolean liked = false;
+            boolean saved = false;
 //                if (ccc.moveToFirst()) {
 //                    liked = !ccc.getString(0).matches("0");
 //                }
 //                if (cccc.moveToFirst()) {
 //                    saved = !cccc.getString(0).matches("0");
 //                }
+            if (cc.moveToFirst()) {
+                ProfileCard temp =
+                        new ProfileCard(BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
+                                c.getString(1),
+                                cc.getString(0),
+                                c.getString(4),
+                                c.getString(2),
+                                liked,
+                                saved
+                        );
+                information.add(temp);
+
+            }
+            while (c.moveToNext()) {
+                cc = MainActivity.db.rawQuery("select count(user_id) from post order by post_date desc;", null);
+//                    ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
+//                    cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
+                liked = false;
+                saved = false;
+//                    if (ccc.moveToFirst()) {
+//                        liked = !ccc.getString(0).matches("0");
+//                    }
+//                    if (cccc.moveToFirst()) {
+//                        saved = !cccc.getString(0).matches("0");
+//                    }
                 if (cc.moveToFirst()) {
                     ProfileCard temp =
                             new ProfileCard(BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
@@ -98,41 +121,12 @@ public class GlobalFragment extends Fragment {
                                     saved
                             );
                     information.add(temp);
-
                 }
-                while (c.moveToNext()) {
-                    cc = MainActivity.db.rawQuery("select count(user_id) from post order by post_date desc;", null);
-//                    ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
-//                    cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
-                    liked = false;
-                    saved = false;
-//                    if (ccc.moveToFirst()) {
-//                        liked = !ccc.getString(0).matches("0");
-//                    }
-//                    if (cccc.moveToFirst()) {
-//                        saved = !cccc.getString(0).matches("0");
-//                    }
-                    if (cc.moveToFirst()) {
-                        ProfileCard temp =
-                                new ProfileCard(BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
-                                        c.getString(1),
-                                        cc.getString(0),
-                                        c.getString(4),
-                                        c.getString(2),
-                                        liked,
-                                        saved
-                                );
-                        information.add(temp);
-                    }
-                    cc.close();
-                }
+                cc.close();
             }
-            c.close();
-
-        } catch (Exception e) {
-            Log.d("DataBase", "prepareInformations:           " + e.getMessage() + "");
-            throw new RuntimeException("You must prepare access to db, MainActivity class not found!");
         }
+        c.close();
+
         return information;
     }
 

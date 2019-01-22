@@ -28,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
     public static final int GLOBAL_ID = 3;
     private static final String CURRENT_SATET_TAG = "currentTabState";
     public static String currentUserId;
+    public static int currentTabState = -1;
     public static SQLiteDatabase db;
     public static ContentResolver cr;
     public static PackageManager pm;
-    public static int currentTabState = -1;
     public static MainActivity self;
     private ImageView addButton, profileButton, homeButton, globalButton;
 
@@ -166,16 +166,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void liking(String postId, String currentUserId) {
+    private void like(String postId, String currentUserId) {
         MainActivity.db.execSQL("insert into likes values('" + postId + "','" + currentUserId + "');");
+    }
+
+    private void dislike(String postId, String currentUserId) {
+        MainActivity.db.execSQL("delete from likes where post_id = '" + postId + "' and user_id = '" + currentUserId + "';");
     }
 
     private void save(String postId, String currentUserId) {
         MainActivity.db.execSQL("insert into save values('" + postId + "','" + currentUserId + "');");
-    }
-
-    private void disLiking(String postId, String currentUserId) {
-        MainActivity.db.execSQL("delete from likes where post_id = '" + postId + "' and user_id = '" + currentUserId + "';");
     }
 
     private void unsave(String postId, String currentUserId) {

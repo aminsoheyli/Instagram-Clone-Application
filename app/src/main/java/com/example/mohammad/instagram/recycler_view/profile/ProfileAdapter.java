@@ -80,9 +80,11 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             public void onClick(View v) {
                 if (savedState == false) {
                     viewHolder.save.setImageResource(R.drawable.saved_icon_fill);
+                    save(informations.get(i).getPostId(), MainActivity.currentUserId);
                     savedState = true;
                 } else {
                     viewHolder.save.setImageResource(R.drawable.saved_icon_stroke);
+                    unsave(informations.get(i).getPostId(), MainActivity.currentUserId);
                     savedState = false;
 
                 }
@@ -95,9 +97,11 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             public void onClick(View v) {
                 if (likedState == false) {
                     viewHolder.like.setImageResource(R.drawable.like_icon_fill);
+                    like(informations.get(i).getPostId(), MainActivity.currentUserId);
                     likedState = true;
                 } else {
                     viewHolder.like.setImageResource(R.drawable.like_icon_stroke);
+                    dislike(informations.get(i).getPostId(), MainActivity.currentUserId);
                     likedState = false;
 
                 }
@@ -144,6 +148,14 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
 
     private void save(String postId, String currentUserId) {
         MainActivity.db.execSQL("insert into save values('" + postId + "','" + currentUserId + "');");
+    }
+
+    private void like(String postId, String currentUserId) {
+        MainActivity.db.execSQL("insert into likes values('" + postId + "','" + currentUserId + "');");
+    }
+
+    private void dislike(String postId, String currentUserId) {
+        MainActivity.db.execSQL("delete from likes where post_id = '" + postId + "' and user_id = '" + currentUserId + "';");
     }
 
     public static class ProfileViewHolder extends RecyclerView.ViewHolder {
