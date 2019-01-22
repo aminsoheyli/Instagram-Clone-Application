@@ -24,6 +24,14 @@ public class ProfileCard implements Parcelable {
     private Bitmap image;
     private String postId;
 
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public boolean isSaved() {
+        return isSaved;
+    }
+
     public ProfileCard(Bitmap image, String username,
                        String likeNumber, String description,
                        String date, boolean isLiked, boolean isSaved) {

@@ -56,6 +56,16 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         viewHolder.usernameDescription.setText(username);
         viewHolder.description.setText(informations.get(i).getDescription());
         viewHolder.date.setText(informations.get(i).getDate());
+        if (informations.get(i).isLiked()) {
+            viewHolder.like.setImageResource(R.drawable.like_icon_fill);
+        } else {
+            viewHolder.like.setImageResource(R.drawable.like_icon_stroke);
+        }
+        if (informations.get(i).isSaved()) {
+            viewHolder.save.setImageResource(R.drawable.saved_icon_fill);
+        } else {
+            viewHolder.save.setImageResource(R.drawable.saved_icon_stroke);
+        }
 
         onClickListeners(viewHolder, i);
 //        int position = i;

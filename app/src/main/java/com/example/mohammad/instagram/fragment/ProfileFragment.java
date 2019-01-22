@@ -179,16 +179,16 @@ public class ProfileFragment extends Fragment {
         ArrayList<ProfileCard> information = new ArrayList<>();
 
         Cursor c = MainActivity.db.rawQuery("select * from post where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
-Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "';", null);
-Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "';", null);
+        Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "';", null);
+        Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "';", null);
         boolean liked = false;
         boolean saved = false;
-if (ccc.moveToFirst()){
-liked = !ccc.getString(0).matches("0");
-}
-if (cccc.moveToFirst()){
-saved = !cccc.getString(0).matches("0");
-}
+        if (ccc.moveToFirst()) {
+            liked = !ccc.getString(0).matches("0");
+        }
+        if (cccc.moveToFirst()) {
+            saved = !cccc.getString(0).matches("0");
+        }
         if (c.moveToFirst()) {
             Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
             if (cc.moveToFirst()) {
@@ -210,10 +210,10 @@ saved = !cccc.getString(0).matches("0");
                 cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "';", null);
                 liked = false;
                 saved = false;
-                if (ccc.moveToFirst()){
+                if (ccc.moveToFirst()) {
                     liked = !ccc.getString(0).matches("0");
                 }
-                if (cccc.moveToFirst()){
+                if (cccc.moveToFirst()) {
                     saved = !cccc.getString(0).matches("0");
                 }
                 if (cc.moveToFirst()) {
