@@ -35,12 +35,12 @@ public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowsVie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FollowsViewHolder followsViewHolder, int i) {
-        followsViewHolder.name.setText(informations.get(i).getName());
-        followsViewHolder.image.setImageResource(informations.get(i).getImageId());
-        followsViewHolder.followBtn.setBackground(rootView.getResources().getDrawable(R.drawable.follow_button_blue));
-        followsViewHolder.followBtn.setText("Following");
-        followsViewHolder.followBtn.setTextColor(Color.WHITE);
+    public void onBindViewHolder(@NonNull FollowsViewHolder vh, int i) {
+        vh.name.setText(informations.get(i).getName());
+        vh.image.setImageResource(informations.get(i).getImageId());
+        vh.followBtn.setBackground(rootView.getResources().getDrawable(R.drawable.follow_button_blue));
+        vh.followBtn.setText("Following");
+        vh.followBtn.setTextColor(Color.WHITE);
     }
 
     @Override

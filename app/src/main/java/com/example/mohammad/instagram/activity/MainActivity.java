@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public static ContentResolver cr;
     public static PackageManager pm;
     public static MainActivity self;
+    public static FragmentManager fm;
     private ImageView addButton, profileButton, homeButton, globalButton;
 
     @Override
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         pm = getPackageManager();
         cr = getContentResolver();
         db = openOrCreateDatabase("project", MODE_PRIVATE, null);
+        fm = getSupportFragmentManager();
         addButton = findViewById(R.id.add_tab);
         homeButton = findViewById(R.id.home_tab);
         profileButton = findViewById(R.id.profile_tab);

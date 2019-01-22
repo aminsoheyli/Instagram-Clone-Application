@@ -11,24 +11,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mohammad.instagram.R;
-import com.example.mohammad.instagram.recycler_view.follow.FollowAdapter;
-import com.example.mohammad.instagram.recycler_view.follow.FollowCard;
+import com.example.mohammad.instagram.recycler_view.comment.CommentAdapter;
+import com.example.mohammad.instagram.recycler_view.comment.CommentCard;
 
 import java.util.ArrayList;
 
 /**
- * Created by Mohammad Amin Soheyli on 04/01/2019.
+ * Created by Mohammad Amin Soheyli on 23/01/2019.
  */
-public class FollowersFolloingFragment extends DialogFragment {
+public class CommentDialogFragment extends DialogFragment {
     private static final String INFORMATIONS_KEY = "information's_key";
     private View rootView;
-    private ArrayList<FollowCard> followsInformations;
+    private ArrayList<CommentCard> commentInformations;
     private RecyclerView recyclerView;
 
-    public static FollowersFolloingFragment newInstance(ArrayList<FollowCard> informations) {
+    public static CommentDialogFragment newInstance(ArrayList<CommentCard> commentInformations) {
         Bundle args = new Bundle();
-        args.putParcelableArrayList(INFORMATIONS_KEY, informations);
-        FollowersFolloingFragment fragment = new FollowersFolloingFragment();
+        args.putParcelableArrayList(INFORMATIONS_KEY, commentInformations);
+        CommentDialogFragment fragment = new CommentDialogFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -36,7 +36,7 @@ public class FollowersFolloingFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        followsInformations = getArguments().getParcelableArrayList(INFORMATIONS_KEY);
+        commentInformations = getArguments().getParcelableArrayList(INFORMATIONS_KEY);
     }
 
     @Nullable
@@ -51,9 +51,7 @@ public class FollowersFolloingFragment extends DialogFragment {
     private void prepareRecyclerView() {
         LinearLayoutManager lm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(lm);
-        FollowAdapter followAdapter = new FollowAdapter(followsInformations);
+        CommentAdapter followAdapter = new CommentAdapter(commentInformations);
         recyclerView.setAdapter(followAdapter);
     }
-
-
 }

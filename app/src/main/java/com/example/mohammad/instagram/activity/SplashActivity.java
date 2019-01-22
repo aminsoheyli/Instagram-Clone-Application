@@ -14,9 +14,9 @@ import com.example.mohammad.instagram.R;
 
 public class SplashActivity extends AppCompatActivity {
     public static final String USER_NAME = "username";
+    private static SQLiteDatabase db;
     private Animation slideUp;
     private ImageView instagramLogo;
-    private static SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
         db.execSQL("create table if not exists user(user_id text, user_password text);");
 
 
-        CountDownTimer count = new CountDownTimer(1500, 1500) {
+        CountDownTimer count = new CountDownTimer(2000, 2000) {
             @Override
             public void onTick(long millisUntilFinished) {
 

@@ -1,20 +1,28 @@
 package com.example.mohammad.instagram.recycler_view.profile;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.MainActivity;
+import com.example.mohammad.instagram.fragment.CommentDialogFragment;
+import com.example.mohammad.instagram.recycler_view.comment.CommentCard;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -122,22 +130,46 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             @Override
             public void onClick(View v) {
                 viewHolder.commentLayout.setVisibility(View.VISIBLE);
+                viewHolder.commentEditText.requestFocus();
+                InputMethodManager imm = (InputMethodManager) MainActivity.self.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(viewHolder.commentEditText, InputMethodManager.SHOW_IMPLICIT);
             }
         });
 
         viewHolder.commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isEmpty = viewHolder.commentEditText.getText().toString().isEmpty();
-                if (!isEmpty) {
-                    // Query
+                String comment = viewHolder.commentEditText.getText().toString();
+                if (!comment.isEmpty()) {
+                    InputMethodManager imm = (InputMethodManager) MainActivity.self.getSystemService(Context.INPUT_METHOD_SERVICE);
                     //The comment parent is entered null
-                    MainActivity.db.execSQL("insert into comment values('" + new Random().nextLong() + "' , '" +
-                            viewHolder.commentEditText.getText().toString() + "' , '" + informations.get(i).getPostId() + "', '" +
-                            MainActivity.currentUserId + "', '');");
+                    MainActivity.db.execSQL(
+                            "insert into comment values('" + new Random().nextLong() + "' , '" +
+                                    comment + "' , '" +
+                                    informations.get(i).getPostId() + "', '" +
+                                    MainActivity.currentUserId + "', '');");
                     viewHolder.commentLayout.setVisibility(View.GONE);
+                    imm.hideSoftInputFromWindow(viewHolder.commentEditText.getWindowToken(), 0);
+                } else {
+                    viewHolder.commentEditText.requestFocus();
                 }
 
+            }
+        });
+
+        viewHolder.viewCommentsTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String postId = ProfileAdapter.this.informations.get(i).getPostId();
+                ArrayList<CommentCard> commentInformations = (ArrayList<CommentCard>) getComments(postId);
+                if (commentInformations == null) {
+                    Toast toast = Toast.makeText(MainActivity.self, "No comment found!", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    return;
+                }
+                CommentDialogFragment fragment = CommentDialogFragment.newInstance(commentInformations);
+                fragment.show(MainActivity.fm, "Follows fragment");
             }
         });
     }
@@ -168,12 +200,28 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         MainActivity.db.execSQL("delete from likes where post_id = '" + postId + "' and user_id = '" + currentUserId + "';");
     }
 
+    private List<CommentCard> getComments(String postId) {
+        Cursor c = MainActivity.db.rawQuery("select * from comment where post_id ='" + postId + "';", null);
+        if (c.getColumnCount() != 0) {
+            List commentsData = new ArrayList<CommentCard>();
+            c.moveToFirst();
+            if (c.getCount() == 0)
+                return null;
+            do {
+                commentsData.add(new CommentCard(c.getString(3), c.getString(1)));
+            } while (c.moveToNext());
+            return commentsData;
+        } else {
+            return null;
+        }
+    }
+
     public static class ProfileViewHolder extends RecyclerView.ViewHolder {
         private CircleImageView profileImage;
         private ImageView image, save, comment, like;
         private TextView usernameProfile,
                 usernameDescription, description,
-                date, likes;
+                date, likes, viewCommentsTV;
         private EditText commentEditText;
         private Button commentButton;
         private LinearLayout commentLayout;
@@ -201,6 +249,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             commentEditText = rootView.findViewById(R.id.comment_edit_text);
             commentLayout = rootView.findViewById(R.id.comment_layout);
             profileImageName = rootView.findViewById(R.id.profile_image_name);
+            viewCommentsTV = rootView.findViewById(R.id.viewComments_tv);
 
         }
     }
