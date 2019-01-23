@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.recycler_view.follow.FollowAdapter;
-import com.example.mohammad.instagram.recycler_view.follow.FollowCard;
 
 import java.util.ArrayList;
 
@@ -22,12 +21,12 @@ import java.util.ArrayList;
 public class FollowersFolloingFragment extends DialogFragment {
     private static final String INFORMATIONS_KEY = "information's_key";
     private View rootView;
-    private ArrayList<FollowCard> followsInformations;
+    private ArrayList<String> followsInformations;
     private RecyclerView recyclerView;
 
-    public static FollowersFolloingFragment newInstance(ArrayList<FollowCard> informations) {
+    public static FollowersFolloingFragment newInstance(ArrayList<String> informations) {
         Bundle args = new Bundle();
-        args.putParcelableArrayList(INFORMATIONS_KEY, informations);
+        args.putStringArrayList(INFORMATIONS_KEY, informations);
         FollowersFolloingFragment fragment = new FollowersFolloingFragment();
         fragment.setArguments(args);
         return fragment;
@@ -36,7 +35,7 @@ public class FollowersFolloingFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        followsInformations = getArguments().getParcelableArrayList(INFORMATIONS_KEY);
+        followsInformations = getArguments().getStringArrayList(INFORMATIONS_KEY);
     }
 
     @Nullable

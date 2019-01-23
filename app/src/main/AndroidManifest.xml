@@ -33,6 +33,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".temp.TestActivity" />
         <activity android:name=".activity.EditProfileActivity" />
+        <activity android:name=".activity.ClickedUserActivity" />
     </application>
 
 </manifest>

@@ -8,15 +8,34 @@
     android:gravity="center"
     android:paddingVertical="10dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageId"
+    <FrameLayout
+        android:id="@+id/frame"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/plus_icon_stroke"
-        app:civ_border_color="@color/profileBorder"
-        app:civ_border_width="2dp" />
+        android:layout_marginLeft="5dp">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:src="@drawable/black"
+            app:civ_border_color="@color/profileBorder"
+            app:civ_border_width="1dp" />
+
+        <TextView
+            android:id="@+id/profile_image_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="A"
+            android:textAllCaps="true"
+            android:textColor="#fff"
+            android:textSize="30sp" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/name"
@@ -24,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@id/imageId"
+        android:layout_toRightOf="@id/frame"
         android:textSize="16sp" />
 
     <Button

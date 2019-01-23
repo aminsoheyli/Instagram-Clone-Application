@@ -20,7 +20,6 @@ import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.EditProfileActivity;
 import com.example.mohammad.instagram.activity.LoginActivity;
 import com.example.mohammad.instagram.activity.MainActivity;
-import com.example.mohammad.instagram.recycler_view.follow.FollowCard;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileAdapter;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileCard;
 
@@ -30,7 +29,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileFragment extends Fragment {
+    public class ProfileFragment extends Fragment {
     private static final int EDIT_PROFILE_REQ_CODE = 1;
     private CircleImageView profileImage;
     private TextView postsNumbers, followersNumbers,
@@ -277,21 +276,16 @@ public class ProfileFragment extends Fragment {
 
 
     private void showFollowers() {
-        ArrayList<FollowCard> informations = new ArrayList<>();
-        String[] strings = getResources().getStringArray(R.array.follows_names);
-        for (int i = 0; i < strings.length; i++) {
-            if (i % 2 == 0) {
-                informations.add(new FollowCard(strings[i], R.drawable.user_icon_stroke));
-                continue;
-            }
-            informations.add(new FollowCard(strings[i], R.drawable.user_icon_fill));
-        }
+        ArrayList<String> informations = new ArrayList<>();
         FollowersFolloingFragment fragment = FollowersFolloingFragment.newInstance(informations);
         fragment.show(getFragmentManager(), "Follows fragment");
     }
 
     private void showFollowing() {
-        showFollowers();
+        ArrayList<String> informations;
+        informations = (ArrayList<String>) MainActivity.followingsName(MainActivity.currentUserId);
+        FollowersFolloingFragment fragment = FollowersFolloingFragment.newInstance(informations);
+        fragment.show(getFragmentManager(), "Follows fragment");
     }
 
     // Query to specify whether the user has a biography or not.

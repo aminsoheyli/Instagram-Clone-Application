@@ -21,35 +21,44 @@
         android:background="#e7e7e7">
 
         <ImageView
-            android:layout_weight="1"
             android:id="@+id/home_tab"
             android:layout_width="37dp"
             android:layout_height="37dp"
             android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:src="@drawable/home_icon_stroke" />
 
-        <ImageView
-            android:layout_weight="1"
-            android:id="@+id/add_tab"
-            android:layout_width="37dp"
-            android:layout_height="37dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/plus_icon_stroke" />
 
         <ImageView
-            android:layout_weight="1"
             android:id="@+id/global_tab"
             android:layout_width="37dp"
             android:layout_height="37dp"
             android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:src="@drawable/global_icon_stroke" />
 
         <ImageView
+            android:id="@+id/add_tab"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
+            android:src="@drawable/plus_icon_stroke" />
+
+        <ImageView
+            android:id="@+id/saved_tab"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:src="@drawable/saved_icon_stroke" />
+
+        <ImageView
             android:id="@+id/profile_tab"
             android:layout_width="37dp"
             android:layout_height="37dp"
             android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:src="@drawable/user_icon_stroke" />
 
 

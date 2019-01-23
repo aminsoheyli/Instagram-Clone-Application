@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import com.example.mohammad.instagram.ProfileInformations;
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.MainActivity;
-import com.example.mohammad.instagram.recycler_view.follow.FollowCard;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileAdapter;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileCard;
 
@@ -135,24 +134,6 @@ public class GlobalFragment extends Fragment {
 
     }
 
-
-    private void showFollowers() {
-        ArrayList<FollowCard> informations = new ArrayList<>();
-        String[] strings = getResources().getStringArray(R.array.follows_names);
-        for (int i = 0; i < strings.length; i++) {
-            if (i % 2 == 0) {
-                informations.add(new FollowCard(strings[i], R.drawable.user_icon_stroke));
-                continue;
-            }
-            informations.add(new FollowCard(strings[i], R.drawable.user_icon_fill));
-        }
-        FollowersFolloingFragment fragment = FollowersFolloingFragment.newInstance(informations);
-        fragment.show(getFragmentManager(), "Follows fragment");
-    }
-
-    private void showFollowing() {
-        showFollowers();
-    }
 
     // Query to specify whether the user has a biography or not.
     private String hasBiography() {

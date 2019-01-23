@@ -14,16 +14,14 @@ import com.example.mohammad.instagram.R;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 /**
  * Created by Mohammad Amin Soheyli on 04/01/2019.
  */
 public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowsViewHolder> {
-    private List<FollowCard> informations;
+    private List<String> informations;
     private View rootView;
 
-    public FollowAdapter(List<FollowCard> informations) {
+    public FollowAdapter(List<String> informations) {
         this.informations = informations;
     }
 
@@ -36,8 +34,8 @@ public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowsVie
 
     @Override
     public void onBindViewHolder(@NonNull FollowsViewHolder vh, int i) {
-        vh.name.setText(informations.get(i).getName());
-        vh.image.setImageResource(informations.get(i).getImageId());
+        vh.name.setText(informations.get(i));
+        vh.profileImageName.setText(String.valueOf(informations.get(i).charAt(0)));
         vh.followBtn.setBackground(rootView.getResources().getDrawable(R.drawable.follow_button_blue));
         vh.followBtn.setText("Following");
         vh.followBtn.setTextColor(Color.WHITE);
@@ -49,14 +47,13 @@ public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowsVie
     }
 
     public static class FollowsViewHolder extends RecyclerView.ViewHolder {
-        private TextView name;
-        private CircleImageView image;
+        private TextView name, profileImageName;
         private Button followBtn;
 
         public FollowsViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
-            image = itemView.findViewById(R.id.imageId);
+            profileImageName = itemView.findViewById(R.id.profile_image_name);
             followBtn = itemView.findViewById(R.id.following_state);
             onClickListeners();
         }
