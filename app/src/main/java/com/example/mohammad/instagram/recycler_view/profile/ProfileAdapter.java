@@ -35,6 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileViewHolder> {
     //    private DynamicHeight dynamicHeight;
     private ArrayList<ProfileCard> informations;
+    private static int index;
 
     public ProfileAdapter(ArrayList<ProfileCard> informations) {
         this.informations = informations;
@@ -92,30 +93,30 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
 
     }
 
-    private void onClickListeners(final ProfileViewHolder viewHolder, final int i) {
+    private void onClickListeners(final ProfileViewHolder viewHolder,int i) {
+        index = i;
         viewHolder.userContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!MainActivity.currentUserId.equals(informations.get(i).getUsername())
+                if (!MainActivity.currentUserId.equals(informations.get(index).getUsername())
                         && MainActivity.currentTabState != MainActivity.DEFAULT_TAB_ID) {
                     Intent intent = new Intent(viewHolder.comment.getContext(), ClickedUserActivity.class);
                     MainActivity.self.startActivity(intent);
                 }
             }
         });
-
         viewHolder.save.setOnClickListener(new View.OnClickListener() {
             boolean savedState = false;
 
             @Override
             public void onClick(View v) {
-                if (savedState == false) {
+                if (!savedState) {
                     viewHolder.save.setImageResource(R.drawable.saved_icon_fill);
-                    save(informations.get(i).getPostId(), MainActivity.currentUserId);
+                    save(informations.get(index).getPostId(), MainActivity.currentUserId);
                     savedState = true;
                 } else {
                     viewHolder.save.setImageResource(R.drawable.saved_icon_stroke);
-                    unsave(informations.get(i).getPostId(), MainActivity.currentUserId);
+                    unsave(informations.get(index).getPostId(), MainActivity.currentUserId);
                     savedState = false;
 
                 }
@@ -126,19 +127,18 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
 
             @Override
             public void onClick(View v) {
-                if (likedState == false) {
+                if (!likedState) {
                     viewHolder.like.setImageResource(R.drawable.like_icon_fill);
-                    like(informations.get(i).getPostId(), MainActivity.currentUserId);
+                    like(informations.get(index).getPostId(), MainActivity.currentUserId);
                     likedState = true;
                 } else {
                     viewHolder.like.setImageResource(R.drawable.like_icon_stroke);
-                    dislike(informations.get(i).getPostId(), MainActivity.currentUserId);
+                    dislike(informations.get(index).getPostId(), MainActivity.currentUserId);
                     likedState = false;
 
                 }
             }
         });
-
         viewHolder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,7 +159,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
                     MainActivity.db.execSQL(
                             "insert into comment values('" + new Random().nextLong() + "' , '" +
                                     comment + "' , '" +
-                                    informations.get(i).getPostId() + "', '" +
+                                    informations.get(index).getPostId() + "', '" +
                                     MainActivity.currentUserId + "', '');");
                     viewHolder.commentEditText.getText().clear();
                     viewHolder.commentLayout.setVisibility(View.GONE);
@@ -174,7 +174,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         viewHolder.viewCommentsTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String postId = ProfileAdapter.this.informations.get(i).getPostId();
+                String postId = ProfileAdapter.this.informations.get(index).getPostId();
                 ArrayList<CommentCard> commentInformations = (ArrayList<CommentCard>) getComments(postId);
                 if (commentInformations == null) {
                     Toast toast = Toast.makeText(MainActivity.self, "No comment found!", Toast.LENGTH_SHORT);

@@ -29,7 +29,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-    public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment {
     private static final int EDIT_PROFILE_REQ_CODE = 1;
     private CircleImageView profileImage;
     private TextView postsNumbers, followersNumbers,
