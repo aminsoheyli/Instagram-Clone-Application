@@ -14,56 +14,45 @@
         android:layout_weight="1" />
 
 
-    <GridLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:layout_gravity="bottom"
-        android:background="#e7e7e7"
-        android:columnCount="4"
-        android:paddingHorizontal="15dp"
-        android:rowCount="1">
+        android:background="#e7e7e7">
 
         <ImageView
+            android:layout_weight="1"
             android:id="@+id/home_tab"
             android:layout_width="37dp"
             android:layout_height="37dp"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_columnWeight="1"
             android:layout_gravity="center_vertical"
             android:src="@drawable/home_icon_stroke" />
 
         <ImageView
+            android:layout_weight="1"
             android:id="@+id/add_tab"
             android:layout_width="37dp"
             android:layout_height="37dp"
-            android:layout_row="0"
-            android:layout_column="1"
-            android:layout_columnWeight="1"
             android:layout_gravity="center_vertical"
             android:src="@drawable/plus_icon_stroke" />
 
         <ImageView
+            android:layout_weight="1"
             android:id="@+id/global_tab"
             android:layout_width="37dp"
             android:layout_height="37dp"
-            android:layout_row="0"
-            android:layout_column="2"
-            android:layout_columnWeight="1"
             android:layout_gravity="center_vertical"
             android:src="@drawable/global_icon_stroke" />
 
         <ImageView
+            android:layout_weight="1"
             android:id="@+id/profile_tab"
             android:layout_width="37dp"
             android:layout_height="37dp"
-            android:layout_row="0"
-            android:layout_column="3"
-            android:layout_columnWeight="1"
             android:layout_gravity="center_vertical"
             android:src="@drawable/user_icon_stroke" />
 
 
-    </GridLayout>
+    </LinearLayout>
 
 </LinearLayout>
