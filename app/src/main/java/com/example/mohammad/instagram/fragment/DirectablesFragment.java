@@ -105,8 +105,10 @@ public class DirectablesFragment extends Fragment {
 
         switch (directableType) {
             case HOME_FRAGMENT:
+                // User's posts and following's posts
                 break;
             case GLOBAL_FRAGMENT:
+                // All posts without current user posts
                 break;
             case SAVED_FRAGMENT:
                 break;
