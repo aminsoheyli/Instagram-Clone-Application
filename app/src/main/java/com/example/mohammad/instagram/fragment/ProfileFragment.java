@@ -1,5 +1,6 @@
 package com.example.mohammad.instagram.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
@@ -43,6 +44,7 @@ public class ProfileFragment extends Fragment {
     private RecyclerView recyclerViewProfileImages;
     private View signout;
 
+    @SuppressLint("ValidFragment")
     private ProfileFragment() {
 
     }
@@ -185,10 +187,10 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private ArrayList<ProfileCard> homeFragmentInformationsQuery() {
+    private ArrayList<ProfileCard> prepareInformations() {
         ArrayList<ProfileCard> informations = new ArrayList<>();
         // Home fragment informations query
-        Cursor c = MainActivity.db.rawQuery("select * from post where user_id ='" + this.userId + "' groupt by post_id order by post_date desc;", null);
+        Cursor c = MainActivity.db.rawQuery("select * from post where user_id ='" + this.userId + "' group by post_id order by post_date desc;", null);
 
         if (c.moveToFirst()) {
             do {
