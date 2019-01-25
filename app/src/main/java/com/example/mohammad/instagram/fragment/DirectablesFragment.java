@@ -113,7 +113,7 @@ public class DirectablesFragment extends Fragment {
     private ArrayList<ProfileCard> homeFragmentInformationsQuery() {
         ArrayList<ProfileCard> informations = new ArrayList<>();
         // Home fragment informations query
-        Cursor c = MainActivity.db.rawQuery("select distinct * from post, follow where post.user_id !='" + MainActivity.currentUserId + "' and follow.follower_id = '" + MainActivity.currentUserId + "' order by post.post_date desc;", null);
+        Cursor c = MainActivity.db.rawQuery("select * from post, follow where post.user_id ='" + MainActivity.currentUserId + "' or follow.follower_id = '" + MainActivity.currentUserId + "' group by post.post_id order by post.post_date desc;", null);
 
         if (c.moveToFirst()) {
             do {
@@ -154,7 +154,7 @@ public class DirectablesFragment extends Fragment {
         //Query --> posts.add(Post)
 //        Cursor c = MainActivity.db.rawQuery("select * from post order by post_date desc;", null);
         ArrayList<ProfileCard> informations = new ArrayList<>();
-        Cursor c = MainActivity.db.rawQuery("select * from post where user_id !='" + MainActivity.currentUserId + "' order by post_date desc;", null);
+        Cursor c = MainActivity.db.rawQuery("select * from post user_id ='" + MainActivity.currentUserId + "' group by post_id order by post_date desc;", null);
 
         if (c.moveToFirst()) {
             do {
@@ -193,7 +193,7 @@ public class DirectablesFragment extends Fragment {
         // Saved fragment informations query
 //Query --> posts.add(Post)
 //        Cursor c = MainActivity.db.rawQuery("select * from post order by post_date desc;", null);
-        Cursor c = MainActivity.db.rawQuery("select * from post, save where post.user_id !='" + MainActivity.currentUserId + "' and save.post_id = post.post_id order by post.post_date desc;", null);
+        Cursor c = MainActivity.db.rawQuery("select distinct * from post, save where save.user_id ='" + MainActivity.currentUserId + "' and save.post_id = post.post_id groupt by post.post_id order by post.post_date desc;", null);
 
         if (c.moveToFirst()) {
             do {

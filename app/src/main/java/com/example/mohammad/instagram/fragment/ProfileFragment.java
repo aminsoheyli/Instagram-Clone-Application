@@ -185,47 +185,23 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private ArrayList<ProfileCard> prepareInformations() {
-        ArrayList<ProfileCard> information = new ArrayList<>();
+    private ArrayList<ProfileCard> homeFragmentInformationsQuery() {
+        ArrayList<ProfileCard> informations = new ArrayList<>();
+        // Home fragment informations query
+        Cursor c = MainActivity.db.rawQuery("select * from post where user_id ='" + this.userId + "' groupt by post_id order by post_date desc;", null);
 
-        Cursor c = MainActivity.db.rawQuery("select * from post where user_id = '" + this.userId + "' order by post_date desc;", null);
-        Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + this.userId + "';", null);
         if (c.moveToFirst()) {
-            Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + this.userId + "' and post_id = '" + c.getString(0) + "';", null);
-            boolean liked = false;
-            boolean saved = false;
-            if (ccc.moveToFirst()) {
-                liked = !ccc.getString(0).matches("0");
-            }
-            if (cccc.moveToFirst()) {
-                saved = !cccc.getString(0).matches("0");
-            }
-
-            Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
-            if (cc.moveToFirst()) {
-                ProfileCard temp =
-                        new ProfileCard(c.getString(0), BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
-                                c.getString(1),
-                                cc.getString(0),
-                                c.getString(4),
-                                c.getString(2),
-                                liked,
-                                saved
-                        );
-                information.add(temp);
-
-            }
-            while (c.moveToNext()) {
-                cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
-                ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + this.userId + "';", null);
-                cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + this.userId + "' and post_id = '" + c.getString(0) + "';", null);
-                liked = false;
-                saved = false;
+            do {
+                Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
+                Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + this.userId + "' and post_id = '" + c.getString(0) + "';", null);
+                Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + this.userId + "'  and post_id = '" + c.getString(0) + "';", null);
+                boolean liked = false;
+                boolean saved = false;
                 if (ccc.moveToFirst()) {
-                    liked = !ccc.getString(0).matches("0");
+                    liked = (ccc.getString(0).matches("0")) ? false : true;
                 }
                 if (cccc.moveToFirst()) {
-                    saved = !cccc.getString(0).matches("0");
+                    saved = (cccc.getString(0).matches("0")) ? false : true;
                 }
                 if (cc.moveToFirst()) {
                     ProfileCard temp =
@@ -237,13 +213,16 @@ public class ProfileFragment extends Fragment {
                                     liked,
                                     saved
                             );
-                    information.add(temp);
+                    informations.add(temp);
+                    cc.close();
+
                 }
-                cc.close();
             }
+            while (c.moveToNext());
+
         }
         c.close();
-        return information;
+        return informations;
     }
 
     private void onClickListeners() {
