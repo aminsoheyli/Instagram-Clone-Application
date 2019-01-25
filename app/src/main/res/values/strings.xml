@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Instagram</string>
+    <string name="app_name">DBgram</string>
     <string name="posts">posts</string>
     <string name="hint_user_name">Username</string>
     <string name="hint_password">Password</string>
