@@ -44,7 +44,7 @@ public class ProfileFragment extends Fragment {
     private View signout;
 
 
-    public static ProfileFragment newInstance(ProfileInformations profileInformations, String userId) {
+    public static ProfileFragment newInstance( String userId) {
         Bundle args = new Bundle();
         ProfileFragment fragment = new ProfileFragment();
         args.putString(USER_ID_KEY, userId);

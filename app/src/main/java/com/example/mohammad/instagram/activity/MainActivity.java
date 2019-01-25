@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
     public void onProfileButtonClicked() {
         if (changeBackOtherImageResources(PROFILE_TAB_ID)) {
             profileButton.setImageResource(R.drawable.user_icon_fill);
-            ProfileFragment profileFragment = new ProfileFragment();
+            ProfileFragment profileFragment = ProfileFragment.newInstance(MainActivity.currentUserId);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment).commit();
         }
     }
