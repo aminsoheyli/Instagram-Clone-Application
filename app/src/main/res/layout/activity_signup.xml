@@ -98,6 +98,7 @@
         android:gravity="center"
         android:text="@string/policy"
         android:textColor="@color/terms"
+        android:visibility="gone"
         android:textSize="16sp" />
 
 
