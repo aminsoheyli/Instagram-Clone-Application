@@ -34,10 +34,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Mohammad Amin Soheyli on 04/01/2019.
  */
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileViewHolder> {
+    private static int index;
     //    private DynamicHeight dynamicHeight;
     private ArrayList<ProfileCard> informations;
+    private View rootView;
     private DirectableType directableType;
-    private static int index;
 
     public ProfileAdapter(ArrayList<ProfileCard> informations, DirectableType directableType) {
         this.informations = informations;
@@ -53,7 +54,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     @NonNull
     @Override
     public ProfileViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View rootView = LayoutInflater.from(viewGroup.getContext())
+        rootView = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.card_profile, viewGroup, false);
         return new ProfileViewHolder(rootView);
     }
@@ -85,14 +86,15 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
 
     }
 
-    private void onClickListeners(final ProfileViewHolder viewHolder,int i) {
+    private void onClickListeners(final ProfileViewHolder viewHolder, int i) {
         index = i;
+
         viewHolder.userContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!MainActivity.currentUserId.equals(informations.get(index).getUsername())
-                        && MainActivity.currentTabState != MainActivity.DEFAULT_TAB_ID) {
-                    Intent intent = new Intent(viewHolder.comment.getContext(), ClickedUserActivity.class);
+                        && MainActivity.currentTabState != MainActivity.PROFILE_TAB_ID) {
+                    Intent intent = new Intent(rootView.getContext(), ClickedUserActivity.class);
                     MainActivity.self.startActivity(intent);
                 }
             }

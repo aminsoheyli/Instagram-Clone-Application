@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     public static PackageManager pm;
     public static MainActivity self;
     public static FragmentManager fm;
+    public static boolean isDirectedToOtherProfiles = false;
     private ImageView addButton, profileButton, homeButton, globalButton, savedButton;
 
     public static void like(String postId, String currentUserId) {

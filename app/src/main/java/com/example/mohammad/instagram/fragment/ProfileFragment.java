@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.mohammad.instagram.DirectableType;
 import com.example.mohammad.instagram.ProfileInformations;
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.EditProfileActivity;
@@ -31,19 +32,22 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
     private static final int EDIT_PROFILE_REQ_CODE = 1;
+    private static final String USER_ID_KEY = "USER_ID";
     private CircleImageView profileImage;
     private TextView postsNumbers, followersNumbers,
             followingNumbers, name, biography, profileImageName;
     private View followersParent, followingParent;
     private Button editProfile;
 
+    private String userId;
     private RecyclerView recyclerViewProfileImages;
     private View signout;
 
 
-    public static ProfileFragment newInstance(ProfileInformations profileInformations) {
+    public static ProfileFragment newInstance(ProfileInformations profileInformations, String userId) {
         Bundle args = new Bundle();
         ProfileFragment fragment = new ProfileFragment();
+        args.putString(USER_ID_KEY, userId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,6 +55,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.userId = getArguments().getString(USER_ID_KEY);
     }
 
     @Nullable
@@ -69,14 +74,14 @@ public class ProfileFragment extends Fragment {
         followersNumbers = rootView.findViewById(R.id.followers);
         followingNumbers = rootView.findViewById(R.id.following);
         name = rootView.findViewById(R.id.name);
-        name.setText(MainActivity.currentUserId);
+        name.setText(this.userId);
         biography = rootView.findViewById(R.id.biography);
         editProfile = rootView.findViewById(R.id.edit_profile);
         signout = rootView.findViewById(R.id.sign_out);
         followingParent = rootView.findViewById(R.id.following_parent);
         followersParent = rootView.findViewById(R.id.followers_parent);
         profileImageName = rootView.findViewById(R.id.profile_image_name);
-        profileImageName.setText(MainActivity.currentUserId.charAt(0) + "");
+        profileImageName.setText(this.userId.charAt(0) + "");
         recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_profile_images);
         prepareProfileImagesRecyclerView();
 
@@ -92,17 +97,17 @@ public class ProfileFragment extends Fragment {
     }
 
     private void prepareNumbers() {
-        Cursor c = MainActivity.db.rawQuery("select count(post_id) from post where user_id = '" + MainActivity.currentUserId + "';", null);
+        Cursor c = MainActivity.db.rawQuery("select count(post_id) from post where user_id = '" + this.userId + "';", null);
         if (c.moveToFirst()) {
             postsNumbers.setText(c.getString(0));
         }
 
-        c = MainActivity.db.rawQuery("select count(follower_id) from follow where user_id = '" + MainActivity.currentUserId + "';", null);
+        c = MainActivity.db.rawQuery("select count(follower_id) from follow where user_id = '" + this.userId + "';", null);
         if (c.moveToFirst()) {
             followersNumbers.setText(c.getString(0));
         }
 
-        c = MainActivity.db.rawQuery("select count(user_id) from follow where follower_id = '" + MainActivity.currentUserId + "';", null);
+        c = MainActivity.db.rawQuery("select count(user_id) from follow where follower_id = '" + this.userId + "';", null);
         if (c.moveToFirst()) {
             followingNumbers.setText(c.getString(0));
         }
@@ -115,7 +120,9 @@ public class ProfileFragment extends Fragment {
         recyclerViewProfileImages.setHasFixedSize(true);
         ArrayList<ProfileCard> informations;
         informations = prepareInformations();
+/**        Fake data generator*/
 //        ProfileCard first =
+
 //                new ProfileCard(R.drawable.like_icon_fill
 //                        , R.drawable.instagram_icon
 //                        , "example"
@@ -169,7 +176,7 @@ public class ProfileFragment extends Fragment {
 //        }
         LinearLayoutManager llm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewProfileImages.setLayoutManager(llm);
-        ProfileAdapter adapter = new ProfileAdapter(informations);
+        ProfileAdapter adapter = new ProfileAdapter(informations, DirectableType.PROFILE_FRAGMENT);
         recyclerViewProfileImages.setAdapter(adapter);
 
     }
@@ -177,23 +184,23 @@ public class ProfileFragment extends Fragment {
     private ArrayList<ProfileCard> prepareInformations() {
         ArrayList<ProfileCard> information = new ArrayList<>();
 
-        Cursor c = MainActivity.db.rawQuery("select * from post where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
-        Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "';", null);
+        Cursor c = MainActivity.db.rawQuery("select * from post where user_id = '" + this.userId + "' order by post_date desc;", null);
+        Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + this.userId + "';", null);
         if (c.moveToFirst()) {
-        Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' and post_id = '" + c.getString(0) + "';", null);
-        boolean liked = false;
-        boolean saved = false;
-        if (ccc.moveToFirst()) {
-            liked = !ccc.getString(0).matches("0");
-        }
-        if (cccc.moveToFirst()) {
-            saved = !cccc.getString(0).matches("0");
-        }
+            Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + this.userId + "' and post_id = '" + c.getString(0) + "';", null);
+            boolean liked = false;
+            boolean saved = false;
+            if (ccc.moveToFirst()) {
+                liked = !ccc.getString(0).matches("0");
+            }
+            if (cccc.moveToFirst()) {
+                saved = !cccc.getString(0).matches("0");
+            }
 
             Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
             if (cc.moveToFirst()) {
                 ProfileCard temp =
-                        new ProfileCard(c.getString(0),BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
+                        new ProfileCard(c.getString(0), BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
                                 c.getString(1),
                                 cc.getString(0),
                                 c.getString(4),
@@ -206,8 +213,8 @@ public class ProfileFragment extends Fragment {
             }
             while (c.moveToNext()) {
                 cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
-                ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "';", null);
-                cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' and post_id = '"+ c.getString(0) +"';", null);
+                ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + this.userId + "';", null);
+                cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + this.userId + "' and post_id = '" + c.getString(0) + "';", null);
                 liked = false;
                 saved = false;
                 if (ccc.moveToFirst()) {
@@ -218,7 +225,7 @@ public class ProfileFragment extends Fragment {
                 }
                 if (cc.moveToFirst()) {
                     ProfileCard temp =
-                            new ProfileCard(c.getString(0),BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
+                            new ProfileCard(c.getString(0), BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
                                     c.getString(1),
                                     cc.getString(0),
                                     c.getString(4),
@@ -284,7 +291,7 @@ public class ProfileFragment extends Fragment {
 
     private void showFollowing() {
         ArrayList<String> informations;
-        informations = (ArrayList<String>) MainActivity.followingsName(MainActivity.currentUserId);
+        informations = (ArrayList<String>) MainActivity.followingsName(this.userId);
         FollowersFolloingFragment fragment = FollowersFolloingFragment.newInstance(informations);
         fragment.show(getFragmentManager(), "Follows fragment");
     }

@@ -102,37 +102,51 @@ public class DirectablesFragment extends Fragment {
     }
 
     private ArrayList<ProfileCard> prepareInformations(DirectableType directableType) {
-
+        ArrayList<ProfileCard> informations = new ArrayList<>();
         switch (directableType) {
             case HOME_FRAGMENT:
                 // User's posts and following's posts
+                informations = homeFragmentInformationsQuery();
                 break;
             case GLOBAL_FRAGMENT:
                 // All posts without current user posts
+                informations = globalFragmentInformationsQuery();
                 break;
             case SAVED_FRAGMENT:
+                informations = savedFragmentInformationsQuery();
                 break;
             default:
                 new Exception("In the DirectablesFragment you can't set the directable type to HOME_FRAGMENT.");
                 break;
         }
-        ArrayList<ProfileCard> information = new ArrayList<>();
+
+        return informations;
+    }
+
+
+    private ArrayList<ProfileCard> homeFragmentInformationsQuery() {
+        ArrayList<ProfileCard> informations = new ArrayList<>();
+        // Home fragment informations query
+        return informations;
+    }
+
+    private ArrayList<ProfileCard> globalFragmentInformationsQuery() {
         //Query --> posts.add(Post)
 //        Cursor c = MainActivity.db.rawQuery("select * from post order by post_date desc;", null);
-
+        ArrayList<ProfileCard> informations = new ArrayList<>();
         Cursor c = MainActivity.db.rawQuery("select * from post where user_id !='" + MainActivity.currentUserId + "' order by post_date desc;", null);
         if (c.moveToFirst()) {
             Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes;", null);
-                Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
-                Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
+            Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
+            Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
             boolean liked = false;
             boolean saved = false;
-                if (ccc.moveToFirst()) {
-                    liked = (ccc.getString(0).matches("0")) ? false: true;
-                }
-                if (cccc.moveToFirst()) {
-                    saved = (cccc.getString(0).matches("0")) ? false: true;
-                }
+            if (ccc.moveToFirst()) {
+                liked = (ccc.getString(0).matches("0")) ? false : true;
+            }
+            if (cccc.moveToFirst()) {
+                saved = (cccc.getString(0).matches("0")) ? false : true;
+            }
             if (cc.moveToFirst()) {
                 ProfileCard temp =
                         new ProfileCard(c.getString(0), BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
@@ -143,7 +157,7 @@ public class DirectablesFragment extends Fragment {
                                 liked,
                                 saved
                         );
-                information.add(temp);
+                informations.add(temp);
 
             }
             while (c.moveToNext()) {
@@ -169,14 +183,19 @@ public class DirectablesFragment extends Fragment {
                                     liked,
                                     saved
                             );
-                    information.add(temp);
+                    informations.add(temp);
                 }
                 cc.close();
             }
         }
         c.close();
+        return informations;
+    }
 
-        return information;
+    private ArrayList<ProfileCard> savedFragmentInformationsQuery() {
+        ArrayList<ProfileCard> informations = new ArrayList<>();
+        // Saved fragment informations query
+        return informations;
     }
 
 
