@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.mohammad.instagram.DirectableType;
 import com.example.mohammad.instagram.ProfileInformations;
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.MainActivity;
@@ -35,11 +36,14 @@ import java.util.Map;
  *           III.   Home fragment*/
 
 public class DirectablesFragment extends Fragment {
+    private static final String DIRECTABLE_TYPE_KEY = "directable_type";
+    private DirectableType directableType;
     private RecyclerView recyclerViewProfileImages;
 
 
-    public static ProfileFragment newInstance(ProfileInformations profileInformations) {
+    public static ProfileFragment newInstance(DirectableType directableType, ProfileInformations profileInformations) {
         Bundle args = new Bundle();
+        args.putSerializable(DIRECTABLE_TYPE_KEY, directableType);
         ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
         return fragment;
@@ -48,6 +52,7 @@ public class DirectablesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        directableType = (DirectableType) getArguments().getSerializable(DIRECTABLE_TYPE_KEY);
     }
 
     @Nullable
@@ -62,25 +67,53 @@ public class DirectablesFragment extends Fragment {
 
     private void initials(View rootView) {
         recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_profile_images);
-        prepareGlobalImagesRecyclerView();
+
+//        switch (directableType) {
+//            case HOME_FRAGMENT:
+//                prepareHomeFragmentInformations();
+//                break;
+//            case GLOBAL_FRAGMENT:
+//                prepareGlobalFragmentInformations();
+//                break;
+//            case SAVED_FRAGMENT:
+//                prepareSavedFragmentInformations();
+//                break;
+//            default:
+//                new Exception("In the DirectablesFragment you can't set the directable type to HOME_FRAGMENT.");
+//                break;
+//        }
+        prepareRecyclerView();
     }
 
 
-    private void prepareGlobalImagesRecyclerView() {
+    /**
+     * Prepare recycler view's informations based on directable type
+     */
+    private void prepareRecyclerView() {
         recyclerViewProfileImages.setNestedScrollingEnabled(false);
         recyclerViewProfileImages.setHasFixedSize(true);
         ArrayList<ProfileCard> informations;
-        informations = prepareInformations();
-
-
+        informations = prepareInformations(directableType);
         LinearLayoutManager llm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewProfileImages.setLayoutManager(llm);
-        ProfileAdapter adapter = new ProfileAdapter(informations);
+        ProfileAdapter adapter = new ProfileAdapter(informations, directableType);
         recyclerViewProfileImages.setAdapter(adapter);
 
     }
 
-    private ArrayList<ProfileCard> prepareInformations() {
+    private ArrayList<ProfileCard> prepareInformations(DirectableType directableType) {
+
+        switch (directableType) {
+            case HOME_FRAGMENT:
+                break;
+            case GLOBAL_FRAGMENT:
+                break;
+            case SAVED_FRAGMENT:
+                break;
+            default:
+                new Exception("In the DirectablesFragment you can't set the directable type to HOME_FRAGMENT.");
+                break;
+        }
         ArrayList<ProfileCard> information = new ArrayList<>();
         //Query --> posts.add(Post)
 //        Cursor c = MainActivity.db.rawQuery("select * from post order by post_date desc;", null);

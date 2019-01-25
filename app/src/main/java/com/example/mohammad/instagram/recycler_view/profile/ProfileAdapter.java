@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mohammad.instagram.DirectableType;
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.ClickedUserActivity;
 import com.example.mohammad.instagram.activity.MainActivity;
@@ -35,11 +36,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileViewHolder> {
     //    private DynamicHeight dynamicHeight;
     private ArrayList<ProfileCard> informations;
+    private DirectableType directableType;
     private static int index;
 
-    public ProfileAdapter(ArrayList<ProfileCard> informations) {
+    public ProfileAdapter(ArrayList<ProfileCard> informations, DirectableType directableType) {
         this.informations = informations;
-
+        this.directableType = directableType;
     }
 
 //    public ProfileAdapter(ArrayList<ProfileCard> informations, DynamicHeight dynamicHeight, Context context) {
