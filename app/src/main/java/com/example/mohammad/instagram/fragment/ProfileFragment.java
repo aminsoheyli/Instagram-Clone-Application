@@ -179,7 +179,8 @@ public class ProfileFragment extends Fragment {
 
         Cursor c = MainActivity.db.rawQuery("select * from post where user_id = '" + MainActivity.currentUserId + "' order by post_date desc;", null);
         Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "';", null);
-        Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "';", null);
+        if (c.moveToFirst()) {
+        Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' and post_id = '" + c.getString(0) + "';", null);
         boolean liked = false;
         boolean saved = false;
         if (ccc.moveToFirst()) {
@@ -188,11 +189,11 @@ public class ProfileFragment extends Fragment {
         if (cccc.moveToFirst()) {
             saved = !cccc.getString(0).matches("0");
         }
-        if (c.moveToFirst()) {
+
             Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
             if (cc.moveToFirst()) {
                 ProfileCard temp =
-                        new ProfileCard(BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
+                        new ProfileCard(c.getString(0),BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
                                 c.getString(1),
                                 cc.getString(0),
                                 c.getString(4),
@@ -206,7 +207,7 @@ public class ProfileFragment extends Fragment {
             while (c.moveToNext()) {
                 cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
                 ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "';", null);
-                cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "';", null);
+                cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "' and post_id = '"+ c.getString(0) +"';", null);
                 liked = false;
                 saved = false;
                 if (ccc.moveToFirst()) {
@@ -217,7 +218,7 @@ public class ProfileFragment extends Fragment {
                 }
                 if (cc.moveToFirst()) {
                     ProfileCard temp =
-                            new ProfileCard(BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
+                            new ProfileCard(c.getString(0),BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
                                     c.getString(1),
                                     cc.getString(0),
                                     c.getString(4),

@@ -39,6 +39,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
 
     public ProfileAdapter(ArrayList<ProfileCard> informations) {
         this.informations = informations;
+
     }
 
 //    public ProfileAdapter(ArrayList<ProfileCard> informations, DynamicHeight dynamicHeight, Context context) {
@@ -79,17 +80,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         }
 
         onClickListeners(viewHolder, i);
-//        int position = i;
-//        viewHolder.itemView.post(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                int cellWidth = viewHolder.itemView.getWidth();// this will give you cell width dynamically
-//                int cellHeight = viewHolder.itemView.getHeight();// this will give you cell height dynamically
-//
-//                dynamicHeight.HeightChange(position, cellHeight); //call your iterface hear
-//            }
-//        });
 
     }
 

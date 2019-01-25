@@ -18,8 +18,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.mohammad.instagram.activity.MainActivity;
 import com.example.mohammad.instagram.R;
+import com.example.mohammad.instagram.activity.MainActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
