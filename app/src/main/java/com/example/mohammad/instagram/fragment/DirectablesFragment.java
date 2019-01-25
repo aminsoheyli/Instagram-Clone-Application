@@ -113,8 +113,8 @@ public class DirectablesFragment extends Fragment {
     private ArrayList<ProfileCard> homeFragmentInformationsQuery() {
         ArrayList<ProfileCard> informations = new ArrayList<>();
         // Home fragment informations query
+//        MainActivity.db.execSQL("insert into follow values('ahmad','asf')");
         Cursor c = MainActivity.db.rawQuery("select distinct * from post, follow where post.user_id ='" + MainActivity.currentUserId + "' or follow.follower_id = '" + MainActivity.currentUserId + "' group by post.post_id order by post.post_date desc;", null);
-
         if (c.moveToFirst()) {
             do {
                 Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);

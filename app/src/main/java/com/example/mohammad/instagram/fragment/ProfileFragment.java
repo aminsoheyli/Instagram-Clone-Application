@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -93,7 +94,16 @@ public class ProfileFragment extends Fragment {
         recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_profile_images);
         prepareProfileImagesRecyclerView();
 
+        if (profileType == ProfileType.CLICKED_USER_PROFILE) {
+            boolean isFollowed = isFollowedQuery();
+            int backgroundId = isFollowed ? R.drawable.follow_button_blue : R.drawable.following_button_white;
+            int textColor = isFollowed ? Color.WHITE : Color.BLACK;
+            String text = isFollowed ? "Following" : "Follow";
+            editProfile.setBackground(getResources().getDrawable(backgroundId));
+            editProfile.setTextColor(textColor);
+            editProfile.setText(text);
 
+        }
         String bioText;
         if ((bioText = hasBiography()) != null && bioText.length() != 0) {
             biography.setVisibility(View.VISIBLE);
@@ -103,6 +113,10 @@ public class ProfileFragment extends Fragment {
         prepareNumbers();
 
 
+    }
+
+    private boolean isFollowedQuery() {
+        return true;
     }
 
     private void prepareNumbers() {
