@@ -128,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (changeBackOtherImageResources(HOME_TAB_ID)) {
                     homeButton.setImageResource(R.drawable.home_icon_fill);
+                    DirectablesFragment directablesFragment = DirectablesFragment.newInstance(DirectableType.HOME_FRAGMENT, null);
+                    getSupportFragmentManager().beginTransaction().addToBackStack(null);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, directablesFragment).commit();
 
                 }
 
