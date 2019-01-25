@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.mohammad.instagram.DirectableType;
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.fragment.AddImageFragment;
 import com.example.mohammad.instagram.fragment.DirectablesFragment;
@@ -39,6 +40,58 @@ public class MainActivity extends AppCompatActivity {
     public static MainActivity self;
     public static FragmentManager fm;
     private ImageView addButton, profileButton, homeButton, globalButton, savedButton;
+
+    public static void like(String postId, String currentUserId) {
+        MainActivity.db.execSQL("insert into likes values('" + postId + "','" + currentUserId + "');");
+    }
+
+    public static void dislike(String postId, String currentUserId) {
+        MainActivity.db.execSQL("delete from likes where post_id = '" + postId + "' and user_id = '" + currentUserId + "';");
+    }
+
+    public static void save(String postId, String currentUserId) {
+        MainActivity.db.execSQL("insert into save values('" + postId + "','" + currentUserId + "');");
+    }
+
+    public static void unsave(String postId, String currentUserId) {
+        MainActivity.db.execSQL("delete from save where post_id = '" + postId + "' and user_id = '" + currentUserId + "';");
+    }
+
+    public static List followersName(String currentUserId) {
+        Cursor c = MainActivity.db.rawQuery("select distinct * from follow where user_id ='" + currentUserId + "');", null);
+        if (c.getColumnCount() != 0) {
+            List comments = new ArrayList<String>();
+            c.moveToFirst();
+            do {
+                comments.add(c.getString(0));
+            } while (c.moveToNext());
+            return comments;
+        } else {
+            return null;
+        }
+    }
+
+    public static List followingsName(String currentUserId) {
+        Cursor c = MainActivity.db.rawQuery("select distinct * from follow where follower_id ='" + currentUserId + "';", null);
+        if (c.getCount() != 0 && c != null) {
+            List followings = new ArrayList<String>();
+            c.moveToFirst();
+            do {
+                followings.add(c.getString(0));
+            } while (c.moveToNext());
+            return followings;
+        } else {
+            return new ArrayList();
+        }
+    }
+
+    public static void follow(String toFollowUserId, String currentUserId) {
+        MainActivity.db.execSQL("insert into follow values('" + toFollowUserId + "','" + currentUserId + "'); ");
+    }
+
+    public static void unfollow(String currentUserId, String toUnfolloweUserId) {
+        MainActivity.db.execSQL("delete from follow where follower_id = '" + currentUserId + "' and user_id = '" + toUnfolloweUserId + "'); ");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (changeBackOtherImageResources(GLOBAL_TAB_ID)) {
                     globalButton.setImageResource(R.drawable.global_icon_fill);
-                    DirectablesFragment directablesFragment = new DirectablesFragment();
+                    DirectablesFragment directablesFragment = DirectablesFragment.newInstance(DirectableType.GLOBAL_FRAGMENT, null);
                     getSupportFragmentManager().beginTransaction().addToBackStack(null);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, directablesFragment).commit();
                 }
@@ -126,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment).commit();
         }
     }
-
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
@@ -181,59 +233,6 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
-
-    public static void like(String postId, String currentUserId) {
-        MainActivity.db.execSQL("insert into likes values('" + postId + "','" + currentUserId + "');");
-    }
-
-    public static void dislike(String postId, String currentUserId) {
-        MainActivity.db.execSQL("delete from likes where post_id = '" + postId + "' and user_id = '" + currentUserId + "';");
-    }
-
-    public static void save(String postId, String currentUserId) {
-        MainActivity.db.execSQL("insert into save values('" + postId + "','" + currentUserId + "');");
-    }
-
-    public static void unsave(String postId, String currentUserId) {
-        MainActivity.db.execSQL("delete from save where post_id = '" + postId + "' and user_id = '" + currentUserId + "';");
-    }
-
-    public static List followersName(String currentUserId) {
-        Cursor c = MainActivity.db.rawQuery("select distinct * from follow where user_id ='" + currentUserId + "');", null);
-        if (c.getColumnCount() != 0) {
-            List comments = new ArrayList<String>();
-            c.moveToFirst();
-            do {
-                comments.add(c.getString(0));
-            } while (c.moveToNext());
-            return comments;
-        } else {
-            return null;
-        }
-    }
-
-    public static List followingsName(String currentUserId) {
-        Cursor c = MainActivity.db.rawQuery("select distinct * from follow where follower_id ='" + currentUserId + "';", null);
-        if (c.getCount() != 0 && c != null) {
-            List followings = new ArrayList<String>();
-            c.moveToFirst();
-            do {
-                followings.add(c.getString(0));
-            } while (c.moveToNext());
-            return followings;
-        } else {
-            return new ArrayList();
-        }
-    }
-
-    public static void follow(String toFollowUserId, String currentUserId) {
-        MainActivity.db.execSQL("insert into follow values('" + toFollowUserId + "','" + currentUserId + "'); ");
-    }
-
-    public static void unfollow(String currentUserId, String toUnfolloweUserId) {
-        MainActivity.db.execSQL("delete from follow where follower_id = '" + currentUserId + "' and user_id = '" + toUnfolloweUserId + "'); ");
-    }
-
 
     @Override
     protected void onDestroy() {

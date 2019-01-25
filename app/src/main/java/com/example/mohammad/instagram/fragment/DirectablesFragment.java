@@ -41,10 +41,10 @@ public class DirectablesFragment extends Fragment {
     private RecyclerView recyclerViewProfileImages;
 
 
-    public static ProfileFragment newInstance(DirectableType directableType, ProfileInformations profileInformations) {
+    public static DirectablesFragment newInstance(DirectableType directableType, ProfileInformations profileInformations) {
         Bundle args = new Bundle();
         args.putSerializable(DIRECTABLE_TYPE_KEY, directableType);
-        ProfileFragment fragment = new ProfileFragment();
+        DirectablesFragment fragment = new DirectablesFragment();
         fragment.setArguments(args);
         return fragment;
     }
