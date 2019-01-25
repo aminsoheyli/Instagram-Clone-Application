@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.mohammad.instagram.DirectableType;
-import com.example.mohammad.instagram.ProfileInformations;
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.EditProfileActivity;
 import com.example.mohammad.instagram.activity.LoginActivity;
@@ -43,8 +42,11 @@ public class ProfileFragment extends Fragment {
     private RecyclerView recyclerViewProfileImages;
     private View signout;
 
+    private ProfileFragment() {
 
-    public static ProfileFragment newInstance( String userId) {
+    }
+
+    public static ProfileFragment newInstance(String userId) {
         Bundle args = new Bundle();
         ProfileFragment fragment = new ProfileFragment();
         args.putString(USER_ID_KEY, userId);

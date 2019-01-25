@@ -34,6 +34,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Mohammad Amin Soheyli on 04/01/2019.
  */
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileViewHolder> {
+    public static final String CLICKED_USER_ID_KEY = "key of clicked user id";
     private static int index;
     //    private DynamicHeight dynamicHeight;
     private ArrayList<ProfileCard> informations;
@@ -92,9 +93,11 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         viewHolder.userContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!MainActivity.currentUserId.equals(informations.get(index).getUsername())
+                String clickedUserId = informations.get(index).getUsername();
+                if (!MainActivity.currentUserId.equals(clickedUserId)
                         && MainActivity.currentTabState != MainActivity.PROFILE_TAB_ID) {
                     Intent intent = new Intent(rootView.getContext(), ClickedUserActivity.class);
+                    intent.putExtra(CLICKED_USER_ID_KEY, clickedUserId);
                     MainActivity.self.startActivity(intent);
                 }
             }
