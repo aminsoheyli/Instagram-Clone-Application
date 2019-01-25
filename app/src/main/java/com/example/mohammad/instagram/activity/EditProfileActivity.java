@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.mohammad.instagram.DirectableType;
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileAdapter;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileCard;
@@ -77,7 +78,8 @@ public class EditProfileActivity extends AppCompatActivity {
 //        }
         LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewProfileImages.setLayoutManager(llm);
-        ProfileAdapter adapter = new ProfileAdapter(informations);
+        ProfileAdapter adapter = new ProfileAdapter(informations, DirectableType.GLOBAL_FRAGMENT);
+        new Exception("handel above coed");
         recyclerViewProfileImages.setAdapter(adapter);
     }
 }

@@ -166,7 +166,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (changeBackOtherImageResources(SAVED_TAB_ID)) {
                     savedButton.setImageResource(R.drawable.saved_icon_fill);
-
+                    DirectablesFragment directablesFragment = DirectablesFragment.newInstance(DirectableType.SAVED_FRAGMENT, null);
+                    getSupportFragmentManager().beginTransaction().addToBackStack(null);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, directablesFragment).commit();
                 }
             }
         });
