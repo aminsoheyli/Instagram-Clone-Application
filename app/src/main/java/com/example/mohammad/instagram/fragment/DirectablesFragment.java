@@ -154,7 +154,7 @@ public class DirectablesFragment extends Fragment {
         //Query --> posts.add(Post)
 //        Cursor c = MainActivity.db.rawQuery("select * from post order by post_date desc;", null);
         ArrayList<ProfileCard> informations = new ArrayList<>();
-        Cursor c = MainActivity.db.rawQuery("select * from post where user_id ='" + MainActivity.currentUserId + "' group by post_id order by post_date desc;", null);
+        Cursor c = MainActivity.db.rawQuery("select * from post where user_id =!'" + MainActivity.currentUserId + "' group by post_id order by post_date desc;", null);
 
         if (c.moveToFirst()) {
             do {
