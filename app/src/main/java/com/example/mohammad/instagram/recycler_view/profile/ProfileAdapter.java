@@ -148,7 +148,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
                     InputMethodManager imm = (InputMethodManager) MainActivity.self.getSystemService(Context.INPUT_METHOD_SERVICE);
                     //The comment parent is entered null
                     MainActivity.db.execSQL(
-                            "insert into comment values('" + new Random().nextLong() + "' , '" +
+                            "insert into comment values('" + String.valueOf(new Random().nextLong()) + "' , '" +
                                     comment + "' , '" +
                                     informations.get(index).getPostId() + "', '" +
                                     MainActivity.currentUserId + "', '');");

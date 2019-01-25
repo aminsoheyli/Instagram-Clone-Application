@@ -113,7 +113,7 @@ public class DirectablesFragment extends Fragment {
     private ArrayList<ProfileCard> homeFragmentInformationsQuery() {
         ArrayList<ProfileCard> informations = new ArrayList<>();
         // Home fragment informations query
-        Cursor c = MainActivity.db.rawQuery("select * from post, follow where post.user_id ='" + MainActivity.currentUserId + "' or follow.follower_id = '" + MainActivity.currentUserId + "' group by post.post_id order by post.post_date desc;", null);
+        Cursor c = MainActivity.db.rawQuery("select distinct * from post, follow where post.user_id ='" + MainActivity.currentUserId + "' or follow.follower_id = '" + MainActivity.currentUserId + "' group by post.post_id order by post.post_date desc;", null);
 
         if (c.moveToFirst()) {
             do {

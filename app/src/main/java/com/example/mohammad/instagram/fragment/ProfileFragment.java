@@ -34,6 +34,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends Fragment {
     private static final int EDIT_PROFILE_REQ_CODE = 1;
     private static final String USER_ID_KEY = "USER_ID";
+    private static final String PROFILE_TYPE_KEY = "PROFILE_TYPE";
     private CircleImageView profileImage;
     private TextView postsNumbers, followersNumbers,
             followingNumbers, name, biography, profileImageName;
@@ -53,6 +54,7 @@ public class ProfileFragment extends Fragment {
         Bundle args = new Bundle();
         ProfileFragment fragment = new ProfileFragment();
         args.putString(USER_ID_KEY, userId);
+        args.putSerializable(PROFILE_TYPE_KEY, profileType);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,6 +63,7 @@ public class ProfileFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.userId = getArguments().getString(USER_ID_KEY);
+        this.profileType = (ProfileType) getArguments().getSerializable(PROFILE_TYPE_KEY);
     }
 
     @Nullable
@@ -86,7 +89,7 @@ public class ProfileFragment extends Fragment {
         followingParent = rootView.findViewById(R.id.following_parent);
         followersParent = rootView.findViewById(R.id.followers_parent);
         profileImageName = rootView.findViewById(R.id.profile_image_name);
-        profileImageName.setText(this.userId.charAt(0) + "");
+        profileImageName.setText(String.valueOf(this.userId.charAt(0)) + "");
         recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_profile_images);
         prepareProfileImagesRecyclerView();
 
