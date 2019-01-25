@@ -87,6 +87,7 @@ public class ProfileFragment extends Fragment {
         recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_profile_images);
         prepareProfileImagesRecyclerView();
 
+
         String bioText;
         if ((bioText = hasBiography()) != null && bioText.length() != 0) {
             biography.setVisibility(View.VISIBLE);

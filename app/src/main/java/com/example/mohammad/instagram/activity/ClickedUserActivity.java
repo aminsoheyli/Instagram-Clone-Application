@@ -25,7 +25,6 @@ public class ClickedUserActivity extends AppCompatActivity {
         userId = getIntent().getStringExtra(ProfileAdapter.CLICKED_USER_ID_KEY);
         if (userId == null)
             new Exception("No user id found to show profile's posts with it.");
-
         ProfileFragment profileFragment = ProfileFragment.newInstance(userId);
         getSupportFragmentManager().beginTransaction().replace(R.id.clicked_user_profile_fragment_container, profileFragment).commit();
     }

@@ -61,7 +61,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ProfileViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(@NonNull final ProfileViewHolder viewHolder, int i) {
 
         String username = informations.get(i).getUsername();
         viewHolder.usernameProfile.setText(username);
@@ -83,11 +83,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             viewHolder.save.setImageResource(R.drawable.saved_icon_stroke);
         }
 
-        onClickListeners(viewHolder, i);
-
-    }
-
-    private void onClickListeners(final ProfileViewHolder viewHolder, int i) {
         index = i;
 
         viewHolder.userContainer.setOnClickListener(new View.OnClickListener() {
@@ -132,7 +127,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
                     viewHolder.like.setImageResource(R.drawable.like_icon_stroke);
                     dislike(informations.get(index).getPostId(), MainActivity.currentUserId);
                     likedState = false;
-
                 }
             }
         });
@@ -183,6 +177,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
                 fragment.show(MainActivity.fm, "Follows fragment");
             }
         });
+
     }
 
 
