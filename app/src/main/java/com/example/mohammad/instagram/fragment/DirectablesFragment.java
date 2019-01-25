@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +22,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GlobalFragment extends Fragment {
+
+/*
+ * Fragment than the current user can click on the
+ * username of each post and be directed to the profile
+ * page of clicked user.
+ *
+ * Consist of:
+ *
+ *           I.     Saved fragment
+ *           II.    Global fragment
+ *           III.   Home fragment*/
+
+public class DirectablesFragment extends Fragment {
     private RecyclerView recyclerViewProfileImages;
 
 
@@ -42,7 +53,7 @@ public class GlobalFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_global, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_directables, container, false);
         initials(rootView);
         onClickListeners();
 
@@ -60,7 +71,6 @@ public class GlobalFragment extends Fragment {
         recyclerViewProfileImages.setHasFixedSize(true);
         ArrayList<ProfileCard> informations;
         informations = prepareInformations();
-
 
 
         LinearLayoutManager llm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -90,7 +100,7 @@ public class GlobalFragment extends Fragment {
 //                }
             if (cc.moveToFirst()) {
                 ProfileCard temp =
-                        new ProfileCard(c.getString(0),BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
+                        new ProfileCard(c.getString(0), BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
                                 c.getString(1),
                                 cc.getString(0),
                                 c.getString(4),

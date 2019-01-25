@@ -14,7 +14,7 @@ import android.widget.ImageView;
 
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.fragment.AddImageFragment;
-import com.example.mohammad.instagram.fragment.GlobalFragment;
+import com.example.mohammad.instagram.fragment.DirectablesFragment;
 import com.example.mohammad.instagram.fragment.ProfileFragment;
 import com.example.mohammad.instagram.recycler_view.comment.CommentCard;
 
@@ -101,9 +101,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (changeBackOtherImageResources(GLOBAL_TAB_ID)) {
                     globalButton.setImageResource(R.drawable.global_icon_fill);
-                    GlobalFragment globalFragment = new GlobalFragment();
+                    DirectablesFragment directablesFragment = new DirectablesFragment();
                     getSupportFragmentManager().beginTransaction().addToBackStack(null);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, globalFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, directablesFragment).commit();
                 }
             }
         });
