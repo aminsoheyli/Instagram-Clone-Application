@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.mohammad.instagram.DirectableType;
+import com.example.mohammad.instagram.ProfileType;
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.fragment.AddImageFragment;
 import com.example.mohammad.instagram.fragment.DirectablesFragment;
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
     public void onProfileButtonClicked() {
         if (changeBackOtherImageResources(PROFILE_TAB_ID)) {
             profileButton.setImageResource(R.drawable.user_icon_fill);
-            ProfileFragment profileFragment = ProfileFragment.newInstance(MainActivity.currentUserId);
+            ProfileFragment profileFragment = ProfileFragment.newInstance(MainActivity.currentUserId, ProfileType.LOGGED_IN_USER_PROFILE);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, profileFragment).commit();
         }
     }

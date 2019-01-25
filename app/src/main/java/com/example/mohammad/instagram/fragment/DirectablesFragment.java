@@ -68,20 +68,7 @@ public class DirectablesFragment extends Fragment {
     private void initials(View rootView) {
         recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_profile_images);
 
-//        switch (directableType) {
-//            case HOME_FRAGMENT:
-//                prepareHomeFragmentInformations();
-//                break;
-//            case GLOBAL_FRAGMENT:
-//                prepareGlobalFragmentInformations();
-//                break;
-//            case SAVED_FRAGMENT:
-//                prepareSavedFragmentInformations();
-//                break;
-//            default:
-//                new Exception("In the DirectablesFragment you can't set the directable type to HOME_FRAGMENT.");
-//                break;
-//        }
+
         prepareRecyclerView();
     }
 
