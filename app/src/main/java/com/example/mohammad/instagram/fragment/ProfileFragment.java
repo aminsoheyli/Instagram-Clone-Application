@@ -187,7 +187,7 @@ public class ProfileFragment extends Fragment {
     private ArrayList<ProfileCard> homeFragmentInformationsQuery() {
         ArrayList<ProfileCard> informations = new ArrayList<>();
         // Home fragment informations query
-        Cursor c = MainActivity.db.rawQuery("select distinct * from post where user_id ='" + this.userId + "' order by post.post_date desc;", null);
+        Cursor c = MainActivity.db.rawQuery("select * from post where user_id ='" + this.userId + "' groupt by post_id order by post_date desc;", null);
 
         if (c.moveToFirst()) {
             do {
