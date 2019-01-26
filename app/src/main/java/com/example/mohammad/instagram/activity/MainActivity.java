@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void unfollow(String currentUserId, String toUnfolloweUserId) {
-        MainActivity.db.execSQL("delete from follow where follower_id = '" + currentUserId + "' and user_id = '" + toUnfolloweUserId + "'); ");
+        MainActivity.db.execSQL("delete from follow where follower_id = '" + currentUserId + "' and user_id = '" + toUnfolloweUserId + "'; ");
     }
 
     @Override
