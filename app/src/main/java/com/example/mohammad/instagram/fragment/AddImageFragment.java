@@ -82,11 +82,13 @@ public class AddImageFragment extends Fragment {
                     return;
                 }
 
+                String postId = getSaltString();
                 SQLiteStatement sqLiteStatement = MainActivity.db.compileStatement("insert into post values(?,?,?,?,?);");
-                sqLiteStatement.bindString(1, new Random().nextLong() + "");
+//                sqLiteStatement.bindString(1, new Random().nextLong() + "");
+                sqLiteStatement.bindString(1, postId);
                 sqLiteStatement.bindString(2, MainActivity.currentUserId);
                 sqLiteStatement.bindString(3, new Date().toString());
-
+                Toast.makeText(getContext(), postId, Toast.LENGTH_SHORT).show();
 
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 gottenImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
@@ -101,6 +103,18 @@ public class AddImageFragment extends Fragment {
 
     }
 
+    String getSaltString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 18) {
+//            length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
+    }
 
     public void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

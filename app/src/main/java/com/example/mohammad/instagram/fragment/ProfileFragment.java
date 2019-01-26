@@ -98,6 +98,8 @@ public class ProfileFragment extends Fragment {
         recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_profile_images);
         prepareProfileImagesRecyclerView();
 
+        if(profileType == ProfileType.LOGGED_IN_USER_PROFILE)
+            editProfile.setVisibility(View.GONE);
         if (profileType == ProfileType.CLICKED_USER_PROFILE) {
             toolbarToHide = rootView.findViewById(R.id.toolbar);
             toolbarToHide.setVisibility(View.GONE);
@@ -277,11 +279,11 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 switch (profileType) {
                     case LOGGED_IN_USER_PROFILE:
-                        Intent intent = new Intent(getContext(), EditProfileActivity.class);
-                        Bundle extras = new Bundle();
-                        extras.putInt("Id", 2);
-                        intent.putExtra("bundle", extras);
-                        startActivityForResult(intent, EDIT_PROFILE_REQ_CODE);
+//                        Intent intent = new Intent(getContext(), EditProfileActivity.class);
+//                        Bundle extras = new Bundle();
+//                        extras.putInt("Id", 2);
+//                        intent.putExtra("bundle", extras);
+//                        startActivityForResult(intent, EDIT_PROFILE_REQ_CODE);
                         break;
                     case CLICKED_USER_PROFILE:
                         if (isFollowedByLoggedInUser) {
