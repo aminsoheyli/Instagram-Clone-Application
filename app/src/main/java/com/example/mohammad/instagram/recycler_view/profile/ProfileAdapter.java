@@ -208,17 +208,14 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
 
     private List<CommentCard> getComments(String postId) {
         Cursor c = MainActivity.db.rawQuery("select * from comment where post_id ='" + postId + "';", null);
-        if (c.getColumnCount() != 0) {
-            List commentsData = new ArrayList<CommentCard>();
-            c.moveToFirst();
-            if (c.getCount() == 0)
-                return null;
+        List commentsData = new ArrayList<CommentCard>();
+        if (c.moveToFirst()) {
             do {
                 commentsData.add(new CommentCard(c.getString(3), c.getString(1)));
             } while (c.moveToNext());
             return commentsData;
         } else {
-            return null;
+            return commentsData;
         }
     }
 
