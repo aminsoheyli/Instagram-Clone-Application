@@ -86,6 +86,8 @@ public class AddImageFragment extends Fragment {
                 sqLiteStatement.bindString(1, new Random().nextLong() + "");
                 sqLiteStatement.bindString(2, MainActivity.currentUserId);
                 sqLiteStatement.bindString(3, new Date().toString());
+
+
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 gottenImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
                 byte[] bytes = bos.toByteArray();
