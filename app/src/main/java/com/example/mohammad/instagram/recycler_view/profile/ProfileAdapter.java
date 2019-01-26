@@ -97,8 +97,9 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
                 }
             }
         });
+
         viewHolder.save.setOnClickListener(new View.OnClickListener() {
-            boolean savedState = false;
+            boolean savedState = informations.get(index).isSaved();
 
             @Override
             public void onClick(View v) {
@@ -115,19 +116,24 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             }
         });
         viewHolder.like.setOnClickListener(new View.OnClickListener() {
-            boolean likedState = false;
+            boolean likedState = informations.get(index).isLiked();
 
             @Override
             public void onClick(View v) {
+//                int numbers = Integer.valueOf(informations.get(index).getLikeNumber());
+//                int newValue;
                 if (!likedState) {
+//                    newValue = numbers + 1;
                     viewHolder.like.setImageResource(R.drawable.like_icon_fill);
                     like(informations.get(index).getPostId(), MainActivity.currentUserId);
                     likedState = true;
                 } else {
+//                    newValue = numbers - 1;
                     viewHolder.like.setImageResource(R.drawable.like_icon_stroke);
                     dislike(informations.get(index).getPostId(), MainActivity.currentUserId);
                     likedState = false;
                 }
+//                viewHolder.likes.setText(String.valueOf(newValue));
             }
         });
         viewHolder.comment.setOnClickListener(new View.OnClickListener() {
