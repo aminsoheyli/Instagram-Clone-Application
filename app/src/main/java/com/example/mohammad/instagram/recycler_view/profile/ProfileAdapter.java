@@ -22,6 +22,7 @@ import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.ClickedUserActivity;
 import com.example.mohammad.instagram.activity.MainActivity;
 import com.example.mohammad.instagram.fragment.CommentDialogFragment;
+import com.example.mohammad.instagram.fragment.FollowersFolloingFragment;
 import com.example.mohammad.instagram.recycler_view.comment.CommentCard;
 
 import java.util.ArrayList;
@@ -188,7 +189,29 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
                 fragment.show(MainActivity.fm, "Follows fragment");
             }
         });
+        viewHolder.image.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ArrayList<String> likers = getLikersOfThisPost(informations.get(i).getPostId());
+                FollowersFolloingFragment fragment = FollowersFolloingFragment.newInstance(likers);
+                fragment.show(MainActivity.fm, "likers");
+                return false;
+            }
+        });
 
+    }
+
+    private ArrayList<String> getLikersOfThisPost(String postId) {
+        ArrayList<String> likers = new ArrayList<>();
+
+        Cursor likerCursor = MainActivity.db.rawQuery("select user_id from likes where post_id = '" + postId + "';", null);
+        if (likerCursor.moveToFirst()) {
+            do {
+                likers.add(likerCursor.getString(0));
+            } while (likerCursor.moveToNext());
+
+        }
+        return likers;
     }
 
 

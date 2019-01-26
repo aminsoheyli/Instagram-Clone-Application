@@ -99,7 +99,7 @@ public class ProfileFragment extends Fragment {
         prepareProfileImagesRecyclerView();
 
         if(profileType == ProfileType.LOGGED_IN_USER_PROFILE)
-            editProfile.setVisibility(View.GONE);
+            editProfile.setVisibility(View.GONE );
         if (profileType == ProfileType.CLICKED_USER_PROFILE) {
             toolbarToHide = rootView.findViewById(R.id.toolbar);
             toolbarToHide.setVisibility(View.GONE);

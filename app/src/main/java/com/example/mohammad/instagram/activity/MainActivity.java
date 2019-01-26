@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public static PackageManager pm;
     public static MainActivity self;
     public static FragmentManager fm;
+
     public static boolean isDirectedToOtherProfiles = false;
     private ImageView addButton, profileButton, homeButton, globalButton, savedButton;
 
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initials();
         onClickListeners();
+
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
     }
