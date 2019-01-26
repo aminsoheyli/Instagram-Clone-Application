@@ -130,7 +130,7 @@ public class DirectablesFragment extends Fragment {
 
         if (c.moveToFirst()) {
             do {
-                Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes;", null);
+                Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
                 Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "' and post_id = '" + c.getString(0) + "';", null);
                 Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "'  and post_id = '" + c.getString(0) + "';", null);
                 boolean liked = false;
@@ -171,7 +171,7 @@ public class DirectablesFragment extends Fragment {
 
         if (c.moveToFirst()) {
             do {
-                Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes;", null);
+                Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
                 Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "' and post_id = '" + c.getString(0) + "';", null);
                 Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "'  and post_id = '" + c.getString(0) + "';", null);
                 boolean liked = false;
@@ -210,7 +210,7 @@ public class DirectablesFragment extends Fragment {
 
         if (c.moveToFirst()) {
             do {
-                Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes;", null);
+                Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
                 Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + MainActivity.currentUserId + "' and post_id = '" + c.getString(0) + "';", null);
                 Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + MainActivity.currentUserId + "'  and post_id = '" + c.getString(0) + "';", null);
                 boolean liked = false;
