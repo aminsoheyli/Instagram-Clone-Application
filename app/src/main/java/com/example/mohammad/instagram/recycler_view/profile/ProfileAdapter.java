@@ -22,6 +22,7 @@ import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.ClickedUserActivity;
 import com.example.mohammad.instagram.activity.MainActivity;
 import com.example.mohammad.instagram.fragment.CommentDialogFragment;
+import com.example.mohammad.instagram.fragment.FollowersFolloingFragment;
 import com.example.mohammad.instagram.recycler_view.comment.CommentCard;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileViewHolder> {
     public static final String CLICKED_USER_ID_KEY = "key of clicked user id";
-    private static int index;
+    private int i;
     //    private DynamicHeight dynamicHeight;
     private ArrayList<ProfileCard> informations;
     private View rootView;
@@ -61,7 +62,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ProfileViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ProfileViewHolder viewHolder, final int i) {
 
         String username = informations.get(i).getUsername();
         viewHolder.usernameProfile.setText(username);
@@ -83,12 +84,12 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             viewHolder.save.setImageResource(R.drawable.saved_icon_stroke);
         }
 
-        index = i;
+//        index = i;
 
         viewHolder.userContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String clickedUserId = informations.get(index).getUsername();
+                String clickedUserId = informations.get(i).getUsername();
                 if (!MainActivity.currentUserId.equals(clickedUserId)
                         && MainActivity.currentTabState != MainActivity.PROFILE_TAB_ID) {
                     Intent intent = new Intent(rootView.getContext(), ClickedUserActivity.class);
@@ -97,37 +98,43 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
                 }
             }
         });
+
         viewHolder.save.setOnClickListener(new View.OnClickListener() {
-            boolean savedState = false;
+            boolean savedState = informations.get(i).isSaved();
 
             @Override
             public void onClick(View v) {
                 if (!savedState) {
                     viewHolder.save.setImageResource(R.drawable.saved_icon_fill);
-                    save(informations.get(index).getPostId(), MainActivity.currentUserId);
+                    save(informations.get(i).getPostId(), MainActivity.currentUserId);
                     savedState = true;
                 } else {
                     viewHolder.save.setImageResource(R.drawable.saved_icon_stroke);
-                    unsave(informations.get(index).getPostId(), MainActivity.currentUserId);
+                    unsave(informations.get(i).getPostId(), MainActivity.currentUserId);
                     savedState = false;
 
                 }
             }
         });
         viewHolder.like.setOnClickListener(new View.OnClickListener() {
-            boolean likedState = false;
+            boolean likedState = informations.get(i).isLiked();
 
             @Override
             public void onClick(View v) {
+//                int numbers = Integer.valueOf(informations.get(index).getLikeNumber());
+//                int newValue;
                 if (!likedState) {
+//                    newValue = numbers + 1;
                     viewHolder.like.setImageResource(R.drawable.like_icon_fill);
-                    like(informations.get(index).getPostId(), MainActivity.currentUserId);
+                    like(informations.get(i).getPostId(), MainActivity.currentUserId);
                     likedState = true;
                 } else {
+//                    newValue = numbers - 1;
                     viewHolder.like.setImageResource(R.drawable.like_icon_stroke);
-                    dislike(informations.get(index).getPostId(), MainActivity.currentUserId);
+                    dislike(informations.get(i).getPostId(), MainActivity.currentUserId);
                     likedState = false;
                 }
+//                viewHolder.likes.setText(String.valueOf(newValue));
             }
         });
         viewHolder.comment.setOnClickListener(new View.OnClickListener() {
@@ -144,14 +151,18 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             @Override
             public void onClick(View v) {
                 String comment = viewHolder.commentEditText.getText().toString();
+
                 if (!comment.isEmpty()) {
                     InputMethodManager imm = (InputMethodManager) MainActivity.self.getSystemService(Context.INPUT_METHOD_SERVICE);
                     //The comment parent is entered null
+//                    String commentId = String.valueOf(new Random().nextLong());
+                    String commentId = getSaltString();
                     MainActivity.db.execSQL(
-                            "insert into comment values('" + String.valueOf(new Random().nextLong()) + "' , '" +
+                            "insert into comment values('" + commentId + "' , '" +
                                     comment + "' , '" +
-                                    informations.get(index).getPostId() + "', '" +
+                                    informations.get(i).getPostId() + "', '" +
                                     MainActivity.currentUserId + "', '');");
+                    Toast.makeText(rootView.getContext(), commentId, Toast.LENGTH_SHORT).show();
                     viewHolder.commentEditText.getText().clear();
                     viewHolder.commentLayout.setVisibility(View.GONE);
                     imm.hideSoftInputFromWindow(viewHolder.commentEditText.getWindowToken(), 0);
@@ -165,7 +176,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         viewHolder.viewCommentsTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String postId = ProfileAdapter.this.informations.get(index).getPostId();
+                String postId = ProfileAdapter.this.informations.get(i).getPostId();
+                Toast.makeText(rootView.getContext(), postId, Toast.LENGTH_SHORT).show();
                 ArrayList<CommentCard> commentInformations = (ArrayList<CommentCard>) getComments(postId);
                 if (commentInformations == null) {
                     Toast toast = Toast.makeText(MainActivity.self, "No comment found!", Toast.LENGTH_SHORT);
@@ -177,13 +189,50 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
                 fragment.show(MainActivity.fm, "Follows fragment");
             }
         });
+        viewHolder.image.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ArrayList<String> likers = getLikersOfThisPost(informations.get(i).getPostId());
+                FollowersFolloingFragment fragment = FollowersFolloingFragment.newInstance(likers);
+                fragment.show(MainActivity.fm, "likers");
+                return false;
+            }
+        });
 
+    }
+
+    private ArrayList<String> getLikersOfThisPost(String postId) {
+        ArrayList<String> likers = new ArrayList<>();
+
+        Cursor likerCursor = MainActivity.db.rawQuery("select user_id from likes where post_id = '" + postId + "';", null);
+        if (likerCursor.moveToFirst()) {
+            do {
+                likers.add(likerCursor.getString(0));
+            } while (likerCursor.moveToNext());
+
+        }
+        return likers;
     }
 
 
 //    public interface DynamicHeight {
 //        void HeightChange(int position, int height);
 //    }
+
+
+    String getSaltString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 18) {
+//            length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
+    }
+
 
     @Override
     public int getItemCount() {

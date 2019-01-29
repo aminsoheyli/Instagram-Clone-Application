@@ -39,6 +39,7 @@ public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.FollowsVie
         vh.followBtn.setBackground(rootView.getResources().getDrawable(R.drawable.follow_button_blue));
         vh.followBtn.setText("Following");
         vh.followBtn.setTextColor(Color.WHITE);
+        vh.followBtn.setVisibility(View.GONE);
     }
 
     @Override

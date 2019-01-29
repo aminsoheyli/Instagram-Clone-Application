@@ -33,7 +33,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder vh, int i) {
         vh.profileName.setText(String.valueOf(informations.get(i).getProfileName().charAt(0)));
-        vh.commentText.setText(informations.get(i).getCommentText());
+        vh.commentText.setText(informations.get(i).getProfileName().toString()+ " : " + informations.get(i).getCommentText());
     }
 
     @Override

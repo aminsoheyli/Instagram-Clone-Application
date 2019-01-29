@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public static PackageManager pm;
     public static MainActivity self;
     public static FragmentManager fm;
+
     public static boolean isDirectedToOtherProfiles = false;
     private ImageView addButton, profileButton, homeButton, globalButton, savedButton;
 
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void unfollow(String currentUserId, String toUnfolloweUserId) {
-        MainActivity.db.execSQL("delete from follow where follower_id = '" + currentUserId + "' and user_id = '" + toUnfolloweUserId + "'); ");
+        MainActivity.db.execSQL("delete from follow where follower_id = '" + currentUserId + "' and user_id = '" + toUnfolloweUserId + "'; ");
     }
 
     @Override
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initials();
         onClickListeners();
+
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
     }
@@ -131,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
                     DirectablesFragment directablesFragment = DirectablesFragment.newInstance(DirectableType.HOME_FRAGMENT, null);
                     getSupportFragmentManager().beginTransaction().addToBackStack(null);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, directablesFragment).commit();
-
                 }
 
             }

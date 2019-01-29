@@ -27,10 +27,10 @@
         android:paddingBottom="4dp"
         android:text="@string/sign_up_description"
         android:textColor="@color/terms"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="visible" />
 
     <EditText
-        android:visibility="gone"
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -40,10 +40,10 @@
         android:gravity="left|center_vertical"
         android:hint="@string/email"
         android:paddingLeft="20dp"
-        android:textColorHint="@color/textGray" />
+        android:textColorHint="@color/textGray"
+        android:visibility="visible" />
 
     <EditText
-        android:visibility="gone"
         android:id="@+id/full_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -52,7 +52,8 @@
         android:gravity="left|center_vertical"
         android:hint="@string/full_name"
         android:paddingLeft="20dp"
-        android:textColorHint="@color/textGray" />
+        android:textColorHint="@color/textGray"
+        android:visibility="visible" />
 
     <EditText
         android:id="@+id/username"
@@ -98,8 +99,8 @@
         android:gravity="center"
         android:text="@string/policy"
         android:textColor="@color/terms"
-        android:visibility="gone"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="visible" />
 
 
 </LinearLayout>

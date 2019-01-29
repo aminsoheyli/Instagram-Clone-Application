@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,11 +38,13 @@ public class ProfileFragment extends Fragment {
     private static final String USER_ID_KEY = "USER_ID";
     private static final String PROFILE_TYPE_KEY = "PROFILE_TYPE";
     private CircleImageView profileImage;
+    private Toolbar toolbarToHide;
     private TextView postsNumbers, followersNumbers,
             followingNumbers, name, biography, profileImageName;
     private View followersParent, followingParent;
     private Button editProfile;
     private ProfileType profileType;
+    private boolean isFollowedByLoggedInUser;
     private String userId;
     private RecyclerView recyclerViewProfileImages;
     private View signout;
@@ -59,6 +62,7 @@ public class ProfileFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,15 +98,21 @@ public class ProfileFragment extends Fragment {
         recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_profile_images);
         prepareProfileImagesRecyclerView();
 
+        if (profileType == ProfileType.LOGGED_IN_USER_PROFILE) {
+//            editProfile.setVisibility(View.GONE );
+
+        }
         if (profileType == ProfileType.CLICKED_USER_PROFILE) {
-            boolean isFollowed = isFollowedQuery();
-            int backgroundId = isFollowed ? R.drawable.follow_button_blue : R.drawable.following_button_white;
-            int textColor = isFollowed ? Color.WHITE : Color.BLACK;
-            String text = isFollowed ? "Following" : "Follow";
+            toolbarToHide = rootView.findViewById(R.id.toolbar);
+            toolbarToHide.setVisibility(View.GONE);
+
+            isFollowedByLoggedInUser = isFollowedQuery();
+            int backgroundId = isFollowedByLoggedInUser ? R.drawable.follow_button_blue : R.drawable.following_button_white;
+            int textColor = isFollowedByLoggedInUser ? Color.WHITE : Color.BLACK;
+            String text = isFollowedByLoggedInUser ? "Following" : "Follow";
             editProfile.setBackground(getResources().getDrawable(backgroundId));
             editProfile.setTextColor(textColor);
             editProfile.setText(text);
-
         }
         String bioText;
         if ((bioText = hasBiography()) != null && bioText.length() != 0) {
@@ -116,7 +126,11 @@ public class ProfileFragment extends Fragment {
     }
 
     private boolean isFollowedQuery() {
-        return true;
+        Cursor c = MainActivity.db.rawQuery("select count(user_id) from follow where user_id = '" + this.userId + "' and follower_id = '" + MainActivity.currentUserId + "'", null);
+        if (c.moveToFirst()) {
+            return (c.getString(0).matches("0")) ? false : true;
+        }
+        return false;
     }
 
     private void prepareNumbers() {
@@ -265,11 +279,31 @@ public class ProfileFragment extends Fragment {
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), EditProfileActivity.class);
-                Bundle extras = new Bundle();
-                extras.putInt("Id", 2);
-                intent.putExtra("bundle", extras);
-                startActivityForResult(intent, EDIT_PROFILE_REQ_CODE);
+                switch (profileType) {
+                    case LOGGED_IN_USER_PROFILE:
+                        Intent intent = new Intent(getContext(), EditProfileActivity.class);
+                        startActivity(intent);
+//                        Intent intent = new Intent(getContext(), EditProfileActivity.class);
+//                        Bundle extras = new Bundle();
+//                        extras.putInt("Id", 2);
+//                        intent.putExtra("bundle", extras);
+//                        startActivityForResult(intent, EDIT_PROFILE_REQ_CODE);
+                        break;
+                    case CLICKED_USER_PROFILE:
+                        if (isFollowedByLoggedInUser) {
+                            unFollowQuery();
+                        } else {
+                            followQuery();
+                        }
+                        isFollowedByLoggedInUser = !isFollowedByLoggedInUser;
+                        int backgroundId = isFollowedByLoggedInUser ? R.drawable.follow_button_blue : R.drawable.following_button_white;
+                        int textColor = isFollowedByLoggedInUser ? Color.WHITE : Color.BLACK;
+                        String text = isFollowedByLoggedInUser ? "Following" : "Follow";
+                        editProfile.setBackground(getResources().getDrawable(backgroundId));
+                        editProfile.setTextColor(textColor);
+                        editProfile.setText(text);
+                        break;
+                }
             }
         });
 
@@ -282,6 +316,14 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    private void followQuery() {
+        MainActivity.db.execSQL("insert into follow values('" + this.userId + "','" + MainActivity.currentUserId + "'); ");
+    }
+
+    private void unFollowQuery() {
+        MainActivity.db.execSQL("delete from follow where follower_id = '" + MainActivity.currentUserId + "' and user_id = '" + this.userId + "'; ");
     }
 
 
