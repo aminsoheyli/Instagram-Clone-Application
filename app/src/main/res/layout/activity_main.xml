@@ -30,12 +30,12 @@
 
 
         <ImageView
-            android:id="@+id/global_tab"
+            android:id="@+id/search_tab"
             android:layout_width="37dp"
             android:layout_height="37dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:src="@drawable/global_icon_stroke" />
+            android:src="@drawable/search_icon_stroke" />
 
         <ImageView
             android:id="@+id/add_tab"
@@ -43,19 +43,21 @@
             android:layout_height="37dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:src="@drawable/plus_icon_stroke" />
+            android:src="@drawable/plus_icon" />
 
         <ImageView
-            android:id="@+id/saved_tab"
+            android:id="@+id/activity_tab"
             android:layout_width="37dp"
             android:layout_height="37dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:src="@drawable/saved_icon_stroke" />
+            android:src="@drawable/like_icon_stroke_black" />
 
         <ImageView
             android:id="@+id/profile_tab"
             android:layout_width="37dp"
+            android:scaleY="0.9"
+            android:scaleX="0.9"
             android:layout_height="37dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"

@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int HOME_TAB_ID = 0;
     public static final int ADD_IMAGE_TAB_ID = 1;
     public static final int PROFILE_TAB_ID = 2;
-    public static final int GLOBAL_TAB_ID = 3;
-    public static final int SAVED_TAB_ID = 4;
+    public static final int SEARCH_TAB_ID = 3;
+    public static final int ACTIVITIES_TAB_ID = 4;
     public static final int DEFAULT_TAB_ID = -1;
     private static final String CURRENT_SATET_TAG = "currentTabState";
     public static String currentUserId;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public static FragmentManager fm;
 
     public static boolean isDirectedToOtherProfiles = false;
-    private ImageView addButton, profileButton, homeButton, globalButton, savedButton;
+    private ImageView addButton, profileButton, homeButton, searchButton, activitiesButton;
 
     public static void like(String postId, String currentUserId) {
         MainActivity.db.execSQL("insert into likes values('" + postId + "','" + currentUserId + "');");
@@ -116,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
         addButton = findViewById(R.id.add_tab);
         homeButton = findViewById(R.id.home_tab);
         profileButton = findViewById(R.id.profile_tab);
-        globalButton = findViewById(R.id.global_tab);
-        savedButton = findViewById(R.id.saved_tab);
+        searchButton = findViewById(R.id.search_tab);
+        activitiesButton = findViewById(R.id.activity_tab);
 
         onProfileButtonClicked();
 
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (changeBackOtherImageResources(ADD_IMAGE_TAB_ID)) {
-                    addButton.setImageResource(R.drawable.plus_icon_fill);
+//                    addButton.setImageResource(R.drawable.plus_icon_fill);
                     AddImageFragment addImageFragment = new AddImageFragment();
                     getSupportFragmentManager().beginTransaction().addToBackStack(null);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, addImageFragment).commit();
@@ -155,22 +155,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        globalButton.setOnClickListener(new View.OnClickListener() {
+        searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (changeBackOtherImageResources(GLOBAL_TAB_ID)) {
-                    globalButton.setImageResource(R.drawable.global_icon_fill);
+                if (changeBackOtherImageResources(SEARCH_TAB_ID)) {
+                    searchButton.setImageResource(R.drawable.search_icon_fill);
                     DirectablesFragment directablesFragment = DirectablesFragment.newInstance(DirectableType.GLOBAL_FRAGMENT, null);
                     getSupportFragmentManager().beginTransaction().addToBackStack(null);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, directablesFragment).commit();
                 }
             }
         });
-        savedButton.setOnClickListener(new View.OnClickListener() {
+        activitiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (changeBackOtherImageResources(SAVED_TAB_ID)) {
-                    savedButton.setImageResource(R.drawable.saved_icon_fill);
+                if (changeBackOtherImageResources(ACTIVITIES_TAB_ID)) {
+                    activitiesButton.setImageResource(R.drawable.like_icon_fill_black);
                     DirectablesFragment directablesFragment = DirectablesFragment.newInstance(DirectableType.SAVED_FRAGMENT, null);
                     getSupportFragmentManager().beginTransaction().addToBackStack(null);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, directablesFragment).commit();
@@ -208,16 +208,16 @@ public class MainActivity extends AppCompatActivity {
                 homeButton.setImageResource(R.drawable.home_icon_stroke);
                 break;
             case ADD_IMAGE_TAB_ID:
-                addButton.setImageResource(R.drawable.plus_icon_stroke);
+//                addButton.setImageResource(R.drawable.plus_icon_stroke);
                 break;
             case PROFILE_TAB_ID:
                 profileButton.setImageResource(R.drawable.user_icon_stroke);
                 break;
-            case GLOBAL_TAB_ID:
-                globalButton.setImageResource(R.drawable.global_icon_stroke);
+            case SEARCH_TAB_ID:
+                searchButton.setImageResource(R.drawable.search_icon_stroke);
                 break;
-            case SAVED_TAB_ID:
-                savedButton.setImageResource(R.drawable.saved_icon_stroke);
+            case ACTIVITIES_TAB_ID:
+                activitiesButton.setImageResource(R.drawable.like_icon_stroke_black);
                 break;
             default:
                 break;
