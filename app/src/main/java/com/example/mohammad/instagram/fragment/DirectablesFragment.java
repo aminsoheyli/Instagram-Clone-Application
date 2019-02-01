@@ -38,6 +38,7 @@ import java.util.Map;
 public class DirectablesFragment extends Fragment {
     private static final String DIRECTABLE_TYPE_KEY = "directable_type";
     private DirectableType directableType;
+    private View rootView;
     private RecyclerView recyclerViewProfileImages;
 
 
@@ -58,7 +59,9 @@ public class DirectablesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_directables, container, false);
+        rootView = inflater.inflate(R.layout.fragment_directables, container, false);
+        if (directableType == DirectableType.HOME_FRAGMENT)
+            rootView = inflater.inflate(R.layout.fragment_home, container, false);
         initials(rootView);
         onClickListeners();
 
@@ -94,7 +97,7 @@ public class DirectablesFragment extends Fragment {
                 // User's posts and following's posts
                 informations = homeFragmentInformationsQuery();
                 break;
-            case GLOBAL_FRAGMENT:
+            case SEARCH_FRAGMENT:
                 // All posts without current user posts
                 informations = globalFragmentInformationsQuery();
                 break;
@@ -117,7 +120,7 @@ public class DirectablesFragment extends Fragment {
 //        Cursor c = MainActivity.db.rawQuery("select distinct * from post, follow where post.user_id ='" + MainActivity.currentUserId + "' or follow.follower_id = '" + MainActivity.currentUserId + "' group by post.post_id order by post.post_date desc;", null);
 
         //Cursor c = MainActivity.db.rawQuery("select * from post left join follow on post.user_id = follow.follower_id where post.user_id ='" + MainActivity.currentUserId + "' or follow.follower_id = '" + MainActivity.currentUserId + "' order by post.post_date desc;", null);
-        Cursor c = MainActivity.db.rawQuery("select distinct * from post, follow where post.user_id != '" +MainActivity.currentUserId+  "' and follow.follower_id = '" + MainActivity.currentUserId + "' order by post.post_date desc;", null);
+        Cursor c = MainActivity.db.rawQuery("select distinct * from post, follow where post.user_id != '" + MainActivity.currentUserId + "' and follow.follower_id = '" + MainActivity.currentUserId + "' order by post.post_date desc;", null);
 //        if (c.getCount() == 0) {
 //            c = MainActivity.db.rawQuery("select * from post left join follow on post.user_id = follow.follower_id where post.user_id ='" + MainActivity.currentUserId + "' or follow.follower_id = '" + MainActivity.currentUserId + "' order by post.post_date desc;", null);
 //        }

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mohammad.instagram">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -34,6 +36,9 @@
         <activity android:name=".temp.TestActivity" />
         <activity android:name=".activity.EditProfileActivity" />
         <activity android:name=".activity.ClickedUserActivity" />
+        <activity
+            android:name=".activity.UploadActivity"
+            android:theme="@style/MyThemeNoActionBar" />
     </application>
 
 </manifest>

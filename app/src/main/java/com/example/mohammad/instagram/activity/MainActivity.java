@@ -1,11 +1,13 @@
 package com.example.mohammad.instagram.activity;
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -15,7 +17,6 @@ import android.widget.ImageView;
 import com.example.mohammad.instagram.DirectableType;
 import com.example.mohammad.instagram.ProfileType;
 import com.example.mohammad.instagram.R;
-import com.example.mohammad.instagram.fragment.AddImageFragment;
 import com.example.mohammad.instagram.fragment.DirectablesFragment;
 import com.example.mohammad.instagram.fragment.ProfileFragment;
 import com.example.mohammad.instagram.recycler_view.comment.CommentCard;
@@ -25,16 +26,17 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     //    private CustomPerson person;
-//    private ViewPager viewPager;
     public static final int HOME_TAB_ID = 0;
+    //    private ViewPager viewPager;
     public static final int ADD_IMAGE_TAB_ID = 1;
     public static final int PROFILE_TAB_ID = 2;
     public static final int SEARCH_TAB_ID = 3;
     public static final int ACTIVITIES_TAB_ID = 4;
     public static final int DEFAULT_TAB_ID = -1;
+    private static final int UPLOAD_REQ = 1;
     private static final String CURRENT_SATET_TAG = "currentTabState";
-    public static String currentUserId;
     public static int currentTabState = DEFAULT_TAB_ID;
+    public static String currentUserId;
     public static SQLiteDatabase db;
     public static ContentResolver cr;
     public static PackageManager pm;
@@ -142,9 +144,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (changeBackOtherImageResources(ADD_IMAGE_TAB_ID)) {
 //                    addButton.setImageResource(R.drawable.plus_icon_fill);
-                    AddImageFragment addImageFragment = new AddImageFragment();
+                    /*AddImageFragment addImageFragment = new AddImageFragment();
                     getSupportFragmentManager().beginTransaction().addToBackStack(null);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, addImageFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, addImageFragment).commit();*/
+                    Intent intent = new Intent(getApplicationContext(), UploadActivity.class);
+                    startActivityForResult(intent, UPLOAD_REQ);
                 }
             }
         });
@@ -160,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (changeBackOtherImageResources(SEARCH_TAB_ID)) {
                     searchButton.setImageResource(R.drawable.search_icon_fill);
-                    DirectablesFragment directablesFragment = DirectablesFragment.newInstance(DirectableType.GLOBAL_FRAGMENT, null);
+                    DirectablesFragment directablesFragment = DirectablesFragment.newInstance(DirectableType.SEARCH_FRAGMENT, null);
                     getSupportFragmentManager().beginTransaction().addToBackStack(null);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, directablesFragment).commit();
                 }
@@ -247,5 +251,17 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         currentTabState = -1;
         db.close();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case UPLOAD_REQ:
+                if (requestCode == RESULT_OK) {
+
+                }
+                break;
+        }
     }
 }

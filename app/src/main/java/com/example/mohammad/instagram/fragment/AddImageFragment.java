@@ -28,6 +28,8 @@ import java.util.Random;
 
 import static android.app.Activity.RESULT_OK;
 
+
+
 public class AddImageFragment extends Fragment {
     private static final int CAMERA_REQUEST = 1;
     private static final int GALLERY_REQUEST = 2;
@@ -157,3 +159,4 @@ public class AddImageFragment extends Fragment {
         }
     }
 }
+
