@@ -3,6 +3,7 @@ package com.example.mohammad.instagram.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import com.example.mohammad.instagram.recycler_view.profile.ProfileCard;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -106,7 +108,6 @@ public class ProfileFragment extends Fragment {
             toolbarToHide = rootView.findViewById(R.id.toolbar);
             toolbarToHide.setVisibility(View.GONE);
 
-            isFollowedByLoggedInUser = isFollowedQuery();
             int backgroundId = isFollowedByLoggedInUser ? R.drawable.follow_button_blue : R.drawable.following_button_white;
             int textColor = isFollowedByLoggedInUser ? Color.WHITE : Color.BLACK;
             String text = isFollowedByLoggedInUser ? "Following" : "Follow";
@@ -120,97 +121,67 @@ public class ProfileFragment extends Fragment {
             biography.setText(bioText);
         }
 
-        prepareNumbers();
-
-
     }
 
-    private boolean isFollowedQuery() {
-        Cursor c = MainActivity.db.rawQuery("select count(user_id) from follow where user_id = '" + this.userId + "' and follower_id = '" + MainActivity.currentUserId + "'", null);
-        if (c.moveToFirst()) {
-            return (c.getString(0).matches("0")) ? false : true;
-        }
-        return false;
-    }
-
-    private void prepareNumbers() {
-        Cursor c = MainActivity.db.rawQuery("select count(post_id) from post where user_id = '" + this.userId + "';", null);
-        if (c.moveToFirst()) {
-            postsNumbers.setText(c.getString(0));
-        }
-
-        c = MainActivity.db.rawQuery("select count(follower_id) from follow where user_id = '" + this.userId + "';", null);
-        if (c.moveToFirst()) {
-            followersNumbers.setText(c.getString(0));
-        }
-
-        c = MainActivity.db.rawQuery("select count(user_id) from follow where follower_id = '" + this.userId + "';", null);
-        if (c.moveToFirst()) {
-            followingNumbers.setText(c.getString(0));
-        }
-        c.close();
-
-    }
 
     private void prepareProfileImagesRecyclerView() {
         recyclerViewProfileImages.setNestedScrollingEnabled(false);
         recyclerViewProfileImages.setHasFixedSize(true);
-        ArrayList<ProfileCard> informations;
-        informations = prepareInformations();
+        ArrayList<ProfileCard> informations = new ArrayList<>();
 /**        Fake data generator*/
-//        ProfileCard first =
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.like_icon_fill);
+        ProfileCard first =
+                new ProfileCard(null, bm
+                        , "example"
+                        , "16 likes"
+                        , "This is a example's dynamic description"
+                        , "2 Days ago", true, false);
+        bm = BitmapFactory.decodeResource(getResources(), R.drawable.like_icon_stroke);
+        ProfileCard second =
+                new ProfileCard(null, bm
+                        , "alisafri98"
+                        , "120 likes"
+                        , "This is a Ali Safari's dynamic description "
+                        , "14 May 2018",
+                        false, true);
+        bm = BitmapFactory.decodeResource(getResources(), R.drawable.instagram_icon);
+        ProfileCard third =
+                new ProfileCard(null, bm
+                        , "amisoheyli77"
+                        , "200 likes"
+                        , "This is a Amin Soheyli's dynamic description"
+                        , "20 minutes ago", false, false);
+        bm = BitmapFactory.decodeResource(getResources(), R.drawable.saved_icon_fill);
+        ProfileCard fourth =
+                new ProfileCard(null, bm
+                        , "test19"
+                        , "17 likes"
+                        , "This is a test's dynamic description"
+                        , "Just now", true, true);
+        Random random = new Random();
 
-//                new ProfileCard(R.drawable.like_icon_fill
-//                        , R.drawable.instagram_icon
-//                        , "example"
-//                        , "16 likes"
-//                        , "This is a example's dynamic description"
-//                        , "2 Days ago");
-//        ProfileCard second =
-//                new ProfileCard(R.drawable.like_icon_stroke
-//                        , R.drawable.saved_icon_stroke
-//                        , "alisafri98"
-//                        , "120 likes"
-//                        , "This is a Ali Safari's dynamic description "
-//                        , "14 May 2018");
-//        ProfileCard third =
-//                new ProfileCard(R.drawable.instagram_icon
-//                        , R.drawable.like_icon_fill
-//                        , "amisoheyli77"
-//                        , "200 likes"
-//                        , "This is a Amin Soheyli's dynamic description"
-//                        , "20 minutes ago");
-//        ProfileCard fourth =
-//                new ProfileCard(R.drawable.saved_icon_fill
-//                        , R.drawable.comment_icon
-//                        , "test19"
-//                        , "17 likes"
-//                        , "This is a test's dynamic description"
-//                        , "Just now");
-//        Random random = new Random();
-//
-//        ProfileCard test;
-//        for (int i = 0; i < 25; i++) {
-//            int x = random.nextInt(3) + 1;
-//            switch (x) {
-//                case 1:
-//                    test = first;
-//                    break;
-//                case 2:
-//                    test = second;
-//                    break;
-//                case 3:
-//                    test = third;
-//                    break;
-//                case 4:
-//                    test = fourth;
-//                    break;
-//                default:
-//                    test = first;
-//                    break;
-//            }
-//            informations.add(test);
-//        }
+        ProfileCard test;
+        for (int i = 0; i < 25; i++) {
+            int x = random.nextInt(4) + 1;
+            switch (x) {
+                case 1:
+                    test = first;
+                    break;
+                case 2:
+                    test = second;
+                    break;
+                case 3:
+                    test = third;
+                    break;
+                case 4:
+                    test = fourth;
+                    break;
+                default:
+                    test = first;
+                    break;
+            }
+            informations.add(test);
+        }
         LinearLayoutManager llm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewProfileImages.setLayoutManager(llm);
         ProfileAdapter adapter = new ProfileAdapter(informations, DirectableType.PROFILE_FRAGMENT);
@@ -221,40 +192,7 @@ public class ProfileFragment extends Fragment {
     private ArrayList<ProfileCard> prepareInformations() {
         ArrayList<ProfileCard> informations = new ArrayList<>();
         // Home fragment informations query
-        Cursor c = MainActivity.db.rawQuery("select * from post where user_id ='" + this.userId + "' group by post_id order by post_date desc;", null);
 
-        if (c.moveToFirst()) {
-            do {
-                Cursor cc = MainActivity.db.rawQuery("select count(user_id) from likes where post_id = '" + c.getString(0) + "';", null);
-                Cursor ccc = MainActivity.db.rawQuery("select count(user_id) from likes where user_id = '" + this.userId + "' and post_id = '" + c.getString(0) + "';", null);
-                Cursor cccc = MainActivity.db.rawQuery("select count(user_id) from save where user_id = '" + this.userId + "'  and post_id = '" + c.getString(0) + "';", null);
-                boolean liked = false;
-                boolean saved = false;
-                if (ccc.moveToFirst()) {
-                    liked = (ccc.getString(0).matches("0")) ? false : true;
-                }
-                if (cccc.moveToFirst()) {
-                    saved = (cccc.getString(0).matches("0")) ? false : true;
-                }
-                if (cc.moveToFirst()) {
-                    ProfileCard temp =
-                            new ProfileCard(c.getString(0), BitmapFactory.decodeByteArray(c.getBlob(3), 0, c.getBlob(3).length),
-                                    c.getString(1),
-                                    cc.getString(0),
-                                    c.getString(4),
-                                    c.getString(2),
-                                    liked,
-                                    saved
-                            );
-                    informations.add(temp);
-                    cc.close();
-
-                }
-            }
-            while (c.moveToNext());
-
-        }
-        c.close();
         return informations;
     }
 
@@ -318,27 +256,18 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    private void showFollowing() {
+    }
+
     private void followQuery() {
-        MainActivity.db.execSQL("insert into follow values('" + this.userId + "','" + MainActivity.currentUserId + "'); ");
     }
 
     private void unFollowQuery() {
-        MainActivity.db.execSQL("delete from follow where follower_id = '" + MainActivity.currentUserId + "' and user_id = '" + this.userId + "'; ");
     }
-
 
     private void showFollowers() {
-        ArrayList<String> informations = new ArrayList<>();
-        FollowersFolloingFragment fragment = FollowersFolloingFragment.newInstance(informations);
-        fragment.show(getFragmentManager(), "Follows fragment");
     }
 
-    private void showFollowing() {
-        ArrayList<String> informations;
-        informations = (ArrayList<String>) MainActivity.followingsName(this.userId);
-        FollowersFolloingFragment fragment = FollowersFolloingFragment.newInstance(informations);
-        fragment.show(getFragmentManager(), "Follows fragment");
-    }
 
     // Query to specify whether the user has a biography or not.
     private String hasBiography() {
@@ -356,15 +285,4 @@ public class ProfileFragment extends Fragment {
         return sum;
     }
 
-//    @Override
-//    public void HeightChange(int position, int height) {
-//        itemHeight.put(position, height);
-//        sumHeight = SumHashItem(itemHeight);
-//
-//        float density = ProfileFragment.this.getResources().getDisplayMetrics().density;
-//        float viewHeight = sumHeight * density;
-//        recyclerViewProfileImages.getLayoutParams().height = (int) sumHeight;
-//
-//        int i = recyclerViewProfileImages.getLayoutParams().height;
-//    }
 }
