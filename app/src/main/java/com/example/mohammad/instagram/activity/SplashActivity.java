@@ -60,6 +60,6 @@ public class SplashActivity extends AppCompatActivity {
 //            MainActivity.currentUserId = c.getString(0);
 //            return true;
 //        }
-        return true;
+        return false;
     }
 }
