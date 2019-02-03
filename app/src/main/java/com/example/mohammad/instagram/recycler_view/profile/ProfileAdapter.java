@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mohammad.instagram.DirectableType;
+import com.example.mohammad.instagram.PersonalFragmentType;
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.ClickedUserActivity;
 import com.example.mohammad.instagram.activity.MainActivity;
@@ -40,11 +40,11 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     //    private DynamicHeight dynamicHeight;
     private ArrayList<ProfileCard> informations;
     private View rootView;
-    private DirectableType directableType;
+    private PersonalFragmentType personalFragmentType;
 
-    public ProfileAdapter(ArrayList<ProfileCard> informations, DirectableType directableType) {
+    public ProfileAdapter(ArrayList<ProfileCard> informations, PersonalFragmentType personalFragmentType) {
         this.informations = informations;
-        this.directableType = directableType;
+        this.personalFragmentType = personalFragmentType;
     }
 
 //    public ProfileAdapter(ArrayList<ProfileCard> informations, DynamicHeight dynamicHeight, Context context) {

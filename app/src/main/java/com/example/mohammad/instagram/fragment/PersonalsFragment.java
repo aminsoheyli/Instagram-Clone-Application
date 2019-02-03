@@ -1,7 +1,5 @@
 package com.example.mohammad.instagram.fragment;
 
-import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,10 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mohammad.instagram.DirectableType;
+import com.example.mohammad.instagram.PersonalFragmentType;
 import com.example.mohammad.instagram.ProfileInformations;
 import com.example.mohammad.instagram.R;
-import com.example.mohammad.instagram.activity.MainActivity;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileAdapter;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileCard;
 import com.example.mohammad.instagram.temp.TestDataGenerator;
@@ -36,17 +33,17 @@ import java.util.Map;
  *           II.    Global fragment
  *           III.   Home fragment*/
 
-public class DirectablesFragment extends Fragment {
+public class PersonalsFragment extends Fragment {
     private static final String DIRECTABLE_TYPE_KEY = "directable_type";
-    private DirectableType directableType;
+    private PersonalFragmentType personalFragmentType;
     private View rootView;
     private RecyclerView recyclerViewProfileImages;
 
 
-    public static DirectablesFragment newInstance(DirectableType directableType, ProfileInformations profileInformations) {
+    public static PersonalsFragment newInstance(PersonalFragmentType personalFragmentType, ProfileInformations profileInformations) {
         Bundle args = new Bundle();
-        args.putSerializable(DIRECTABLE_TYPE_KEY, directableType);
-        DirectablesFragment fragment = new DirectablesFragment();
+        args.putSerializable(DIRECTABLE_TYPE_KEY, personalFragmentType);
+        PersonalsFragment fragment = new PersonalsFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,14 +51,14 @@ public class DirectablesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        directableType = (DirectableType) getArguments().getSerializable(DIRECTABLE_TYPE_KEY);
+        personalFragmentType = (PersonalFragmentType) getArguments().getSerializable(DIRECTABLE_TYPE_KEY);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_directables, container, false);
-        if (directableType == DirectableType.HOME_FRAGMENT)
+        if (personalFragmentType == PersonalFragmentType.HOME_FRAGMENT)
             rootView = inflater.inflate(R.layout.fragment_home, container, false);
         initials(rootView);
         onClickListeners();
@@ -71,8 +68,10 @@ public class DirectablesFragment extends Fragment {
 
     private void initials(View rootView) {
         recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_profile_images);
+        if (personalFragmentType == PersonalFragmentType.ACTIVITY_FRAGMENT) {
 
-
+            return;
+        }
         prepareRecyclerView();
     }
 
@@ -84,16 +83,16 @@ public class DirectablesFragment extends Fragment {
         recyclerViewProfileImages.setNestedScrollingEnabled(false);
         recyclerViewProfileImages.setHasFixedSize(true);
         ArrayList<ProfileCard> informations;
-        informations = prepareInformations(directableType);
+        informations = prepareInformations(personalFragmentType);
         LinearLayoutManager llm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewProfileImages.setLayoutManager(llm);
-        ProfileAdapter adapter = new ProfileAdapter(informations, directableType);
+        ProfileAdapter adapter = new ProfileAdapter(informations, personalFragmentType);
         recyclerViewProfileImages.setAdapter(adapter);
     }
 
-    private ArrayList<ProfileCard> prepareInformations(DirectableType directableType) {
+    private ArrayList<ProfileCard> prepareInformations(PersonalFragmentType personalFragmentType) {
         ArrayList<ProfileCard> informations = new ArrayList<>();
-        switch (directableType) {
+        switch (personalFragmentType) {
             case HOME_FRAGMENT:
                 // User's posts and following's posts
                 informations = homeFragmentInformationsQuery();
@@ -102,11 +101,8 @@ public class DirectablesFragment extends Fragment {
                 // All posts without current user posts
                 informations = searchFragmentInformationsQuery();
                 break;
-            case SAVED_FRAGMENT:
-                informations = savedFragmentInformationsQuery();
-                break;
             default:
-                new Exception("In the DirectablesFragment you can't set the directable type to HOME_FRAGMENT.");
+                new Exception("In the PersonalsFragment you can't set the directable type to HOME_FRAGMENT.");
                 break;
         }
 
@@ -122,12 +118,6 @@ public class DirectablesFragment extends Fragment {
     private ArrayList<ProfileCard> searchFragmentInformationsQuery() {
         ArrayList<ProfileCard> informations = TestDataGenerator.generateSomePosts(getContext());
         return informations;
-    }
-
-    private ArrayList<ProfileCard> savedFragmentInformationsQuery() {
-        ArrayList<ProfileCard> informations = TestDataGenerator.generateSomePosts(getContext());
-        return informations;
-
     }
 
 

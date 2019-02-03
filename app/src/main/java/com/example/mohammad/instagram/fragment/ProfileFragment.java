@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.mohammad.instagram.DirectableType;
+import com.example.mohammad.instagram.PersonalFragmentType;
 import com.example.mohammad.instagram.ProfileType;
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.EditProfileActivity;
@@ -129,7 +129,7 @@ public class ProfileFragment extends Fragment {
 
         LinearLayoutManager llm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewProfileImages.setLayoutManager(llm);
-        ProfileAdapter adapter = new ProfileAdapter(informations, DirectableType.PROFILE_FRAGMENT);
+        ProfileAdapter adapter = new ProfileAdapter(informations, PersonalFragmentType.PROFILE_FRAGMENT);
         recyclerViewProfileImages.setAdapter(adapter);
 
     }

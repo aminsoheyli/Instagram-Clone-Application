@@ -14,10 +14,10 @@ import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.mohammad.instagram.DirectableType;
+import com.example.mohammad.instagram.PersonalFragmentType;
 import com.example.mohammad.instagram.ProfileType;
 import com.example.mohammad.instagram.R;
-import com.example.mohammad.instagram.fragment.DirectablesFragment;
+import com.example.mohammad.instagram.fragment.PersonalsFragment;
 import com.example.mohammad.instagram.fragment.ProfileFragment;
 import com.example.mohammad.instagram.recycler_view.comment.CommentCard;
 
@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String CURRENT_SATET_TAG = "currentTabState";
     public static int currentTabState = DEFAULT_TAB_ID;
     public static String currentUserId;
-    public static SQLiteDatabase db;
     public static ContentResolver cr;
     public static PackageManager pm;
     public static MainActivity self;
@@ -45,58 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static boolean isDirectedToOtherProfiles = false;
     private ImageView addButton, profileButton, homeButton, searchButton, activitiesButton;
-
-    public static void like(String postId, String currentUserId) {
-        MainActivity.db.execSQL("insert into likes values('" + postId + "','" + currentUserId + "');");
-    }
-
-    public static void dislike(String postId, String currentUserId) {
-        MainActivity.db.execSQL("delete from likes where post_id = '" + postId + "' and user_id = '" + currentUserId + "';");
-    }
-
-    public static void save(String postId, String currentUserId) {
-        MainActivity.db.execSQL("insert into save values('" + postId + "','" + currentUserId + "');");
-    }
-
-    public static void unsave(String postId, String currentUserId) {
-        MainActivity.db.execSQL("delete from save where post_id = '" + postId + "' and user_id = '" + currentUserId + "';");
-    }
-
-    public static List followersName(String currentUserId) {
-        Cursor c = MainActivity.db.rawQuery("select distinct * from follow where user_id ='" + currentUserId + "');", null);
-        if (c.getColumnCount() != 0) {
-            List comments = new ArrayList<String>();
-            c.moveToFirst();
-            do {
-                comments.add(c.getString(0));
-            } while (c.moveToNext());
-            return comments;
-        } else {
-            return null;
-        }
-    }
-
-    public static List followingsName(String currentUserId) {
-        Cursor c = MainActivity.db.rawQuery("select distinct * from follow where follower_id ='" + currentUserId + "';", null);
-        if (c.getCount() != 0 && c != null) {
-            List followings = new ArrayList<String>();
-            c.moveToFirst();
-            do {
-                followings.add(c.getString(0));
-            } while (c.moveToNext());
-            return followings;
-        } else {
-            return new ArrayList();
-        }
-    }
-
-    public static void follow(String toFollowUserId, String currentUserId) {
-        MainActivity.db.execSQL("insert into follow values('" + toFollowUserId + "','" + currentUserId + "'); ");
-    }
-
-    public static void unfollow(String currentUserId, String toUnfolloweUserId) {
-        MainActivity.db.execSQL("delete from follow where follower_id = '" + currentUserId + "' and user_id = '" + toUnfolloweUserId + "'; ");
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         self = this;
         pm = getPackageManager();
         cr = getContentResolver();
-        db = openOrCreateDatabase("project", MODE_PRIVATE, null);
         fm = getSupportFragmentManager();
         addButton = findViewById(R.id.add_tab);
         homeButton = findViewById(R.id.home_tab);
@@ -132,9 +78,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (changeBackOtherImageResources(HOME_TAB_ID)) {
                     homeButton.setImageResource(R.drawable.home_icon_fill);
-                    DirectablesFragment directablesFragment = DirectablesFragment.newInstance(DirectableType.HOME_FRAGMENT, null);
+                    PersonalsFragment personalsFragment = PersonalsFragment.newInstance(PersonalFragmentType.HOME_FRAGMENT, null);
                     getSupportFragmentManager().beginTransaction().addToBackStack(null);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, directablesFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, personalsFragment).commit();
                 }
 
             }
@@ -164,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (changeBackOtherImageResources(SEARCH_TAB_ID)) {
                     searchButton.setImageResource(R.drawable.search_icon_fill);
-                    DirectablesFragment directablesFragment = DirectablesFragment.newInstance(DirectableType.SEARCH_FRAGMENT, null);
+                    PersonalsFragment personalsFragment = PersonalsFragment.newInstance(PersonalFragmentType.SEARCH_FRAGMENT, null);
                     getSupportFragmentManager().beginTransaction().addToBackStack(null);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, directablesFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, personalsFragment).commit();
                 }
             }
         });
@@ -175,9 +121,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (changeBackOtherImageResources(ACTIVITIES_TAB_ID)) {
                     activitiesButton.setImageResource(R.drawable.like_icon_fill_black);
-                    DirectablesFragment directablesFragment = DirectablesFragment.newInstance(DirectableType.SAVED_FRAGMENT, null);
+                    PersonalsFragment personalsFragment = PersonalsFragment.newInstance(PersonalFragmentType.ACTIVITY_FRAGMENT, null);
                     getSupportFragmentManager().beginTransaction().addToBackStack(null);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, directablesFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, personalsFragment).commit();
                 }
             }
         });
@@ -229,28 +175,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    //Returns a list of list
-    //index 0 returns the comments text
-    //index 1 returns commenter id
-    private List<CommentCard> comments(String postId) {
-        Cursor c = MainActivity.db.rawQuery("select * from comment where post_id ='" + postId + "');", null);
-        if (c.getColumnCount() != 0) {
-            List commentsData = new ArrayList<CommentCard>();
-            c.moveToFirst();
-            do {
-                commentsData.add(new CommentCard(c.getString(3), c.getString(0)));
-            } while (c.moveToNext());
-            return commentsData;
-        } else {
-            return null;
-        }
-    }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         currentTabState = -1;
-        db.close();
     }
 
     @Override
