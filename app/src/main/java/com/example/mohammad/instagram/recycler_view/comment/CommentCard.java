@@ -15,7 +15,7 @@ public class CommentCard implements Parcelable {
         this.commentText = commentText;
     }
 
-    protected CommentCard(Parcel in) {
+    public CommentCard(Parcel in) {
         profileName = in.readString();
         commentText = in.readString();
     }

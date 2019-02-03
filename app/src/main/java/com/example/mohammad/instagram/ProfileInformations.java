@@ -1,7 +1,6 @@
 package com.example.mohammad.instagram;
 
 import android.os.Parcelable;
-
 import java.io.Serializable;
 
 /**

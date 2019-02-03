@@ -85,19 +85,9 @@ public class AddImageFragment extends Fragment {
                 }
 
                 String postId = getSaltString();
-                SQLiteStatement sqLiteStatement = MainActivity.db.compileStatement("insert into post values(?,?,?,?,?);");
-//                sqLiteStatement.bindString(1, new Random().nextLong() + "");
-                sqLiteStatement.bindString(1, postId);
-                sqLiteStatement.bindString(2, MainActivity.currentUserId);
-                sqLiteStatement.bindString(3, new Date().toString());
-                Toast.makeText(getContext(), postId, Toast.LENGTH_SHORT).show();
-
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 gottenImage.compress(Bitmap.CompressFormat.PNG, 100, bos);
                 byte[] bytes = bos.toByteArray();
-                sqLiteStatement.bindBlob(4, bytes);
-                sqLiteStatement.bindString(5, description.getText().toString());
-                sqLiteStatement.execute();
                 gottenImage = null;
                 MainActivity.self.onProfileButtonClicked();
             }

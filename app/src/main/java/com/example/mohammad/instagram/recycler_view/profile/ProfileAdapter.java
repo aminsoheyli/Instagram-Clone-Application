@@ -17,13 +17,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mohammad.instagram.DirectableType;
+import com.example.mohammad.instagram.PersonalFragmentType;
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.ClickedUserActivity;
 import com.example.mohammad.instagram.activity.MainActivity;
 import com.example.mohammad.instagram.fragment.CommentDialogFragment;
 import com.example.mohammad.instagram.fragment.FollowersFolloingFragment;
 import com.example.mohammad.instagram.recycler_view.comment.CommentCard;
+import com.example.mohammad.instagram.temp.TestDataGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +41,11 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     //    private DynamicHeight dynamicHeight;
     private ArrayList<ProfileCard> informations;
     private View rootView;
-    private DirectableType directableType;
+    private PersonalFragmentType personalFragmentType;
 
-    public ProfileAdapter(ArrayList<ProfileCard> informations, DirectableType directableType) {
+    public ProfileAdapter(ArrayList<ProfileCard> informations, PersonalFragmentType personalFragmentType) {
         this.informations = informations;
-        this.directableType = directableType;
+        this.personalFragmentType = personalFragmentType;
     }
 
 //    public ProfileAdapter(ArrayList<ProfileCard> informations, DynamicHeight dynamicHeight, Context context) {
@@ -157,12 +158,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
                     //The comment parent is entered null
 //                    String commentId = String.valueOf(new Random().nextLong());
                     String commentId = getSaltString();
-                    MainActivity.db.execSQL(
-                            "insert into comment values('" + commentId + "' , '" +
-                                    comment + "' , '" +
-                                    informations.get(i).getPostId() + "', '" +
-                                    MainActivity.currentUserId + "', '');");
-                    Toast.makeText(rootView.getContext(), commentId, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(rootView.getContext(), comment, Toast.LENGTH_SHORT).show();
                     viewHolder.commentEditText.getText().clear();
                     viewHolder.commentLayout.setVisibility(View.GONE);
                     imm.hideSoftInputFromWindow(viewHolder.commentEditText.getWindowToken(), 0);
@@ -202,15 +198,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     }
 
     private ArrayList<String> getLikersOfThisPost(String postId) {
-        ArrayList<String> likers = new ArrayList<>();
-
-        Cursor likerCursor = MainActivity.db.rawQuery("select user_id from likes where post_id = '" + postId + "';", null);
-        if (likerCursor.moveToFirst()) {
-            do {
-                likers.add(likerCursor.getString(0));
-            } while (likerCursor.moveToNext());
-
-        }
+        ArrayList<String> likers = TestDataGenerator.generateSomeName();
         return likers;
     }
 
@@ -240,32 +228,20 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     }
 
     private void unsave(String postId, String currentUserId) {
-        MainActivity.db.execSQL("delete from save where post_id = '" + postId + "' and user_id = '" + currentUserId + "';");
     }
 
     private void save(String postId, String currentUserId) {
-        MainActivity.db.execSQL("insert into save values('" + postId + "','" + currentUserId + "');");
     }
 
     private void like(String postId, String currentUserId) {
-        MainActivity.db.execSQL("insert into likes values('" + postId + "','" + currentUserId + "');");
     }
 
     private void dislike(String postId, String currentUserId) {
-        MainActivity.db.execSQL("delete from likes where post_id = '" + postId + "' and user_id = '" + currentUserId + "';");
     }
 
-    private List<CommentCard> getComments(String postId) {
-        Cursor c = MainActivity.db.rawQuery("select * from comment where post_id ='" + postId + "';", null);
-        List commentsData = new ArrayList<CommentCard>();
-        if (c.moveToFirst()) {
-            do {
-                commentsData.add(new CommentCard(c.getString(3), c.getString(1)));
-            } while (c.moveToNext());
-            return commentsData;
-        } else {
-            return commentsData;
-        }
+    private ArrayList<CommentCard> getComments(String postId) {
+        ArrayList<CommentCard> commentsData = TestDataGenerator.generateSomeComments();
+        return commentsData;
     }
 
     public static class ProfileViewHolder extends RecyclerView.ViewHolder {
