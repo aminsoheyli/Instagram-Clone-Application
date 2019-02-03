@@ -2,9 +2,6 @@ package com.example.mohammad.instagram.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,11 +24,11 @@ import com.example.mohammad.instagram.activity.LoginActivity;
 import com.example.mohammad.instagram.activity.MainActivity;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileAdapter;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileCard;
+import com.example.mohammad.instagram.temp.TestDataGenerator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -127,61 +124,9 @@ public class ProfileFragment extends Fragment {
     private void prepareProfileImagesRecyclerView() {
         recyclerViewProfileImages.setNestedScrollingEnabled(false);
         recyclerViewProfileImages.setHasFixedSize(true);
-        ArrayList<ProfileCard> informations = new ArrayList<>();
+        ArrayList<ProfileCard> informations = TestDataGenerator.generateSomePosts(getContext());
 /**        Fake data generator*/
-        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.like_icon_fill);
-        ProfileCard first =
-                new ProfileCard(null, bm
-                        , "example"
-                        , "16 likes"
-                        , "This is a example's dynamic description"
-                        , "2 Days ago", true, false);
-        bm = BitmapFactory.decodeResource(getResources(), R.drawable.like_icon_stroke);
-        ProfileCard second =
-                new ProfileCard(null, bm
-                        , "alisafri98"
-                        , "120 likes"
-                        , "This is a Ali Safari's dynamic description "
-                        , "14 May 2018",
-                        false, true);
-        bm = BitmapFactory.decodeResource(getResources(), R.drawable.instagram_icon);
-        ProfileCard third =
-                new ProfileCard(null, bm
-                        , "amisoheyli77"
-                        , "200 likes"
-                        , "This is a Amin Soheyli's dynamic description"
-                        , "20 minutes ago", false, false);
-        bm = BitmapFactory.decodeResource(getResources(), R.drawable.saved_icon_fill);
-        ProfileCard fourth =
-                new ProfileCard(null, bm
-                        , "test19"
-                        , "17 likes"
-                        , "This is a test's dynamic description"
-                        , "Just now", true, true);
-        Random random = new Random();
 
-        ProfileCard test;
-        for (int i = 0; i < 25; i++) {
-            int x = random.nextInt(4) + 1;
-            switch (x) {
-                case 1:
-                    test = first;
-                    break;
-                case 2:
-                    test = second;
-                    break;
-                case 3:
-                    test = third;
-                    break;
-                case 4:
-                    test = fourth;
-                    break;
-                default:
-                    test = first;
-                    break;
-            }
-            informations.add(test);
-        }
         LinearLayoutManager llm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewProfileImages.setLayoutManager(llm);
         ProfileAdapter adapter = new ProfileAdapter(informations, DirectableType.PROFILE_FRAGMENT);
