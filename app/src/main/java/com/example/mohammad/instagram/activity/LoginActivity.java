@@ -24,7 +24,6 @@ import com.example.mohammad.instagram.R;
  */
 public class LoginActivity extends AppCompatActivity {
     private static final int SIGN_UP_REQUEST_CODE = 1;
-    private static SQLiteDatabase db;
     private EditText username, password;
     private Button login;
     private TextView signUp;
@@ -43,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void initials() {
-        db = openOrCreateDatabase("project", MODE_PRIVATE, null);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         userRoundContainer = findViewById(R.id.user_container_round);
@@ -107,8 +105,6 @@ public class LoginActivity extends AppCompatActivity {
                 if (isCorrect(user, pass)) {
                     Toast.makeText(LoginActivity.this, "User Successfully Logged in", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    db.execSQL("insert into last_user values('" + user + "');");
-                    db.close();
                     MainActivity.currentUserId = user;
                     startActivity(intent);
                     finish();

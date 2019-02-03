@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.widget.ImageView;
 
 import com.example.mohammad.instagram.PersonalFragmentType;

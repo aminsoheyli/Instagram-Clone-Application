@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.mohammad.instagram.R;
+import com.example.mohammad.instagram.recycler_view.comment.CommentCard;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileCard;
 
 import java.util.ArrayList;
@@ -68,5 +69,48 @@ public class TestDataGenerator {
             informations.add(test);
         }
         return informations;
+    }
+
+    public static ArrayList<String> generateSomeName() {
+        String[] myDataset = new String[]{
+                "ahmad",
+                "mahdi",
+                "mohammad",
+                "hasan",
+                "hosein",
+                "ahmad",
+                "mahdi",
+                "mohammad",
+                "hosein",
+                "mahdi",
+                "hasan",
+                "hosein",
+                "mahdi",
+                "mohammad",
+                "hasan",
+                "hosein",
+                "mahdi",
+                "mohammad",
+                "hasan",
+                "hosein",
+                "mahdi",
+                "mohammad",
+                "hasan",
+                "hosein"
+        };
+        ArrayList<String> names = new ArrayList<>();
+        for (String name : myDataset) {
+            names.add(name);
+        }
+        return names;
+    }
+
+    public static ArrayList<CommentCard> generateSomeComments() {
+        ArrayList<String> names = generateSomeName();
+        ArrayList<CommentCard> comments = new ArrayList<>();
+        for (String name : names) {
+            comments.add(new CommentCard(name, name));
+        }
+        return comments;
     }
 }

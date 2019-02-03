@@ -194,7 +194,6 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), LoginActivity.class);
-                MainActivity.db.execSQL("delete from last_user where 1;");
                 MainActivity.self.finish();
                 startActivity(intent);
             }

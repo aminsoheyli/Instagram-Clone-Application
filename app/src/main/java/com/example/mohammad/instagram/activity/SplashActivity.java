@@ -14,7 +14,6 @@ import com.example.mohammad.instagram.R;
 
 public class SplashActivity extends AppCompatActivity {
     public static final String USER_NAME = "username";
-//    private static SQLiteDatabase db;
     private Animation slideUp;
     private ImageView instagramLogo;
 
@@ -41,8 +40,6 @@ public class SplashActivity extends AppCompatActivity {
                     intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-                    // Display the com.example.mohammad.instagram.fragment.HomeFragment for last logged in user
-                    // else Display the LoginActivity
                 } else {
                     intent = new Intent(SplashActivity.this, LoginActivity.class);
                     startActivity(intent);
@@ -55,11 +52,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private boolean isLoggedIn() {
-//        Cursor c = db.rawQuery("select * from last_user", null);
-//        if (c.moveToFirst() && c.getColumnCount() != 0) {
-//            MainActivity.currentUserId = c.getString(0);
-//            return true;
-//        }
         return false;
     }
 }
