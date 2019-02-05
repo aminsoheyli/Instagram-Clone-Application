@@ -14,8 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.mohammad.instagram.PersonalFragmentType;
 import com.example.mohammad.instagram.ProfileType;
 import com.example.mohammad.instagram.R;
@@ -30,16 +33,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class ProfileFragment extends Fragment {
     private static final int EDIT_PROFILE_REQ_CODE = 1;
     private static final String USER_ID_KEY = "USER_ID";
     private static final String PROFILE_TYPE_KEY = "PROFILE_TYPE";
-    private CircleImageView profileImage;
+    private ImageView profileImage;
     private Toolbar toolbarToHide;
     private TextView postsNumbers, followersNumbers,
-            followingNumbers, name, biography, profileImageName;
+            followingNumbers, name, biography;
     private View followersParent, followingParent;
     private Button editProfile;
     private ProfileType profileType;
@@ -81,7 +82,13 @@ public class ProfileFragment extends Fragment {
     }
 
     private void initials(View rootView) {
-        profileImage = rootView.findViewById(R.id.profile_tab);
+        /**
+         * Use of Glide
+         */
+        profileImage = rootView.findViewById(R.id.profile_image);
+        Glide.with(this).load("https://theadsgroup.com/content/uploads/2012/12/unicorn-wallpaper.jpg")
+                .apply(RequestOptions.centerCropTransform().circleCrop()).into(profileImage);
+        // ToDO: set the profile image of logged in user or clicked user.
         postsNumbers = rootView.findViewById(R.id.posts);
         followersNumbers = rootView.findViewById(R.id.followers);
         followingNumbers = rootView.findViewById(R.id.following);
@@ -92,8 +99,6 @@ public class ProfileFragment extends Fragment {
         signout = rootView.findViewById(R.id.sign_out);
         followingParent = rootView.findViewById(R.id.following_parent);
         followersParent = rootView.findViewById(R.id.followers_parent);
-        profileImageName = rootView.findViewById(R.id.profile_image_name);
-        profileImageName.setText(String.valueOf(this.userId.charAt(0)) + "");
         recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_profile_images);
         prepareProfileImagesRecyclerView();
 

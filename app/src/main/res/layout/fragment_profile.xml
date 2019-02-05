@@ -69,31 +69,12 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <FrameLayout
-                            android:id="@+id/frame"
+                        <ImageView
+                            android:id="@+id/profile_image"
                             android:layout_width="100dp"
-                            android:layout_height="100dp">
-
-                            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:src="@drawable/black"
-                                app:civ_border_color="@color/profileBorder"
-                                app:civ_border_width="1dp" />
-
-
-                            <TextView
-                                android:id="@+id/profile_image_name"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:text="N"
-                                android:textAllCaps="true"
-                                android:textColor="#fff"
-                                android:textSize="60sp" />
-                        </FrameLayout>
-
+                            android:layout_height="100dp"
+                            android:src="@drawable/like_icon_fill"
+                            android:visibility="visible" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

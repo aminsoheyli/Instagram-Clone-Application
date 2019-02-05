@@ -1,7 +1,6 @@
 package com.example.mohammad.instagram.fragment;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteStatement;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,7 +22,6 @@ import com.example.mohammad.instagram.activity.MainActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Random;
 
 import static android.app.Activity.RESULT_OK;
@@ -50,7 +48,7 @@ public class AddImageFragment extends Fragment {
 
     private void initials(View rootView) {
         gallery = rootView.findViewById(R.id.gallery);
-        camera = rootView.findViewById(R.id.camera);
+        camera = rootView.findViewById(R.id.image_of_post);
         description = rootView.findViewById(R.id.description);
         upload = rootView.findViewById(R.id.upload);
         image = rootView.findViewById(R.id.gotten_image);

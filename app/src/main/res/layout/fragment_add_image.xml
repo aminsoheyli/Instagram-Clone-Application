@@ -38,7 +38,7 @@
             android:tooltipText="Pick a picture" />
 
         <Button
-            android:id="@+id/camera"
+            android:id="@+id/image_of_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

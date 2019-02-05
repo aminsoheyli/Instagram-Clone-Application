@@ -2,7 +2,6 @@ package com.example.mohammad.instagram.recycler_view.profile;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -17,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.mohammad.instagram.PersonalFragmentType;
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.ClickedUserActivity;
@@ -27,10 +28,8 @@ import com.example.mohammad.instagram.recycler_view.comment.CommentCard;
 import com.example.mohammad.instagram.temp.TestDataGenerator;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Mohammad Amin Soheyli on 04/01/2019.
@@ -42,17 +41,15 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     private ArrayList<ProfileCard> informations;
     private View rootView;
     private PersonalFragmentType personalFragmentType;
+    private Random random;
+    private ArrayList<String> stringUriOfImages;
 
     public ProfileAdapter(ArrayList<ProfileCard> informations, PersonalFragmentType personalFragmentType) {
         this.informations = informations;
         this.personalFragmentType = personalFragmentType;
+        this.random = new Random();
+        this.stringUriOfImages = TestDataGenerator.generateSomeStringImageUri();
     }
-
-//    public ProfileAdapter(ArrayList<ProfileCard> informations, DynamicHeight dynamicHeight, Context context) {
-//        this.informations = informations;
-//        this.dynamicHeight = dynamicHeight;
-//    }
-
 
     @NonNull
     @Override
@@ -67,9 +64,13 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
 
         String username = informations.get(i).getUsername();
         viewHolder.usernameProfile.setText(username);
-        String firstChar = String.valueOf(username.charAt(0));
-        viewHolder.profileImageName.setText(firstChar);
-        viewHolder.image.setImageBitmap(informations.get(i).getImage());
+        // ToDo: Change the commented bellow code later
+        /**
+         * (Maybe with Glide, although in this case it's better to use the ImageView directly.
+         * viewHolder.image.setImageBitmap(informations.get(i).getImage());*/
+        int randomPick = random.nextInt(stringUriOfImages.size());
+        Glide.with(rootView.getContext())
+                .load(stringUriOfImages.get(randomPick)).into(viewHolder.image);
         viewHolder.likes.setText(informations.get(i).getLikeNumber());
         viewHolder.usernameDescription.setText(username);
         viewHolder.description.setText(informations.get(i).getDescription());
@@ -85,8 +86,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             viewHolder.save.setImageResource(R.drawable.saved_icon_stroke);
         }
 
-//        index = i;
-
         viewHolder.userContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +98,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
                 }
             }
         });
+
 
         viewHolder.save.setOnClickListener(new View.OnClickListener() {
             boolean savedState = informations.get(i).isSaved();
@@ -174,7 +174,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             public void onClick(View v) {
                 String postId = ProfileAdapter.this.informations.get(i).getPostId();
                 Toast.makeText(rootView.getContext(), postId, Toast.LENGTH_SHORT).show();
-                ArrayList<CommentCard> commentInformations = (ArrayList<CommentCard>) getComments(postId);
+                ArrayList<CommentCard> commentInformations = getComments(postId);
                 if (commentInformations == null) {
                     Toast toast = Toast.makeText(MainActivity.self, "No comment found!", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
@@ -245,7 +245,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     }
 
     public static class ProfileViewHolder extends RecyclerView.ViewHolder {
-        private CircleImageView profileImage;
+        private ImageView profileImage;
         private ImageView image, save, comment, like;
         private TextView usernameProfile,
                 usernameDescription, description,
@@ -253,7 +253,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         private EditText commentEditText;
         private Button commentButton;
         private LinearLayout commentLayout;
-        private TextView profileImageName;
         private View userContainer;
 
 
@@ -264,9 +263,16 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
 
 
         private void initials(View rootView) {
+            /**
+             * Use of Glide
+             */
             profileImage = rootView.findViewById(R.id.profile_image);
+            Glide.with(rootView.getContext())
+                    .load("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/200px-Instagram_logo_2016.svg.png")
+                    .apply(RequestOptions.centerCropTransform().circleCrop()).into(profileImage);
+            // ToDO: set the profile image of logged in user or clicked user.
             usernameProfile = rootView.findViewById(R.id.username_tv);
-            image = rootView.findViewById(R.id.camera);
+            image = rootView.findViewById(R.id.image_of_post);
             usernameDescription = rootView.findViewById(R.id.description_username);
             description = rootView.findViewById(R.id.description);
             likes = rootView.findViewById(R.id.like_numbers_tv);
@@ -277,7 +283,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             commentButton = rootView.findViewById(R.id.comment_button);
             commentEditText = rootView.findViewById(R.id.comment_edit_text);
             commentLayout = rootView.findViewById(R.id.comment_layout);
-            profileImageName = rootView.findViewById(R.id.profile_image_name);
             viewCommentsTV = rootView.findViewById(R.id.viewComments_tv);
             userContainer = rootView.findViewById(R.id.user_container);
 

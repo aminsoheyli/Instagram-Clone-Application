@@ -21,6 +21,7 @@ import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.fragment.PersonalsFragment;
 import com.example.mohammad.instagram.fragment.ProfileFragment;
 import com.example.mohammad.instagram.recycler_view.comment.CommentCard;
+import com.github.javafaker.Faker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -175,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-
 
 
     @Override

@@ -8,31 +8,11 @@
     android:elevation="4dp"
     android:padding="10dp">
 
-    <FrameLayout
-        android:id="@+id/frame"
+    <ImageView
+        android:id="@+id/profile_image"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerVertical="true">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:src="@drawable/black"
-            app:civ_border_color="@color/profileBorder"
-            app:civ_border_width="2dp" />
-
-        <TextView
-            android:id="@+id/profile_image_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="A"
-            android:textAllCaps="true"
-            android:textColor="#fff" />
-    </FrameLayout>
+        android:layout_centerVertical="true" />
 
     <TextView
         android:id="@+id/comment_text_view"
