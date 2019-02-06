@@ -12,6 +12,15 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class TestDataGenerator {
+    private static int itemCount = 30;
+
+    public static int getItemCount() {
+        return itemCount;
+    }
+
+    public static void setItemCount(int itemCount) {
+        TestDataGenerator.itemCount = itemCount;
+    }
 
     public static ArrayList<ProfileCard> generateSomePosts(Context context) {
         ArrayList<ProfileCard> informations = new ArrayList<>();
@@ -47,7 +56,7 @@ public class TestDataGenerator {
         Random random = new Random();
 
         ProfileCard test;
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < itemCount; i++) {
             int x = random.nextInt(4) + 1;
             switch (x) {
                 case 1:

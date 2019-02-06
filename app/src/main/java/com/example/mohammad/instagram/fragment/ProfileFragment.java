@@ -28,9 +28,11 @@ import com.example.mohammad.instagram.activity.MainActivity;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileAdapter;
 import com.example.mohammad.instagram.recycler_view.profile.ProfileCard;
 import com.example.mohammad.instagram.temp.TestDataGenerator;
+import com.github.javafaker.Faker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class ProfileFragment extends Fragment {
@@ -48,6 +50,7 @@ public class ProfileFragment extends Fragment {
     private String userId;
     private RecyclerView recyclerViewProfileImages;
     private View signout;
+    private Faker faker;
 
     @SuppressLint("ValidFragment")
     private ProfileFragment() {
@@ -69,6 +72,7 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         this.userId = getArguments().getString(USER_ID_KEY);
         this.profileType = (ProfileType) getArguments().getSerializable(PROFILE_TYPE_KEY);
+        this.faker = new Faker(new Locale("fa"));
     }
 
     @Nullable
@@ -86,7 +90,7 @@ public class ProfileFragment extends Fragment {
          * Use of Glide
          */
         profileImage = rootView.findViewById(R.id.profile_image);
-        Glide.with(this).load("https://theadsgroup.com/content/uploads/2012/12/unicorn-wallpaper.jpg")
+        Glide.with(this).load(faker.internet().image())
                 .apply(RequestOptions.centerCropTransform().circleCrop()).into(profileImage);
         // ToDO: set the profile image of logged in user or clicked user.
         postsNumbers = rootView.findViewById(R.id.posts);

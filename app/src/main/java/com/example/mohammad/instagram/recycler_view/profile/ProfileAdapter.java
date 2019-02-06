@@ -26,8 +26,10 @@ import com.example.mohammad.instagram.fragment.CommentDialogFragment;
 import com.example.mohammad.instagram.fragment.FollowersFolloingFragment;
 import com.example.mohammad.instagram.recycler_view.comment.CommentCard;
 import com.example.mohammad.instagram.temp.TestDataGenerator;
+import com.github.javafaker.Faker;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 
@@ -43,12 +45,14 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     private PersonalFragmentType personalFragmentType;
     private Random random;
     private ArrayList<String> stringUriOfImages;
+    private Faker faker;
 
     public ProfileAdapter(ArrayList<ProfileCard> informations, PersonalFragmentType personalFragmentType) {
         this.informations = informations;
         this.personalFragmentType = personalFragmentType;
         this.random = new Random();
         this.stringUriOfImages = TestDataGenerator.generateSomeStringImageUri();
+        this.faker = new Faker(new Locale("fa"));
     }
 
     @NonNull
@@ -62,15 +66,32 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     @Override
     public void onBindViewHolder(@NonNull final ProfileViewHolder viewHolder, final int i) {
 
-        String username = informations.get(i).getUsername();
+//        String username = informations.get(i).getUsername();
+//        viewHolder.usernameProfile.setText(username);
+        // ToDO: set the profile image of logged in user or clicked user.
+        /**
+         * Use of Faker
+         */
+        String username = faker.name().fullName();
         viewHolder.usernameProfile.setText(username);
+
+
         // ToDo: Change the commented bellow code later
         /**
          * (Maybe with Glide, although in this case it's better to use the ImageView directly.
          * viewHolder.image.setImageBitmap(informations.get(i).getImage());*/
         int randomPick = random.nextInt(stringUriOfImages.size());
         Glide.with(rootView.getContext())
-                .load(stringUriOfImages.get(randomPick)).into(viewHolder.image);
+                .load(faker.internet().image()).into(viewHolder.image);
+
+        /**
+         * Use of Glide
+         */
+        Glide.with(rootView.getContext())
+                .load(faker.internet().image())
+                .apply(RequestOptions.centerCropTransform().circleCrop()).into(viewHolder.profileImage);
+        // ToDO: set the profile image of logged in user or clicked user.
+
         viewHolder.likes.setText(informations.get(i).getLikeNumber());
         viewHolder.usernameDescription.setText(username);
         viewHolder.description.setText(informations.get(i).getDescription());
@@ -224,7 +245,9 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
 
     @Override
     public int getItemCount() {
-        return informations.size();
+        // ToDo: comment out bellow code
+//        return informations.size();
+        return TestDataGenerator.getItemCount();
     }
 
     private void unsave(String postId, String currentUserId) {
@@ -263,14 +286,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
 
 
         private void initials(View rootView) {
-            /**
-             * Use of Glide
-             */
             profileImage = rootView.findViewById(R.id.profile_image);
-            Glide.with(rootView.getContext())
-                    .load("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/200px-Instagram_logo_2016.svg.png")
-                    .apply(RequestOptions.centerCropTransform().circleCrop()).into(profileImage);
-            // ToDO: set the profile image of logged in user or clicked user.
             usernameProfile = rootView.findViewById(R.id.username_tv);
             image = rootView.findViewById(R.id.image_of_post);
             usernameDescription = rootView.findViewById(R.id.description_username);
