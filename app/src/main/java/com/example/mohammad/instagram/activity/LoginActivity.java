@@ -94,14 +94,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String user = username.getText().toString();
                 String pass = password.getText().toString();
-                if (user.isEmpty()) {
-                    setFocus(username, "username");
-                    return;
-                }
-                if (pass.isEmpty()) {
-                    setFocus(password, "password");
-                    return;
-                }
+//                if (user.isEmpty()) {
+//                    setFocus(username, "username");
+//                    return;
+//                }
+//                if (pass.isEmpty()) {
+//                    setFocus(password, "password");
+//                    return;
+//                }
                 if (isCorrect(user, pass)) {
                     Toast.makeText(LoginActivity.this, "User Successfully Logged in", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);

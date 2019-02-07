@@ -124,7 +124,7 @@ public class TestDataGenerator {
         ArrayList<StoryCard> story = new ArrayList<>();
         Faker faker = new Faker(new Locale("fa"));
         for (int i = 0; i < itemCount; i++) {
-            story.add(new StoryCard(faker.name().username(),
+            story.add(new StoryCard(faker.name().firstName(),
                     faker.internet().image()));
         }
         return story;

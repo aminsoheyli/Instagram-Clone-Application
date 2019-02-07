@@ -57,8 +57,6 @@ public class PersonalsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_directables, container, false);
-        if (personalFragmentType == PersonalFragmentType.HOME_FRAGMENT)
-            rootView = inflater.inflate(R.layout.fragment_home, container, false);
         initials(rootView);
 
         return rootView;
@@ -84,7 +82,7 @@ public class PersonalsFragment extends Fragment {
         informations = prepareInformations(personalFragmentType);
         LinearLayoutManager llm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewProfileImages.setLayoutManager(llm);
-        ProfileAdapter adapter = new ProfileAdapter(informations, personalFragmentType);
+        ProfileAdapter adapter = new ProfileAdapter(informations);
         recyclerViewProfileImages.setAdapter(adapter);
     }
 

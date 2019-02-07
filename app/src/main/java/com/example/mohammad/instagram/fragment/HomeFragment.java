@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment {
         recyclerViewStory.setLayoutManager(llmStory);
         recyclerViewPost.setLayoutManager(llmPost);
         StoryAdapter storyAdapter = new StoryAdapter(storyInformations);
-        ProfileAdapter postAdapter = new ProfileAdapter(postInformations, PersonalFragmentType.HOME_FRAGMENT);
+        ProfileAdapter postAdapter = new ProfileAdapter(postInformations);
         recyclerViewStory.setAdapter(storyAdapter);
         recyclerViewPost.setAdapter(postAdapter);
     }
