@@ -67,7 +67,7 @@ public class PersonalsFragment extends Fragment {
     }
 
     private void initials(View rootView) {
-        recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_profile_images);
+        recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_post_section);
         if (personalFragmentType == PersonalFragmentType.ACTIVITY_FRAGMENT) {
 
             return;

@@ -26,7 +26,7 @@ public class TestDataGenerator {
         ArrayList<ProfileCard> informations = new ArrayList<>();
         Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.like_icon_fill);
         ProfileCard first =
-                new ProfileCard(null, bm
+                                new ProfileCard(null, bm
                         , "example"
                         , "16 likes"
                         , "This is a example's dynamic description"

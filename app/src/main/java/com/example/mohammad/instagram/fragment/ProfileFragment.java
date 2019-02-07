@@ -103,7 +103,7 @@ public class ProfileFragment extends Fragment {
         signout = rootView.findViewById(R.id.sign_out);
         followingParent = rootView.findViewById(R.id.following_parent);
         followersParent = rootView.findViewById(R.id.followers_parent);
-        recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_profile_images);
+        recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_post_section);
         prepareProfileImagesRecyclerView();
 
         if (profileType == ProfileType.LOGGED_IN_USER_PROFILE) {

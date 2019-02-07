@@ -23,7 +23,7 @@ import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.ClickedUserActivity;
 import com.example.mohammad.instagram.activity.MainActivity;
 import com.example.mohammad.instagram.fragment.CommentDialogFragment;
-import com.example.mohammad.instagram.fragment.FollowersFolloingFragment;
+import com.example.mohammad.instagram.fragment.FollowersFollowingFragment;
 import com.example.mohammad.instagram.recycler_view.comment.CommentCard;
 import com.example.mohammad.instagram.temp.TestDataGenerator;
 import com.github.javafaker.Faker;
@@ -210,7 +210,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             @Override
             public boolean onLongClick(View v) {
                 ArrayList<String> likers = getLikersOfThisPost(informations.get(i).getPostId());
-                FollowersFolloingFragment fragment = FollowersFolloingFragment.newInstance(likers);
+                FollowersFollowingFragment fragment = FollowersFollowingFragment.newInstance(likers);
                 fragment.show(MainActivity.fm, "likers");
                 return false;
             }

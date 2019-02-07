@@ -18,16 +18,16 @@ import java.util.ArrayList;
 /**
  * Created by Mohammad Amin Soheyli on 04/01/2019.
  */
-public class FollowersFolloingFragment extends DialogFragment {
+public class FollowersFollowingFragment extends DialogFragment {
     private static final String INFORMATIONS_KEY = "information's_key";
     private View rootView;
     private ArrayList<String> followsInformations;
     private RecyclerView recyclerView;
 
-    public static FollowersFolloingFragment newInstance(ArrayList<String> informations) {
+    public static FollowersFollowingFragment newInstance(ArrayList<String> informations) {
         Bundle args = new Bundle();
         args.putStringArrayList(INFORMATIONS_KEY, informations);
-        FollowersFolloingFragment fragment = new FollowersFolloingFragment();
+        FollowersFollowingFragment fragment = new FollowersFollowingFragment();
         fragment.setArguments(args);
         return fragment;
     }
