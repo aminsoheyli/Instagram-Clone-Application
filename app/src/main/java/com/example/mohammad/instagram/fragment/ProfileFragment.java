@@ -19,14 +19,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.mohammad.instagram.PersonalFragmentType;
 import com.example.mohammad.instagram.ProfileType;
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.EditProfileActivity;
 import com.example.mohammad.instagram.activity.LoginActivity;
 import com.example.mohammad.instagram.activity.MainActivity;
-import com.example.mohammad.instagram.recycler_view.profile.ProfileAdapter;
-import com.example.mohammad.instagram.recycler_view.profile.ProfileCard;
+import com.example.mohammad.instagram.recycler_view.profile.PostAdapter;
+import com.example.mohammad.instagram.recycler_view.profile.PostCard;
 import com.example.mohammad.instagram.temp.TestDataGenerator;
 import com.github.javafaker.Faker;
 
@@ -133,18 +132,18 @@ public class ProfileFragment extends Fragment {
     private void prepareProfileImagesRecyclerView() {
         recyclerViewProfileImages.setNestedScrollingEnabled(false);
         recyclerViewProfileImages.setHasFixedSize(true);
-        ArrayList<ProfileCard> informations = TestDataGenerator.generateSomePost(getContext());
+        ArrayList<PostCard> informations = TestDataGenerator.generateSomePost(getContext());
 /**        Fake data generator*/
 
         LinearLayoutManager llm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewProfileImages.setLayoutManager(llm);
-        ProfileAdapter adapter = new ProfileAdapter(informations);
+        PostAdapter adapter = new PostAdapter(informations);
         recyclerViewProfileImages.setAdapter(adapter);
 
     }
 
-    private ArrayList<ProfileCard> prepareInformations() {
-        ArrayList<ProfileCard> informations = new ArrayList<>();
+    private ArrayList<PostCard> prepareInformations() {
+        ArrayList<PostCard> informations = new ArrayList<>();
         // Home fragment informations query
 
         return informations;

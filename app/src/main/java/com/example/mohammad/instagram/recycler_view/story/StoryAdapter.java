@@ -1,6 +1,5 @@
-package com.example.mohammad.instagram.recycler_view;
+package com.example.mohammad.instagram.recycler_view.story;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

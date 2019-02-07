@@ -87,6 +87,7 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
             }
         });
 
+
     }
 
     private void changeTheProfilePhoto() {

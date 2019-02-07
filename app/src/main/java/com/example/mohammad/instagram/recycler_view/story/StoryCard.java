@@ -1,4 +1,4 @@
-package com.example.mohammad.instagram.recycler_view;
+package com.example.mohammad.instagram.recycler_view.story;
 
 public class StoryCard {
     private String storyUserName;

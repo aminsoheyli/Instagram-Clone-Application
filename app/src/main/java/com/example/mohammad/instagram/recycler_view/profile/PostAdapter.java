@@ -2,12 +2,15 @@ package com.example.mohammad.instagram.recycler_view.profile;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +21,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.mohammad.instagram.PersonalFragmentType;
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.ClickedUserActivity;
 import com.example.mohammad.instagram.activity.MainActivity;
@@ -36,17 +38,17 @@ import java.util.Random;
 /**
  * Created by Mohammad Amin Soheyli on 04/01/2019.
  */
-public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileViewHolder> {
+public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ProfileViewHolder> {
     public static final String CLICKED_USER_ID_KEY = "key of clicked user id";
     private int i;
     //    private DynamicHeight dynamicHeight;
-    private ArrayList<ProfileCard> informations;
+    private ArrayList<PostCard> informations;
     private View rootView;
     private Random random;
     private ArrayList<String> stringUriOfImages;
     private Faker faker;
 
-    public ProfileAdapter(ArrayList<ProfileCard> informations) {
+    public PostAdapter(ArrayList<PostCard> informations) {
         this.informations = informations;
         this.random = new Random();
         this.stringUriOfImages = TestDataGenerator.generateSomeStringImageUri();
@@ -57,7 +59,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     @Override
     public ProfileViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         rootView = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.card_profile, viewGroup, false);
+                .inflate(R.layout.card_post, viewGroup, false);
         return new ProfileViewHolder(rootView);
     }
 
@@ -82,6 +84,38 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         Glide.with(rootView.getContext())
                 .load(faker.internet().image()).into(viewHolder.image);
 
+        final Animation firstAnimation = AnimationUtils.loadAnimation(rootView.getContext(), R.anim.double_click_like_first);
+        final Animation secondAnimation = AnimationUtils.loadAnimation(rootView.getContext(), R.anim.double_click_like_first);
+        viewHolder.image.setOnClickListener(new View.OnClickListener() {
+            long currentClickTime = 0;
+            long previousClickTime = 0;
+
+            @Override
+            public void onClick(View v) {
+                currentClickTime = System.currentTimeMillis();
+                long duration = currentClickTime - previousClickTime;
+                // Animation start if the time between two click is less than or equal to 600 milli second
+                if (duration <= 600 && duration != 0) {
+                    viewHolder.like.setImageResource(R.drawable.like_icon_fill);
+                    informations.get(i).setLiked(true);
+                    viewHolder.centerLike.setVisibility(View.VISIBLE);
+                    viewHolder.centerLike.startAnimation(firstAnimation);
+                    new CountDownTimer(300, 300) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            viewHolder.centerLike.startAnimation(secondAnimation);
+                            viewHolder.centerLike.setVisibility(View.GONE);
+                        }
+                    }.start();
+                }
+                previousClickTime = currentClickTime;
+            }
+        });
         /**
          * Use of Glide
          */
@@ -90,6 +124,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
                 .apply(RequestOptions.centerCropTransform().circleCrop())
                 .into(viewHolder.profileImage);
         // ToDO: set the profile image of logged in user or clicked user.
+
 
         viewHolder.likes.setText(informations.get(i).getLikeNumber());
         viewHolder.usernameDescription.setText(username);
@@ -144,16 +179,16 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             public void onClick(View v) {
 //                int numbers = Integer.valueOf(informations.get(index).getLikeNumber());
 //                int newValue;
-                if (!likedState) {
+                if (!informations.get(i).isLiked()) {
 //                    newValue = numbers + 1;
                     viewHolder.like.setImageResource(R.drawable.like_icon_fill);
                     like(informations.get(i).getPostId(), MainActivity.currentUserId);
-                    likedState = true;
+                    informations.get(i).setLiked(true);
                 } else {
 //                    newValue = numbers - 1;
                     viewHolder.like.setImageResource(R.drawable.like_icon_stroke);
                     dislike(informations.get(i).getPostId(), MainActivity.currentUserId);
-                    likedState = false;
+                    informations.get(i).setLiked(false);
                 }
 //                viewHolder.likes.setText(String.valueOf(newValue));
             }
@@ -192,7 +227,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
         viewHolder.viewCommentsTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String postId = ProfileAdapter.this.informations.get(i).getPostId();
+                String postId = PostAdapter.this.informations.get(i).getPostId();
                 Toast.makeText(rootView.getContext(), postId, Toast.LENGTH_SHORT).show();
                 ArrayList<CommentCard> commentInformations = getComments(postId);
                 if (commentInformations == null) {
@@ -206,6 +241,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             }
         });
         viewHolder.image.setOnLongClickListener(new View.OnLongClickListener() {
+
             @Override
             public boolean onLongClick(View v) {
                 ArrayList<String> likers = getLikersOfThisPost(informations.get(i).getPostId());
@@ -268,7 +304,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
 
     public static class ProfileViewHolder extends RecyclerView.ViewHolder {
         private ImageView profileImage;
-        private ImageView image, save, comment, like;
+        private ImageView image, save, comment, like, centerLike;
         private TextView usernameProfile,
                 usernameDescription, description,
                 date, likes, viewCommentsTV;
@@ -295,6 +331,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
             save = rootView.findViewById(R.id.saved);
             comment = rootView.findViewById(R.id.comment);
             like = rootView.findViewById(R.id.like);
+            centerLike = rootView.findViewById(R.id.double_click_center_like);
             commentButton = rootView.findViewById(R.id.comment_button);
             commentEditText = rootView.findViewById(R.id.comment_edit_text);
             commentLayout = rootView.findViewById(R.id.comment_layout);

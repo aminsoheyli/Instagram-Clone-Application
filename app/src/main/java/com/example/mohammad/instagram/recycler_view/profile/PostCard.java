@@ -7,26 +7,31 @@ import android.os.Parcelable;
 /**
  * Created by Mohammad Amin Soheyli on 04/01/2019.
  */
-public class ProfileCard implements Parcelable {
-    public static final Creator<ProfileCard> CREATOR = new Creator<ProfileCard>() {
+public class PostCard implements Parcelable {
+    public static final Creator<PostCard> CREATOR = new Creator<PostCard>() {
         @Override
-        public ProfileCard createFromParcel(Parcel in) {
-            return new ProfileCard(in);
+        public PostCard createFromParcel(Parcel in) {
+            return new PostCard(in);
         }
 
         @Override
-        public ProfileCard[] newArray(int size) {
-            return new ProfileCard[size];
+        public PostCard[] newArray(int size) {
+            return new PostCard[size];
         }
     };
     private String postId;
     private String username, likeNumber, description, date;
     private Bitmap image;
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
+
     private boolean isLiked, isSaved;
 
-    public ProfileCard(String postId, Bitmap image, String username,
-                       String likeNumber, String description,
-                       String date, boolean isLiked, boolean isSaved) {
+    public PostCard(String postId, Bitmap image, String username,
+                    String likeNumber, String description,
+                    String date, boolean isLiked, boolean isSaved) {
 
         this.postId = postId;
         this.image = image;
@@ -38,7 +43,7 @@ public class ProfileCard implements Parcelable {
         this.isSaved = isSaved;
     }
 
-    protected ProfileCard(Parcel in) {
+    protected PostCard(Parcel in) {
         image = in.readParcelable(null);
         username = in.readString();
         likeNumber = in.readString();

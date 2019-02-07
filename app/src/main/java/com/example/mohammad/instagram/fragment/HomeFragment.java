@@ -11,12 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mohammad.instagram.PersonalFragmentType;
 import com.example.mohammad.instagram.R;
-import com.example.mohammad.instagram.recycler_view.StoryAdapter;
-import com.example.mohammad.instagram.recycler_view.StoryCard;
-import com.example.mohammad.instagram.recycler_view.profile.ProfileAdapter;
-import com.example.mohammad.instagram.recycler_view.profile.ProfileCard;
+import com.example.mohammad.instagram.recycler_view.story.StoryAdapter;
+import com.example.mohammad.instagram.recycler_view.story.StoryCard;
+import com.example.mohammad.instagram.recycler_view.profile.PostAdapter;
+import com.example.mohammad.instagram.recycler_view.profile.PostCard;
 import com.example.mohammad.instagram.temp.TestDataGenerator;
 
 import java.util.ArrayList;
@@ -65,13 +64,13 @@ public class HomeFragment extends Fragment {
         recyclerViewStory.setHasFixedSize(true);
         recyclerViewPost.setHasFixedSize(true);
         ArrayList<StoryCard> storyInformations = TestDataGenerator.generateSomeStory(getContext());
-        ArrayList<ProfileCard> postInformations = TestDataGenerator.generateSomePost(getContext());
+        ArrayList<PostCard> postInformations = TestDataGenerator.generateSomePost(getContext());
         LinearLayoutManager llmStory = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager llmPost = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewStory.setLayoutManager(llmStory);
         recyclerViewPost.setLayoutManager(llmPost);
         StoryAdapter storyAdapter = new StoryAdapter(storyInformations);
-        ProfileAdapter postAdapter = new ProfileAdapter(postInformations);
+        PostAdapter postAdapter = new PostAdapter(postInformations);
         recyclerViewStory.setAdapter(storyAdapter);
         recyclerViewPost.setAdapter(postAdapter);
     }

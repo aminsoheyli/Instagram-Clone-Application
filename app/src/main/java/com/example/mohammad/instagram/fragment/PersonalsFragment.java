@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import com.example.mohammad.instagram.PersonalFragmentType;
 import com.example.mohammad.instagram.ProfileInformations;
 import com.example.mohammad.instagram.R;
-import com.example.mohammad.instagram.recycler_view.profile.ProfileAdapter;
-import com.example.mohammad.instagram.recycler_view.profile.ProfileCard;
+import com.example.mohammad.instagram.recycler_view.profile.PostAdapter;
+import com.example.mohammad.instagram.recycler_view.profile.PostCard;
 import com.example.mohammad.instagram.temp.TestDataGenerator;
 
 import java.util.ArrayList;
@@ -78,16 +78,16 @@ public class PersonalsFragment extends Fragment {
     private void prepareRecyclerView() {
         recyclerViewProfileImages.setNestedScrollingEnabled(false);
         recyclerViewProfileImages.setHasFixedSize(true);
-        ArrayList<ProfileCard> informations;
+        ArrayList<PostCard> informations;
         informations = prepareInformations(personalFragmentType);
         LinearLayoutManager llm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewProfileImages.setLayoutManager(llm);
-        ProfileAdapter adapter = new ProfileAdapter(informations);
+        PostAdapter adapter = new PostAdapter(informations);
         recyclerViewProfileImages.setAdapter(adapter);
     }
 
-    private ArrayList<ProfileCard> prepareInformations(PersonalFragmentType personalFragmentType) {
-        ArrayList<ProfileCard> informations = new ArrayList<>();
+    private ArrayList<PostCard> prepareInformations(PersonalFragmentType personalFragmentType) {
+        ArrayList<PostCard> informations = new ArrayList<>();
         switch (personalFragmentType) {
 
             case SEARCH_FRAGMENT:
@@ -102,8 +102,8 @@ public class PersonalsFragment extends Fragment {
         return informations;
     }
 
-    private ArrayList<ProfileCard> searchFragmentInformationsQuery() {
-        ArrayList<ProfileCard> informations = TestDataGenerator.generateSomePost(getContext());
+    private ArrayList<PostCard> searchFragmentInformationsQuery() {
+        ArrayList<PostCard> informations = TestDataGenerator.generateSomePost(getContext());
         return informations;
     }
 
