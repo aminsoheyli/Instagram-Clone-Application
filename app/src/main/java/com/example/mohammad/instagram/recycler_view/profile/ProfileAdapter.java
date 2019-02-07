@@ -42,14 +42,12 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     //    private DynamicHeight dynamicHeight;
     private ArrayList<ProfileCard> informations;
     private View rootView;
-    private PersonalFragmentType personalFragmentType;
     private Random random;
     private ArrayList<String> stringUriOfImages;
     private Faker faker;
 
-    public ProfileAdapter(ArrayList<ProfileCard> informations, PersonalFragmentType personalFragmentType) {
+    public ProfileAdapter(ArrayList<ProfileCard> informations) {
         this.informations = informations;
-        this.personalFragmentType = personalFragmentType;
         this.random = new Random();
         this.stringUriOfImages = TestDataGenerator.generateSomeStringImageUri();
         this.faker = new Faker(new Locale("fa"));
@@ -89,7 +87,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
          */
         Glide.with(rootView.getContext())
                 .load(faker.internet().image())
-                .apply(RequestOptions.centerCropTransform().circleCrop()).into(viewHolder.profileImage);
+                .apply(RequestOptions.centerCropTransform().circleCrop())
+                .into(viewHolder.profileImage);
         // ToDO: set the profile image of logged in user or clicked user.
 
         viewHolder.likes.setText(informations.get(i).getLikeNumber());

@@ -133,12 +133,12 @@ public class ProfileFragment extends Fragment {
     private void prepareProfileImagesRecyclerView() {
         recyclerViewProfileImages.setNestedScrollingEnabled(false);
         recyclerViewProfileImages.setHasFixedSize(true);
-        ArrayList<ProfileCard> informations = TestDataGenerator.generateSomePosts(getContext());
+        ArrayList<ProfileCard> informations = TestDataGenerator.generateSomePost(getContext());
 /**        Fake data generator*/
 
         LinearLayoutManager llm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerViewProfileImages.setLayoutManager(llm);
-        ProfileAdapter adapter = new ProfileAdapter(informations, PersonalFragmentType.PROFILE_FRAGMENT);
+        ProfileAdapter adapter = new ProfileAdapter(informations);
         recyclerViewProfileImages.setAdapter(adapter);
 
     }

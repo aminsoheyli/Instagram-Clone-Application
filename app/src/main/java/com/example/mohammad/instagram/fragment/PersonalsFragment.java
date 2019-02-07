@@ -30,8 +30,7 @@ import java.util.Map;
  * Consist of:
  *
  *           I.     Saved fragment
- *           II.    Global fragment
- *           III.   Home fragment*/
+ *           II.    Global fragment*/
 
 public class PersonalsFragment extends Fragment {
     private static final String DIRECTABLE_TYPE_KEY = "directable_type";
@@ -61,7 +60,6 @@ public class PersonalsFragment extends Fragment {
         if (personalFragmentType == PersonalFragmentType.HOME_FRAGMENT)
             rootView = inflater.inflate(R.layout.fragment_home, container, false);
         initials(rootView);
-        onClickListeners();
 
         return rootView;
     }
@@ -93,10 +91,7 @@ public class PersonalsFragment extends Fragment {
     private ArrayList<ProfileCard> prepareInformations(PersonalFragmentType personalFragmentType) {
         ArrayList<ProfileCard> informations = new ArrayList<>();
         switch (personalFragmentType) {
-            case HOME_FRAGMENT:
-                // User's posts and following's posts
-                informations = homeFragmentInformationsQuery();
-                break;
+
             case SEARCH_FRAGMENT:
                 // All posts without current user posts
                 informations = searchFragmentInformationsQuery();
@@ -109,21 +104,12 @@ public class PersonalsFragment extends Fragment {
         return informations;
     }
 
-
-    private ArrayList<ProfileCard> homeFragmentInformationsQuery() {
-        ArrayList<ProfileCard> informations = TestDataGenerator.generateSomePosts(getContext());
-        return informations;
-    }
-
     private ArrayList<ProfileCard> searchFragmentInformationsQuery() {
-        ArrayList<ProfileCard> informations = TestDataGenerator.generateSomePosts(getContext());
+        ArrayList<ProfileCard> informations = TestDataGenerator.generateSomePost(getContext());
         return informations;
     }
 
 
-    private void onClickListeners() {
-
-    }
 
 
     // Query to specify whether the user has a biography or not.

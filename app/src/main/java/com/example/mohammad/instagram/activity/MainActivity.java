@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import com.example.mohammad.instagram.PersonalFragmentType;
 import com.example.mohammad.instagram.ProfileType;
 import com.example.mohammad.instagram.R;
+import com.example.mohammad.instagram.fragment.HomeFragment;
 import com.example.mohammad.instagram.fragment.PersonalsFragment;
 import com.example.mohammad.instagram.fragment.ProfileFragment;
 import com.example.mohammad.instagram.recycler_view.comment.CommentCard;
@@ -80,9 +81,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (changeBackOtherImageResources(HOME_TAB_ID)) {
                     homeButton.setImageResource(R.drawable.home_icon_fill);
-                    PersonalsFragment personalsFragment = PersonalsFragment.newInstance(PersonalFragmentType.HOME_FRAGMENT, null);
+//                    PersonalsFragment personalsFragment = PersonalsFragment.newInstance(PersonalFragmentType.HOME_FRAGMENT, null);
+//                    getSupportFragmentManager().beginTransaction().addToBackStack(null);
+//                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, personalsFragment).commit();
+                    HomeFragment homeFragment = HomeFragment.newInstance();
                     getSupportFragmentManager().beginTransaction().addToBackStack(null);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, personalsFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container
+                            , homeFragment).commit();
                 }
 
             }
