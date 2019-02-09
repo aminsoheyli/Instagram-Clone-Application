@@ -65,6 +65,7 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                 finish();
             }
         });
+
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.mohammad.instagram.GridPostAdapter;
+import com.example.mohammad.instagram.PersonalFragmentType;
 import com.example.mohammad.instagram.ProfileType;
 import com.example.mohammad.instagram.R;
 import com.example.mohammad.instagram.activity.EditProfileActivity;
@@ -38,7 +41,13 @@ public class ProfileFragment extends Fragment {
     private static final int EDIT_PROFILE_REQ_CODE = 1;
     private static final String USER_ID_KEY = "USER_ID";
     private static final String PROFILE_TYPE_KEY = "PROFILE_TYPE";
+    private final int GRID_TAB_ID = 1;
+    private final int LINEAR_TAB_ID = 2;
+    private final int SAVED_TAB_ID = 3;
+    private int currentTabState = -1;
+
     private ImageView profileImage;
+    private ImageView gridTabBtn, linearTabBtn, savedTabBtn;
     private Toolbar toolbarToHide;
     private TextView postsNumbers, followersNumbers,
             followingNumbers, name, biography;
@@ -80,7 +89,6 @@ public class ProfileFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         initials(rootView);
         onClickListeners();
-
         return rootView;
     }
 
@@ -95,6 +103,9 @@ public class ProfileFragment extends Fragment {
         postsNumbers = rootView.findViewById(R.id.posts);
         followersNumbers = rootView.findViewById(R.id.followers);
         followingNumbers = rootView.findViewById(R.id.following);
+        gridTabBtn = rootView.findViewById(R.id.grid_tab_image_view);
+        linearTabBtn = rootView.findViewById(R.id.linear_tab_image_view);
+        savedTabBtn = rootView.findViewById(R.id.saved_tab_image_view);
         name = rootView.findViewById(R.id.name);
         name.setText(this.userId);
         biography = rootView.findViewById(R.id.biography);
@@ -103,7 +114,7 @@ public class ProfileFragment extends Fragment {
         followingParent = rootView.findViewById(R.id.following_parent);
         followersParent = rootView.findViewById(R.id.followers_parent);
         recyclerViewProfileImages = rootView.findViewById(R.id.recycler_view_post_section);
-        prepareProfileImagesRecyclerView();
+//        prepareProfileImagesRecyclerView();
 
         if (profileType == ProfileType.LOGGED_IN_USER_PROFILE) {
 //            editProfile.setVisibility(View.GONE );
@@ -126,6 +137,10 @@ public class ProfileFragment extends Fragment {
             biography.setText(bioText);
         }
 
+        // In the first: It is on the GridTab
+        if (changeBackOtherImageResources(GRID_TAB_ID)) {
+            gridTabBtn.setImageResource(R.drawable.grid_icon_blue);
+        }
     }
 
 
@@ -206,6 +221,42 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        gridTabBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (changeBackOtherImageResources(GRID_TAB_ID)) {
+                    gridTabBtn.setImageResource(R.drawable.grid_icon_blue);
+                    recyclerViewProfileImages.setNestedScrollingEnabled(false);
+                    recyclerViewProfileImages.setHasFixedSize(true);
+                    ArrayList<PostCard> informations = TestDataGenerator.generateSomePost(getContext());
+/**        Fake data generator*/
+
+                    GridLayoutManager glm = new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false);
+                    recyclerViewProfileImages.setLayoutManager(glm);
+                    GridPostAdapter adapter = new GridPostAdapter();
+                    recyclerViewProfileImages.setAdapter(adapter);
+                }
+            }
+        });
+        linearTabBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (changeBackOtherImageResources(LINEAR_TAB_ID)) {
+                    linearTabBtn.setImageResource(R.drawable.linear_icon_blue);
+                    prepareProfileImagesRecyclerView();
+
+                }
+            }
+        });
+        savedTabBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (changeBackOtherImageResources(SAVED_TAB_ID)) {
+                    savedTabBtn.setImageResource(R.drawable.saved_icon_blue);
+                }
+            }
+        });
     }
 
     private void showFollowing() {
@@ -220,6 +271,26 @@ public class ProfileFragment extends Fragment {
     private void showFollowers() {
     }
 
+    private boolean changeBackOtherImageResources(int pressedIconState) {
+        int preTabState = currentTabState;
+        currentTabState = pressedIconState;
+        if (preTabState == currentTabState)
+            return false;
+        switch (preTabState) {
+            case GRID_TAB_ID:
+                gridTabBtn.setImageResource(R.drawable.grid_icon_gray);
+                break;
+            case LINEAR_TAB_ID:
+                linearTabBtn.setImageResource(R.drawable.linear_icon_gray);
+                break;
+            case SAVED_TAB_ID:
+                savedTabBtn.setImageResource(R.drawable.saved_icon_gray);
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
 
     // Query to specify whether the user has a biography or not.
     private String hasBiography() {
