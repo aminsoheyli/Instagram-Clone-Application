@@ -150,6 +150,7 @@ public class ProfileFragment extends Fragment {
     private void prepareProfileImagesRecyclerView() {
         recyclerViewProfileImages.setNestedScrollingEnabled(false);
         recyclerViewProfileImages.setHasFixedSize(true);
+
         ArrayList<PostCard> informations = TestDataGenerator.generateSomePost(getContext());
 /**        Fake data generator*/
 
@@ -277,8 +278,6 @@ public class ProfileFragment extends Fragment {
 //
 //            }
 
-            int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
-            recyclerViewProfileImages.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
             GridLayoutManager glm = new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false);
             recyclerViewProfileImages.setLayoutManager(glm);
             GridPostAdapter adapter = new GridPostAdapter(imagesBitmap);
@@ -335,27 +334,4 @@ public class ProfileFragment extends Fragment {
         return sum;
     }
 
-}
-
- class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-    private int space;
-
-    public SpacesItemDecoration(int space) {
-        this.space = space;
-    }
-
-    @Override
-    public void getItemOffsets(Rect outRect, View view,
-                               RecyclerView parent, RecyclerView.State state) {
-        outRect.left = space;
-        outRect.right = space;
-        outRect.bottom = space;
-
-        // Add top margin only for the first item to avoid double space between items
-        if (parent.getChildLayoutPosition(view) == 0) {
-            outRect.top = space;
-        } else {
-            outRect.top = 0;
-        }
-    }
 }
