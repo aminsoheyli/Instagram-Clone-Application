@@ -2,7 +2,10 @@ package com.example.mohammad.instagram.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -36,6 +39,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class ProfileFragment extends Fragment {
     private static final int EDIT_PROFILE_REQ_CODE = 1;
@@ -137,10 +141,9 @@ public class ProfileFragment extends Fragment {
             biography.setText(bioText);
         }
 
-        // In the first: It is on the GridTab
-        if (changeBackOtherImageResources(GRID_TAB_ID)) {
-            gridTabBtn.setImageResource(R.drawable.grid_icon_blue);
-        }
+
+        showGridTabContent();
+
     }
 
 
@@ -225,18 +228,7 @@ public class ProfileFragment extends Fragment {
         gridTabBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (changeBackOtherImageResources(GRID_TAB_ID)) {
-                    gridTabBtn.setImageResource(R.drawable.grid_icon_blue);
-                    recyclerViewProfileImages.setNestedScrollingEnabled(false);
-                    recyclerViewProfileImages.setHasFixedSize(true);
-                    ArrayList<PostCard> informations = TestDataGenerator.generateSomePost(getContext());
-/**        Fake data generator*/
-
-                    GridLayoutManager glm = new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false);
-                    recyclerViewProfileImages.setLayoutManager(glm);
-                    GridPostAdapter adapter = new GridPostAdapter();
-                    recyclerViewProfileImages.setAdapter(adapter);
-                }
+                showGridTabContent();
             }
         });
         linearTabBtn.setOnClickListener(new View.OnClickListener() {
@@ -257,6 +249,41 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void showGridTabContent() {
+        if (changeBackOtherImageResources(GRID_TAB_ID)) {
+            gridTabBtn.setImageResource(R.drawable.grid_icon_blue);
+            recyclerViewProfileImages.setNestedScrollingEnabled(false);
+            recyclerViewProfileImages.setHasFixedSize(true);
+/**        Fake data generator*/
+            ArrayList<PostCard> informations = TestDataGenerator.generateSomePost(getContext());
+            ArrayList<Bitmap> imagesBitmap = new ArrayList<>();
+            Bitmap chefBitmap = null;
+            Faker faker = new Faker();
+//            for (int i = 0; i < TestDataGenerator.getItemCount(); i++) {
+//                try {
+//                    chefBitmap = Glide.with(getContext())
+//                            .asBitmap()
+//                            .load(faker.internet().image())
+//                            .submit()
+//                            .get();
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                imagesBitmap.add(chefBitmap);
+//
+//            }
+
+            int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
+            recyclerViewProfileImages.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+            GridLayoutManager glm = new GridLayoutManager(getContext(), 3, LinearLayoutManager.VERTICAL, false);
+            recyclerViewProfileImages.setLayoutManager(glm);
+            GridPostAdapter adapter = new GridPostAdapter(imagesBitmap);
+            recyclerViewProfileImages.setAdapter(adapter);
+        }
     }
 
     private void showFollowing() {
@@ -308,4 +335,27 @@ public class ProfileFragment extends Fragment {
         return sum;
     }
 
+}
+
+ class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+    private int space;
+
+    public SpacesItemDecoration(int space) {
+        this.space = space;
+    }
+
+    @Override
+    public void getItemOffsets(Rect outRect, View view,
+                               RecyclerView parent, RecyclerView.State state) {
+        outRect.left = space;
+        outRect.right = space;
+        outRect.bottom = space;
+
+        // Add top margin only for the first item to avoid double space between items
+        if (parent.getChildLayoutPosition(view) == 0) {
+            outRect.top = space;
+        } else {
+            outRect.top = 0;
+        }
+    }
 }

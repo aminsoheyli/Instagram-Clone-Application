@@ -2,6 +2,7 @@ package com.example.mohammad.instagram;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.mohammad.instagram.temp.TestDataGenerator;
 import com.github.javafaker.Faker;
 
+import java.util.ArrayList;
+
 public class GridPostAdapter extends RecyclerView.Adapter<GridPostAdapter.GridViewHolder> {
     private View rootView;
     private Faker faker;
@@ -26,8 +29,10 @@ public class GridPostAdapter extends RecyclerView.Adapter<GridPostAdapter.GridVi
     private int rowSpan;
     private int columnCount = 0;
     private int widthAndHeight;
+    private ArrayList<Bitmap> images;
 
-    public GridPostAdapter() {
+    public GridPostAdapter(ArrayList<Bitmap> imagesBitmap) {
+        this.images = imagesBitmap;
         this.faker = new Faker();
         rowSpan = 3;
         int count = getItemCount();
@@ -69,17 +74,21 @@ public class GridPostAdapter extends RecyclerView.Adapter<GridPostAdapter.GridVi
 //        columnCount = ++columnCount % 3;
 
 
+//        vh.image.setImageBitmap(images.get(index));
         Glide.with(rootView.getContext())
+                .asBitmap()
                 .load(faker.internet().image())
                 .apply(RequestOptions.centerCropTransform())
                 .into(vh.image);
 
-        vh.image.setOnClickListener(new View.OnClickListener() {
+        vh.image.setOnLongClickListener(new View.OnLongClickListener() {
+
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 //ToDo: Dialog for long clicked image
 
 //                vh.image.getDrawable();
+                return false;
             }
         });
     }
@@ -105,3 +114,4 @@ public class GridPostAdapter extends RecyclerView.Adapter<GridPostAdapter.GridVi
         }
     }
 }
+

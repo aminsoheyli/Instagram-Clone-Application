@@ -15,6 +15,7 @@ import com.example.mohammad.instagram.recycler_view.profile.PostAdapter;
 public class ClickedUserActivity extends AppCompatActivity {
     private String userId;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
